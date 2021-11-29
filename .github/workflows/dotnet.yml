@@ -1,0 +1,64 @@
+name: .NET
+
+on:
+  push:
+    branches: [ staging, dev ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: Project Plutuz
+      url: https://github.com/oskarkling/BudgetCalculator/tree/main
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+      
+  test:
+    if: github.event_name == 'push' ||  github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    name: Unit tests
+    needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Test
+      working-directory: ./BudgetCalculatorTests1
+      run: dotnet test --verbosity normal
+
+  integrationtest:
+    if: github.event_name == 'pull-request'
+    runs-on: ubuntu-latest
+    name: Integration tests
+    needs: test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      - name: Test integration
+        working-directory: ./BudgetCalculatorTests
+        run: dotnet test --verbosity normal
+
+  deploy:
+    needs: integrationtest
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        run: echo "deploying project" #Change to real deployment
