@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
-    runs-on: windows
+    runs-on: windows-latest
     environment:
       name: Project Plutuz
       url: https://github.com/oskarkling/BudgetCalculator/tree/main
@@ -58,7 +58,7 @@ jobs:
   deploy:
     needs: integrationtest
     if: github.event_name == 'pull_request'
-    runs-on: windows
+    runs-on: windows-latest
     steps:
       - name: deploy
         run: echo "deploying project" #Change to real deployment
