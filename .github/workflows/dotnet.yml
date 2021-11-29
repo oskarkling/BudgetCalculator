@@ -19,7 +19,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.x
+        dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -27,7 +27,7 @@ jobs:
       
   test:
     if: github.event_name == 'push' ||  github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     name: Unit tests
     needs: build
     steps:
@@ -42,7 +42,7 @@ jobs:
 
   integrationtest:
     if: github.event_name == 'pull-request'
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     name: Integration tests
     needs: test
     steps:
