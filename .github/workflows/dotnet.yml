@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
-    runs-on: net5.0-windows10.0.19041.0
+    runs-on: windows-latest
     environment:
       name: Project Plutuz
       url: https://github.com/oskarkling/BudgetCalculator/tree/main
