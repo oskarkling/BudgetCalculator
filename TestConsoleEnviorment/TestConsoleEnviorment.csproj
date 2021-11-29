@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BudgetCalcStandard2\BudgetCalcStandard2.csproj" />
     <ProjectReference Include="..\BudgetCalculatorTests1\BudgetCalculatorTests1.csproj" />
-    <ProjectReference Include="..\BudgetCalculator\BudgetCalculator.csproj" />
   </ItemGroup>
 
 </Project>
