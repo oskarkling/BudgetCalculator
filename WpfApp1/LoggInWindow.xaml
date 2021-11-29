@@ -46,7 +46,7 @@
                        Opacity="0.5"
                        />
         </StackPanel>
-		
+		<iconPacks:PackIconMaterial Kind="EmoticonCool" />
 
     </Grid>
 </Window>
