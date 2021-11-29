@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
-    runs-on: windows-latest
+    runs-on: net5.0-windows10.0.19041.0
     environment:
       name: Project Plutuz
       url: https://github.com/oskarkling/BudgetCalculator/tree/main
@@ -19,7 +19,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: net5.0-windows7.0
+        dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
