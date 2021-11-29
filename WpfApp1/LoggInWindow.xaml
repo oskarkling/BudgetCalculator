@@ -32,7 +32,7 @@
                        HorizontalAlignment="Center"
                        />
         </StackPanel>
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBox FontFamily="Helvetica"
                        FontWeight="Light"
                        Text="Username"
@@ -45,8 +45,8 @@
                        HorizontalContentAlignment="Left"
                        Opacity="0.5"
                        />
-
         </StackPanel>
+		
 
     </Grid>
 </Window>
