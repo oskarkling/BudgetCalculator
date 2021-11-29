@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BudgetCalculatorTests1\BudgetCalculatorTests1.csproj" />
     <ProjectReference Include="..\BudgetCalculator\BudgetCalculator.csproj" />
     <ProjectReference Include="..\WpfApp1\WpfApp1.csproj" />
   </ItemGroup>

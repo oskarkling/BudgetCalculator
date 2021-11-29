@@ -25,7 +25,6 @@ namespace WpfApp1
         {
             InitializeComponent();
             EconomicController eco = new EconomicController();
-
         }
     }
 }
