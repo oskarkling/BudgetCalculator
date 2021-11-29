@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BudgetCalculator\BudgetCalculator.csproj" />
+    <ProjectReference Include="..\BudgetCalcStandard2\BudgetCalcStandard2.csproj" />
   </ItemGroup>
 
 </Project>
