@@ -42,7 +42,7 @@
                        Background="Transparent"
                        BorderThickness="0"
                        Width="235"
-                       HorizontalContentAlignment="Left"
+                       HorizontalContentAlignment="Left"                     
                        Opacity="0.5"
                        />
         </StackPanel>
