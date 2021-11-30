@@ -9,7 +9,7 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'dev'
     runs-on: windows-latest
     environment:
-      name: Project Plutuz
+      name: Dev
       url: https://github.com/oskarkling/BudgetCalculator/tree/main
     steps:
     - uses: actions/checkout@v2
@@ -25,6 +25,9 @@ jobs:
   test:
     if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'dev' 
     runs-on: windows-latest
+    environment:
+      name: Dev
+      url: https://github.com/oskarkling/BudgetCalculator/tree/main
     name: Unit tests
     needs: build
     steps:
@@ -40,6 +43,9 @@ jobs:
   integrationtest:
     if: github.event_name == 'pull-request' && github.event.pull_request.base.ref == 'staging'
     runs-on: windows-latest
+    environment:
+      name: Staging
+      url: https://github.com/oskarkling/BudgetCalculator/tree/main
     name: Integration tests
     steps:
       - uses: actions/checkout@v2
@@ -55,6 +61,9 @@ jobs:
     needs: integrationtest
     if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
     runs-on: windows-latest
+    environment:
+      name: Production
+      url: https://github.com/oskarkling/BudgetCalculator/tree/main
     steps:
       - name: deploy
         run: echo "deploying project" #Change to real deployment
