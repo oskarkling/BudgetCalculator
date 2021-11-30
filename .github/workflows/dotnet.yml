@@ -58,7 +58,6 @@ jobs:
         run: dotnet test --verbosity normal
 
   deploy:
-    needs: integrationtest
     if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
     runs-on: windows-latest
     environment:
