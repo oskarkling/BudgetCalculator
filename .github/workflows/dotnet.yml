@@ -1,19 +1,16 @@
 name: .NET
 
 on:
-  push:
-    branches: [ staging, dev ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, staging, dev ]
 
 jobs:
   build:
-    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'dev'
     runs-on: windows-latest
     environment:
-      name: Project Plutuz
+      name: Dev
       url: https://github.com/oskarkling/BudgetCalculator/tree/main
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -26,8 +23,11 @@ jobs:
       run: dotnet build --no-restore
       
   test:
-    if: github.event_name == 'push' ||  github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'dev' 
     runs-on: windows-latest
+    environment:
+      name: Dev
+      url: https://github.com/oskarkling/BudgetCalculator/tree/main
     name: Unit tests
     needs: build
     steps:
@@ -41,10 +41,12 @@ jobs:
       run: dotnet test --verbosity normal
 
   integrationtest:
-    if: github.event_name == 'pull-request'
+    if: github.event_name == 'pull-request' && github.event.pull_request.base.ref == 'staging'
     runs-on: windows-latest
+    environment:
+      name: Staging
+      url: https://github.com/oskarkling/BudgetCalculator/tree/main
     name: Integration tests
-    needs: test
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET
@@ -56,9 +58,40 @@ jobs:
         run: dotnet test --verbosity normal
 
   deploy:
-    needs: integrationtest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
     runs-on: windows-latest
+    environment:
+      name: Production
+      url: https://github.com/oskarkling/BudgetCalculator/tree/main
     steps:
       - name: deploy
         run: echo "deploying project" #Change to real deployment
+  
+  # work in progress. dotnet publish is still missing
+  release:
+    name: Create Release
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    environment: 
+      name: production
+      url: https://github.com/oskarkling/BudgetCalculator/tree/main
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: 'main'
+      - name: Create Release
+        if: github.event.pull_request.base.ref == 'main'
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false  release
