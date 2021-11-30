@@ -1,14 +1,12 @@
 name: .NET
 
 on:
-  push:
-    branches: [ dev ]
   pull_request:
     branches: [ main, staging, dev ]
 
 jobs:
   build:
-    if: github.event_name == 'push' || github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'dev'
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'dev'
     runs-on: windows-latest
     environment:
       name: Project Plutuz
@@ -25,7 +23,7 @@ jobs:
       run: dotnet build --no-restore
       
   test:
-    if: github.event_name == 'push' ||  github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'dev' 
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'dev' 
     runs-on: windows-latest
     name: Unit tests
     needs: build
