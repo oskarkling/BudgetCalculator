@@ -1,7 +1,7 @@
 ﻿
 namespace BudgetCalculator
 {
-    public class Savings : AbstractEconomicObject
+    public class Saving : AbstractEconomicObject
     {
         public bool Recurring { get; set; }
     }

@@ -25,30 +25,89 @@ namespace BudgetCalculator
 
         public bool AddEconomicObject(AbstractEconomicObject obj)
         {
-            if(obj is Goal)
-            {
-                
+            if (obj == null) return false;
 
-                if (((Goal)obj).SaveToDate)
-                {
-                    CalculateAmountToSave(obj as Goal);
-                }
-                else
-                {
-                    CalculateEndDate(obj as Goal);
-                }
-            }
+            if (obj is Goal) IsGoal(obj as Goal);
+            else if (obj is Income) IsIncome(obj as Income);
+            else if (obj is Expense) IsExpense(obj as Expense);
+            else IsSaving(obj as Saving);
+
+
+            //kommer alltid returnera false nu
             return false;
+        }
+
+        private void SaveObjToDatabase(AbstractEconomicObject obj)
+        {
+            //Spara in obj till databasen.
+
+            throw new NotImplementedException();
+        }
+
+        private bool IsGoal(Goal obj)
+        {
+            if (obj.SaveToDate)
+            {
+                CalculateAmountToSave(obj);
+            }
+            else
+            {
+                CalculateEndDate(obj);
+            }
+
+            try
+            {
+                SaveObjToDatabase(obj);
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return false;
+        }
+
+        private void IsIncome(Income obj)
+        {
+            try
+            {
+                SaveObjToDatabase(obj);
+                // skicka info till view (Front end)
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+        }
+
+        private void IsExpense(AbstractEconomicObject obj)
+        {
+            try
+            {
+
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+        }
+
+        private void IsSaving(AbstractEconomicObject obj)
+        {
+            try
+            {
+
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
         }
 
         private void CalculateEndDate(Goal obj)
         {
-            obj.MonthsToGoal = (int)obj.Amount / (int)obj.SaveEachMonth;
+            try
+            {
+                obj.MonthsToGoal = (int)obj.Amount / (int)obj.SaveEachMonth;
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
         }
 
         private void CalculateAmountToSave(Goal obj)
         {
-            obj.SaveEachMonth = obj.Amount / obj.MonthsToGoal;
+            try
+            {
+                obj.SaveEachMonth = obj.Amount / obj.MonthsToGoal;
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
         }
 
         /// <summary>
@@ -90,7 +149,7 @@ namespace BudgetCalculator
                     {
                         if (ecoObj.Name.Contains(name))
                         {
-                            ecoObj.Amount = newAmount;
+                            ecoObj.Amount = (decimal)newAmount;
                             return true;
                         }
                     }
