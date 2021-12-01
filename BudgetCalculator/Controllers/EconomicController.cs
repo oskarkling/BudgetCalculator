@@ -1,10 +1,9 @@
-﻿using BudgetCalculator.Helpers;
-using BudgetCalculator.Models;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace BudgetCalculator.Controllers
+namespace BudgetCalculator
 {
     /// <summary>
     /// The controller of EconomicObject objects.
@@ -31,31 +30,31 @@ namespace BudgetCalculator.Controllers
         /// <param name="type">Type of object</param>
         /// <param name="amount">double amount</param>
         /// <returns>bool true or false</returns>
-        public bool AddEconomicObjectToList(string name, EconomicType type, double amount)
-        {
-            if (IsValidString(name) && IsAmountMoreThanZero(amount))
-            {
-                if (!DoListContainName(name))
-                {
-                    GetList.Add(new EconomicObject
-                    {
-                        Name = name,
-                        Type = type,
-                        Amount = amount,
-                    });
-                    return true;
-                }
-                else
-                {
-                    string errormsg = $"{this} String name does already exist in economic object list";
-                    Debug.WriteLine(errormsg);
-                    ErrorLogger.Add(errormsg);
-                    return false;
-                }
-            }
+        //public bool AddEconomicObjectToList(string name, EconomicType type, double amount)
+        //{
+        //    if (IsValidString(name) && IsAmountMoreThanZero(amount))
+        //    {
+        //        if (!DoListContainName(name))
+        //        {
+        //            GetList.Add(new EconomicObject
+        //            {
+        //                Name = name,
+        //                Type = type,
+        //                Amount = amount,
+        //            });
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            string errormsg = $"{this} String name does already exist in economic object list";
+        //            Debug.WriteLine(errormsg);
+        //            ErrorLogger.Add(errormsg);
+        //            return false;
+        //        }
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
         /// <summary>
         /// Remove an economic object from EconomicObjectList
