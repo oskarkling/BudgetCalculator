@@ -1,10 +1,9 @@
-﻿using BudgetCalculator.Helpers;
-using BudgetCalculator.Models;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace BudgetCalculator.Controllers
+namespace BudgetCalculator
 {
     /// <summary>
     /// The controller of EconomicObject objects.
@@ -19,40 +18,108 @@ namespace BudgetCalculator.Controllers
         /// </summary>
         public EconomicController()
         {
-            GetList = new List<EconomicObject>();
+            GetList = new List<AbstractEconomicObject>();
         }
 
-        public List<EconomicObject> GetList { get; }
+        public List<AbstractEconomicObject> GetList { get; }
 
-        /// <summary>
-        /// Add Economic object to EconomicObjectList
-        /// </summary>
-        /// <param name="name">string name</param>
-        /// <param name="type">Type of object</param>
-        /// <param name="amount">double amount</param>
-        /// <returns>bool true or false</returns>
-        public bool AddEconomicObjectToList(string name, EconomicType type, double amount)
+        public bool AddEconomicObject(AbstractEconomicObject obj)
         {
-            if (IsValidString(name) && IsAmountMoreThanZero(amount))
+            if (obj == null) return false;
+
+            bool successs;
+
+            if (obj is Goal) successs = IsGoal(obj as Goal);
+            else if (obj is Income) successs = IsIncome(obj as Income);
+            else if (obj is Expense) successs = IsExpense(obj as Expense);
+            else successs = IsSaving(obj as Saving);
+
+            return successs;
+        }
+
+        private void SaveObjToDatabase(AbstractEconomicObject obj)
+        {
+            //Spara in obj till databasen.
+
+            throw new NotImplementedException();
+        }
+
+        private bool IsGoal(Goal obj)
+        {
+            if (obj.SaveToDate)
             {
-                if (!DoListContainName(name))
-                {
-                    GetList.Add(new EconomicObject
-                    {
-                        Name = name,
-                        Type = type,
-                        Amount = amount,
-                    });
-                    return true;
-                }
-                else
-                {
-                    string errormsg = $"{this} String name does already exist in economic object list";
-                    Debug.WriteLine(errormsg);
-                    ErrorLogger.Add(errormsg);
-                    return false;
-                }
+                CalculateAmountToSave(obj);
             }
+            else
+            {
+                CalculateEndDate(obj);
+            }
+
+            try
+            {
+                SaveObjToDatabase(obj);
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return false;
+        }
+
+        private bool IsIncome(Income obj)
+        {
+            try
+            {
+                SaveObjToDatabase(obj);
+                return true;
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return false;
+        }
+
+        private bool IsExpense(Expense obj)
+        {
+            try
+            {
+                SaveObjToDatabase(obj);
+                return true;
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return false;
+        }
+
+        private bool IsSaving(Saving obj)
+        {
+            try
+            {
+                SaveObjToDatabase(obj);
+                return true;
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return false;
+        }
+
+        private bool CalculateEndDate(Goal obj)
+        {
+            try
+            {
+                obj.MonthsToGoal = (int)obj.Amount / (int)obj.SaveEachMonth;
+                return true;
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return false;
+        }
+
+        private bool CalculateAmountToSave(Goal obj)
+        {
+            try
+            {
+                obj.SaveEachMonth = obj.Amount / obj.MonthsToGoal;
+                return true;
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
 
             return false;
         }
@@ -96,7 +163,7 @@ namespace BudgetCalculator.Controllers
                     {
                         if (ecoObj.Name.Contains(name))
                         {
-                            ecoObj.Amount = newAmount;
+                            ecoObj.Amount = (decimal)newAmount;
                             return true;
                         }
                     }
