@@ -18,43 +18,38 @@ namespace BudgetCalculator
         /// </summary>
         public EconomicController()
         {
-            GetList = new List<EconomicObject>();
+            GetList = new List<AbstractEconomicObject>();
         }
 
-        public List<EconomicObject> GetList { get; }
+        public List<AbstractEconomicObject> GetList { get; }
 
-        /// <summary>
-        /// Add Economic object to EconomicObjectList
-        /// </summary>
-        /// <param name="name">string name</param>
-        /// <param name="type">Type of object</param>
-        /// <param name="amount">double amount</param>
-        /// <returns>bool true or false</returns>
-        //public bool AddEconomicObjectToList(string name, EconomicType type, double amount)
-        //{
-        //    if (IsValidString(name) && IsAmountMoreThanZero(amount))
-        //    {
-        //        if (!DoListContainName(name))
-        //        {
-        //            GetList.Add(new EconomicObject
-        //            {
-        //                Name = name,
-        //                Type = type,
-        //                Amount = amount,
-        //            });
-        //            return true;
-        //        }
-        //        else
-        //        {
-        //            string errormsg = $"{this} String name does already exist in economic object list";
-        //            Debug.WriteLine(errormsg);
-        //            ErrorLogger.Add(errormsg);
-        //            return false;
-        //        }
-        //    }
+        public bool AddEconomicObject(AbstractEconomicObject obj)
+        {
+            if(obj is Goal)
+            {
+                
 
-        //    return false;
-        //}
+                if (((Goal)obj).SaveToDate)
+                {
+                    CalculateAmountToSave(obj as Goal);
+                }
+                else
+                {
+                    CalculateEndDate(obj as Goal);
+                }
+            }
+            return false;
+        }
+
+        private void CalculateEndDate(Goal obj)
+        {
+            obj.MonthsToGoal = (int)obj.Amount / (int)obj.SaveEachMonth;
+        }
+
+        private void CalculateAmountToSave(Goal obj)
+        {
+            obj.SaveEachMonth = obj.Amount / obj.MonthsToGoal;
+        }
 
         /// <summary>
         /// Remove an economic object from EconomicObjectList

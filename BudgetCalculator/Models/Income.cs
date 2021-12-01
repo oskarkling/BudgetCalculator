@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BudgetCalculator
 {
-    public class Income : EconomicObject
+    public class Income : AbstractEconomicObject
     {
         public bool Recurring { get; set; }
     }
