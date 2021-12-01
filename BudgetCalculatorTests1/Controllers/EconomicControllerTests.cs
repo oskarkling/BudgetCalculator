@@ -1,4 +1,4 @@
-﻿using BudgetCalculator.Models;
+﻿
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BudgetCalculator.Controllers.Tests

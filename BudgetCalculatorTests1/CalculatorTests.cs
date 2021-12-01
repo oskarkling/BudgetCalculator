@@ -1,8 +1,6 @@
-﻿using BudgetCalculator;
-using BudgetCalculator.Models;
-using BudgetCalculatorTests1.Seeder;
+﻿
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+
 
 namespace BudgetCalculator.Tests
 {
