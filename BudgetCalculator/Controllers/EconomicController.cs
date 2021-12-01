@@ -27,14 +27,14 @@ namespace BudgetCalculator
         {
             if (obj == null) return false;
 
-            if (obj is Goal) IsGoal(obj as Goal);
-            else if (obj is Income) IsIncome(obj as Income);
-            else if (obj is Expense) IsExpense(obj as Expense);
-            else IsSaving(obj as Saving);
+            bool successs;
 
+            if (obj is Goal) successs = IsGoal(obj as Goal);
+            else if (obj is Income) successs = IsIncome(obj as Income);
+            else if (obj is Expense) successs = IsExpense(obj as Expense);
+            else successs = IsSaving(obj as Saving);
 
-            //kommer alltid returnera false nu
-            return false;
+            return successs;
         }
 
         private void SaveObjToDatabase(AbstractEconomicObject obj)
@@ -64,50 +64,64 @@ namespace BudgetCalculator
             return false;
         }
 
-        private void IsIncome(Income obj)
+        private bool IsIncome(Income obj)
         {
             try
             {
                 SaveObjToDatabase(obj);
-                // skicka info till view (Front end)
+                return true;
             }
             catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return false;
         }
 
-        private void IsExpense(AbstractEconomicObject obj)
+        private bool IsExpense(Expense obj)
         {
             try
             {
-
+                SaveObjToDatabase(obj);
+                return true;
             }
             catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return false;
         }
 
-        private void IsSaving(AbstractEconomicObject obj)
+        private bool IsSaving(Saving obj)
         {
             try
             {
-
+                SaveObjToDatabase(obj);
+                return true;
             }
             catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return false;
         }
 
-        private void CalculateEndDate(Goal obj)
+        private bool CalculateEndDate(Goal obj)
         {
             try
             {
                 obj.MonthsToGoal = (int)obj.Amount / (int)obj.SaveEachMonth;
+                return true;
             }
             catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return false;
         }
 
-        private void CalculateAmountToSave(Goal obj)
+        private bool CalculateAmountToSave(Goal obj)
         {
             try
             {
                 obj.SaveEachMonth = obj.Amount / obj.MonthsToGoal;
+                return true;
             }
             catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return false;
         }
 
         /// <summary>
