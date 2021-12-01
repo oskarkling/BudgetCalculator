@@ -1,5 +1,4 @@
-﻿using BudgetCalculator.Controllers;
-using BudgetCalculator.Models;
+﻿
 
 namespace BudgetCalculatorTests1.Seeder
 {
