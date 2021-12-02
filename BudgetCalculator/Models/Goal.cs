@@ -10,10 +10,5 @@ namespace BudgetCalculator
         public DateTime CurrentTime { get; set; }
         public bool SaveToDate { get; set; }
         public decimal SaveEachMonth { get; set; }
-
-        public Goal()
-        {
-            
-        }
     }
 }
