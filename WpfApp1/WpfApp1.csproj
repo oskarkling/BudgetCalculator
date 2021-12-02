@@ -7,11 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="images\Ironworks.png" />
+    <None Remove="Utility\Images\gris.png" />
+    <None Remove="Utility\Images\Ironworks.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="images\Ironworks.png">
+    <Content Include="Utility\Images\gris.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utility\Images\Ironworks.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -22,6 +26,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BudgetCalculator\BudgetCalculator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
