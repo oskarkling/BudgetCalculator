@@ -7,6 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Utility\Images\gris.png" />
+    <None Remove="Utility\Images\Ironworks.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Utility\Images\gris.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utility\Images\Ironworks.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BudgetCalculator\BudgetCalculator.csproj" />
   </ItemGroup>
 
