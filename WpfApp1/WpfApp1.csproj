@@ -28,8 +28,4 @@
     <ProjectReference Include="..\BudgetCalculator\BudgetCalculator.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>
