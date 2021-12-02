@@ -24,7 +24,7 @@
         </Border>
 
         <StackPanel VerticalAlignment="Center">
-            <Image Source="images/Ironworks.png" Width="100"/>
+            <Image Source="images/gris.png" Width="100"/>
             <TextBlock Text="Bank APP"
                        FontWeight="Light"
                        FontFamily="helvetica"
