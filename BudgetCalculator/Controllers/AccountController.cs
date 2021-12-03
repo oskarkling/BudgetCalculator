@@ -5,7 +5,8 @@ namespace BudgetCalculator
     {
         public Account CurrentAccount { get; set; } 
         public bool AccountLoggedIn {get; set;}
+        public EconomicController ecoController { get; set; }
 
-        
+
     }
 }
