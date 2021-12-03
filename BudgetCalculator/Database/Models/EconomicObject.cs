@@ -7,7 +7,7 @@ namespace BudgetCalculator
     /// <summary>
     /// A DTO of economic objects
     /// </summary>
-    public class EconomicObject
+    public abstract class EconomicObject
     {
         [Key]
         public int Id { get; set; }

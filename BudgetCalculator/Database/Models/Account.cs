@@ -14,7 +14,9 @@ namespace BudgetCalculator
         [Required]
         public string Password { get; set; }
 
-        public List<EconomicObject> ListOfEconomicObjects {get; set;}
-
+        public List<Goal> Goals {get; set;}
+        public List<Expense> Expenses { get; set; }
+        public List<Income> Incomes { get; set; }
+        public List<Saving> Savings { get; set; }
     }
 }

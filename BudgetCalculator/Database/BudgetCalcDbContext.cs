@@ -3,9 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols;
 using System.Configuration;
 
+
 namespace BudgetCalculator
 {
-    public class MyDbContext : DbContext
+    public class BudgetCalcDbContext : DbContext
     {
 
         //public readonly string dbConnStr = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
