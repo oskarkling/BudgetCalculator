@@ -8,12 +8,12 @@ namespace BudgetCalculator
     public class EconomicController
     {
 
-        public List<AbstractEconomicObject> ListOfEcoObjs { get; }
+        public List<EconomicObject> ListOfEcoObjs { get; }
         public decimal RemainingBalance { get; set; }
         
         public EconomicController()
         {
-            ListOfEcoObjs = new List<AbstractEconomicObject>();
+            ListOfEcoObjs = new List<EconomicObject>();
         }
 
         public bool UpdateEcoObjects()
@@ -37,7 +37,7 @@ namespace BudgetCalculator
             }
         }
 
-        public bool AddEconomicObject(AbstractEconomicObject obj)
+        public bool AddEconomicObject(EconomicObject obj)
         {
             if (obj == null) return false;
 
@@ -51,7 +51,7 @@ namespace BudgetCalculator
             return successs;
         }
 
-        private void SaveObjToDatabase(AbstractEconomicObject obj)
+        private void SaveObjToDatabase(EconomicObject obj)
         {
             //Spara in obj till databasen.
 
