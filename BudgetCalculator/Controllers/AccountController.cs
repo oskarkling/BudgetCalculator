@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BudgetCalculator
 {
@@ -37,6 +38,57 @@ namespace BudgetCalculator
             }
         }
 
+        public void CreateAnExpense(Account account, bool loggedIn, string expenseName, decimal amount, int interval, bool recurring)
+        {
+            if (loggedIn && account != null)
+            {
+                if(expenseName != string.Empty && amount != 0)
+                {
+                    listOfExpenses = new()
+                    {
+                        new Expense {Name = expenseName, Amount = amount, Recurring = recurring, Interval = interval, Account = account, AccountId = account.Id, CreationTime = DateTime.Now}
+                    };
+                    //Skicka vidare expense till Crud
+                    //Få respons och printa success message til UI
+                }
+            }
+            else
+            {
+                //Print error message to UI
+            }
+        }
+
+        public void UpdateExpense(Expense expense, Account account, bool loggedIn, string expenseName, decimal amount, int interval, bool recurring)
+        {
+            if (loggedIn && account != null)
+            {
+                if (expense != null)
+                {
+                    expense.Name = expenseName;
+                    expense.Amount = amount;
+                    expense.Interval = interval;
+                    expense.Recurring = recurring;
+
+                    //Prata med crud för uppdatering av expense objekt
+                }
+            }
+                
+        }
+
+        public void DeleteExpense(Expense expense, Account account, bool loggedIn)
+        {
+            if(loggedIn && account != null)
+            {
+                //prata med crud on expense.Id existerar
+                if(expense != null)
+                {
+                    int tempId = expense.Id;
+                    var obj = listOfExpenses.FirstOrDefault(e => e.Id == expense.Id);
+                    listOfExpenses.Remove(obj);
+                    //pratar med crud för att radera ur databas, skicka in tempId
+                }
+            }
+        }
 
 
         private bool checkUsernameAndPassword(string username, string password)
