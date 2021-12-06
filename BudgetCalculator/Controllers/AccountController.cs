@@ -19,7 +19,7 @@ namespace BudgetCalculator
         {
             if (username != string.Empty && password != string.Empty)
             {
-                if (checkUsernameAndPassword(username, password))
+                if (CheckUsernameAndPassword(username, password))
                 {
                     //print successmessage to UI
                 }
@@ -38,19 +38,40 @@ namespace BudgetCalculator
             }
         }
 
-        public void CreateAnObject(bool loggedIn, string expenseName, decimal amount, int interval, bool recurring)
+        public void CreateAnObject(bool loggedIn, string type, string expenseName = "", decimal amount = 0, int interval = 0, bool recurring = false, decimal goalAmount = 0, decimal amountSavedSoFar = 0, int monthsToGoal = 0, bool savedToDate = false, decimal saveEachMonth = 0)
         {
-            if (loggedIn && account != null)
+            if (loggedIn && CurrentAccount != null)
             {
                 if (expenseName != string.Empty && amount != 0)
                 {
-                    if (ecoObj is Expense)
+                    if (type == "Expense")
                     {
-                    }
                         listOfExpenses = new()
+                        {
+                            new Expense { Name = expenseName, Amount = amount, Recurring = recurring, Interval = interval, Account = CurrentAccount, AccountId = CurrentAccount.Id, CreationTime = DateTime.Now }
+                        };
+                    }
+                    if (type == "Income")
                     {
-                        new Expense { Name = expenseName, Amount = amount, Recurring = recurring, Interval = interval, Account = account, AccountId = account.Id, CreationTime = DateTime.Now }
-                    };
+                        listOfIncomes = new()
+                        {
+                            new Income { Name = expenseName, Amount = amount, Recurring = recurring, Interval = interval, Account = CurrentAccount, AccountId = CurrentAccount.Id, CreationTime = DateTime.Now }
+                        };
+                    }
+                    if (type == "Goal")
+                    {
+                        listOfGoals = new()
+                        {
+                            new Goal { Name = expenseName, Amount = amount, Interval = interval, Account = CurrentAccount, AccountId = CurrentAccount.Id, CreationTime = DateTime.Now, GoalAmount = goalAmount, AmountSavedSoFar = amountSavedSoFar, MonthsToGoal = monthsToGoal, SaveToDate = savedToDate, SaveEachMonth = saveEachMonth, CurrentTime = DateTime.Now }
+                        };
+                    }
+                    if (type == "Savings")
+                    {
+                        listOfSavings = new()
+                        {
+                            new Saving { Name = expenseName, Amount = amount, Recurring = recurring, Interval = interval, Account = CurrentAccount, AccountId = CurrentAccount.Id, CreationTime = DateTime.Now }
+                        };
+                    }
                     //Skicka vidare expense till Crud
                     //Få respons och printa success message til UI
                 }
@@ -148,7 +169,7 @@ namespace BudgetCalculator
         }
 
 
-        private bool checkUsernameAndPassword(string username, string password)
+        private bool CheckUsernameAndPassword(string username, string password)
         {
             //try catch
             //skicka vidare information till CRUD
