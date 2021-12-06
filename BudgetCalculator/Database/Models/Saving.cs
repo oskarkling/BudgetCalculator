@@ -1,5 +1,4 @@
-﻿
-namespace BudgetCalculator
+﻿namespace BudgetCalculator
 {
     public class Saving : EconomicObject
     {
