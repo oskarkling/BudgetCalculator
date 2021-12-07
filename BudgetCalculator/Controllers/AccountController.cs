@@ -1,4 +1,4 @@
-using BudgetCalculator.Database;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +83,7 @@ namespace BudgetCalculator
                         };
                     }
                     //Skicka vidare expense till Crud
-                    //Få respons och printa success message til UI
+                    //Fï¿½ respons och printa success message til UI
                 }
             }
             else
@@ -120,7 +120,7 @@ namespace BudgetCalculator
                         ((Goal)ecoObj).GoalAmount = goalAmount;
                         ((Goal)ecoObj).AmountSavedSoFar = amountSavedSoFar;
                         ((Goal)ecoObj).MonthsToGoal = monthsToGoal;
-                        //((Goal)ecoObj).CurrentTime = nåt? annars nej.
+                        //((Goal)ecoObj).CurrentTime = nï¿½t? annars nej.
                         ((Goal)ecoObj).SaveToDate = savedToDate;
                         ((Goal)ecoObj).SaveEachMonth = saveEachMonth;
                     }
@@ -132,7 +132,7 @@ namespace BudgetCalculator
                         ((Expense)ecoObj).Recurring = recurring;
                     }
 
-                    //Prata med crud för uppdatering av expense objekt
+                    //Prata med crud fï¿½r uppdatering av expense objekt
                 }
             }
 
@@ -151,28 +151,28 @@ namespace BudgetCalculator
                         int tempId = ecoObj.Id;
                         var obj = listOfExpenses.FirstOrDefault(e => e.Id == ecoObj.Id);
                         listOfExpenses.Remove(obj);
-                        //pratar med crud för att radera ur databas, skicka in tempId
+                        //pratar med crud fï¿½r att radera ur databas, skicka in tempId
                     }
                     if (ecoObj is Income)
                     {
                         int tempId = ecoObj.Id;
                         var obj = listOfIncomes.FirstOrDefault(e => e.Id == ecoObj.Id);
                         listOfIncomes.Remove(obj);
-                        //pratar med crud för att radera ur databas, skicka in tempId
+                        //pratar med crud fï¿½r att radera ur databas, skicka in tempId
                     }
                     if (ecoObj is Goal)
                     {
                         int tempId = ecoObj.Id;
                         var obj = listOfGoals.FirstOrDefault(e => e.Id == ecoObj.Id);
                         listOfGoals.Remove(obj);
-                        //pratar med crud för att radera ur databas, skicka in tempId
+                        //pratar med crud fï¿½r att radera ur databas, skicka in tempId
                     }
                     if (ecoObj is Saving)
                     {
                         int tempId = ecoObj.Id;
                         var obj = listOfSavings.FirstOrDefault(e => e.Id == ecoObj.Id);
                         listOfSavings.Remove(obj);
-                        //pratar med crud för att radera ur databas, skicka in tempId
+                        //pratar med crud fï¿½r att radera ur databas, skicka in tempId
                     }
                 }
             }
