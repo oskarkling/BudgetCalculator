@@ -11,11 +11,9 @@ namespace BudgetCalculator.Tests
     [TestClass()]
     public class CalculatorTests
     {
-        [TestMethod()]
-        public void IntegrationTest()
-        {
-            //Assert.Fail();
-        }
-
+        //[TestMethod()]
+        //public void IntegrationTest()
+        //{
+        //}
     }
 }

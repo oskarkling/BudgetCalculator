@@ -404,6 +404,34 @@ namespace BudgetCalculator.Database
 
         #endregion Delete
 
+        #region Create
+        public bool RegisterAccount(string username, string password)
+        {
+            try
+            {
+                var accountExists = GetAccountByUsernameAndPassword(username, password);
+
+                if (accountExists != null) return false;
+
+                var newAccount = new Account()
+                {
+                    Username = username,
+                    Password = password
+                };
+
+                db.Add(newAccount);
+                db.Update(newAccount);
+                db.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+        #endregion Create
+
         #region Refactored code
         private static Account CheckIfUserExist(int userId)
         {
