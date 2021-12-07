@@ -3,7 +3,7 @@
 
 namespace BudgetCalculator
 {
-    internal class BudgetCalcDbContext : DbContext
+    public class BudgetCalcDbContext : DbContext
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Income> Incomes { get; set; }
@@ -11,7 +11,7 @@ namespace BudgetCalculator
         public DbSet<Goal> Goals { get; set; }
         public DbSet<Saving> Savings { get; set; }
 
-        protected static string ConnectionString()
+        public static string ConnectionString()
         {
             return "workstation id=budgetdb.mssql.somee.com;packet size=4096;user id=budgetadmin;pwd=budget123;data source=budgetdb.mssql.somee.com;persist security info=False;initial catalog=budgetdb";
         }

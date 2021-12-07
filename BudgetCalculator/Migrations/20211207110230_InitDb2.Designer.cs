@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetCalculator.Migrations
 {
     [DbContext(typeof(BudgetCalcDbContext))]
-    [Migration("20211203134921_initmigration")]
-    partial class initmigration
+    [Migration("20211207110230_InitDb2")]
+    partial class InitDb2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

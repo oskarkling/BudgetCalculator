@@ -3,7 +3,6 @@ using BudgetCalculator;
 using BudgetCalculatorTests1.Seeder;
 using BudgetCalculator.Controllers;
 using BudgetCalculator.Helpers;
-using BudgetCalculator.Models;
 using BudgetCalculator.Tests;
 
 namespace TestConsoleEnviorment
@@ -17,44 +16,27 @@ namespace TestConsoleEnviorment
                 throw new ArgumentNullException(nameof(args));
             }
 
-            //Såhär används biblioteket:
+            Account acc = new Account();
+            System.Console.WriteLine("hello");
 
-            //Skapa en ecocontroller.
-            EconomicController ecoController = new EconomicController();
+            AccountController accountController = new AccountController();
 
-            //För in data i ecocontrollern
-            ecoController.AddEconomicObjectToList("Giraffe", EconomicType.Saving, 9999.9);
-            ecoController.AddEconomicObjectToList("Income", EconomicType.Income, 5000);
-            ecoController.AddEconomicObjectToList(" ", EconomicType.Expense, double.MaxValue);
-            ecoController.AddEconomicObjectToList(null, EconomicType.Income, -2222.222);
+            var dbcon = new DatabaseConnection();
+            acc = dbcon.GetAccountByUsernameAndPassword("Steven", "password");
+            System.Console.WriteLine(acc.Id);
 
-            //Skapa en rapport med ecocontrollern
-            BudgetReport report = new BudgetReport(ecoController);
+            if(dbcon.Login("Steven", "password", out acc))
+            {
+                System.Console.WriteLine("acc logged in");
+            }
+            else{
+                System.Console.WriteLine("NOT LOGGED IN");
+            }
 
-            //Skapa en writer
-            WriteToFile writer = new WriteToFile();
 
-            //Skriv errorloggern till fil
-            writer.WriteStringToFile("the error log", ErrorLogger.GetSummarizedLogAsString());
 
-            //Ta bort giraffen, för dyr.
-            ecoController.RemoveEconomicObjectFromList("Giraffe");
 
-            //Lägg till lite grejjer
-            ecoController.AddEconomicObjectToList("Salary", EconomicType.Income, 14000);
-            ecoController.AddEconomicObjectToList("Rent", EconomicType.Expense, 2000);
-            ecoController.AddEconomicObjectToList("Subscription", EconomicType.Expense, 99);
-            ecoController.AddEconomicObjectToList("Food", EconomicType.Expense, 1500);
-            ecoController.AddEconomicObjectToList("Savings", EconomicType.Saving, 0.1);
-
-            //Ny rapport med ecocontrollern som innehåller data
-            report = new BudgetReport(ecoController);
-
-            //Skicka till consolen
-            Console.WriteLine(report.GetCalculatedDataToString());
-
-            //Skriv rapporten till fil
-            writer.WriteStringToFile("Private economy report", report.GetCalculatedDataToString());
+            
         }
     }
 }
