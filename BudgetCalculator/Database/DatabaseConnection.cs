@@ -1,31 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace BudgetCalculator.Database
+namespace BudgetCalculator
 {
     public class DatabaseConnection
     {
         private static readonly BudgetCalcDbContext db = new();
 
+        public bool Login(string username, string password, out Account acc)
+        {
+            acc = new Account();
+            try
+            {
+                acc = GetAccountByUsernameAndPassword(username, password);
+                if(acc != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                ErrorLogger.Add(ex.Message);
+                return false;
+            }
+        }
+
         #region Get
 
         #region Get Account
-        public IEnumerable<Account> GetAllAccounts(int adminId)
-        {
-            try
-            {
-                var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
+        // public IEnumerable<Account> GetAllAccounts(int adminId)
+        // {
+        //     try
+        //     {
+        //         var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
 
-                //if (user.IsAdmin) return db.Accounts.ToList();
+        //         //if (user.IsAdmin) return db.Accounts.ToList();
 
-                return null;
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
-        }
+        //         return null;
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         ErrorLogger.Add(e.Message);
+        //         return null;
+        //     }
+        // }
 
         public Account GetAccountById(int id)
         {
@@ -39,7 +61,12 @@ namespace BudgetCalculator.Database
                 return null;
             }
         }
-
+        /// <summary>
+        /// Used for Login
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public Account GetAccountByUsernameAndPassword(string username, string password)
         {
             try
@@ -55,48 +82,22 @@ namespace BudgetCalculator.Database
         #endregion Get Account
 
         #region Get Income
-        public IEnumerable<Income> GetAllIncomes(int adminId)
+
+        public List<Income> GetIncomesOfUserId(int userId)
         {
-            try
-            {
-                var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
-                //if (user.IsAdmin) return db.Incomes.ToList();
+           try
+           {
 
-                return null;
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
+               var list = db.Incomes.Where(a => a.AccountId == userId).ToList();
+               if(list != null) return list;    
+           }
+           catch (Exception e)
+           {
+               ErrorLogger.Add(e.Message);
+               return null;
+           }
+           return null;
         }
-
-        public Income GetIncomeById(int id)
-        {
-            try
-            {
-                return db.Incomes.Where(a => a.Id == id).FirstOrDefault();
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
-        }
-
-        //public Income GetAllIncomeByUserId(int id)
-        //{
-        //    try
-        //    {
-        //        Income x = db.Incomes.Where(a => a.Id == id).First();
-        //        return 
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        ErrorLogger.Add(e.Message);
-        //        return null;
-        //    }
-        //}
 
         #endregion Get Income
 
@@ -117,17 +118,20 @@ namespace BudgetCalculator.Database
             }
         }
 
-        public Expense GetExpenseById(int id)
+        public List<Expense> GetExpensesOfUserId(int userId)
         {
-            try
-            {
-                return db.Expenses.Where(a => a.Id == id).FirstOrDefault();
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
+           try
+           {
+
+               var list = db.Expenses.Where(a => a.AccountId == userId).ToList();
+               if(list != null) return list;    
+           }
+           catch (Exception e)
+           {
+               ErrorLogger.Add(e.Message);
+               return null;
+           }
+           return null;
         }
         #endregion Get Expense
 
@@ -149,18 +153,20 @@ namespace BudgetCalculator.Database
                 return null;
             }
         }
-
-        public Saving GetSavingById(int id)
+        public List<Saving> GetSavingsOfUserId(int userId)
         {
-            try
-            {
-                return db.Savings.Where(a => a.Id == id).FirstOrDefault();
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
+           try
+           {
+
+               var list = db.Savings.Where(a => a.AccountId == userId).ToList();
+               if(list != null) return list;    
+           }
+           catch (Exception e)
+           {
+               ErrorLogger.Add(e.Message);
+               return null;
+           }
+           return null;
         }
         #endregion Get Saving
 
@@ -180,17 +186,20 @@ namespace BudgetCalculator.Database
             }
         }
 
-        public Goal GetGoalById(int id)
+        public List<Goal> GetGoalsOfUserId(int userId)
         {
-            try
-            {
-                return db.Goals.Where(a => a.Id == id).FirstOrDefault();
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
+           try
+           {
+
+               var list = db.Goals.Where(a => a.AccountId == userId).ToList();
+               if(list != null) return list;    
+           }
+           catch (Exception e)
+           {
+               ErrorLogger.Add(e.Message);
+               return null;
+           }
+           return null;
         }
         #endregion Get Goal
 
@@ -981,14 +990,17 @@ namespace BudgetCalculator.Database
 
                 db.Accounts.Add(newAccount);
                 db.SaveChanges();
+                return true;
             }
             catch(Exception e)
             {
                 return LogB(e);
             }
-
-            return false;
         }
+
+        //TODO create lists of economic objects
+
+
         #endregion Create
 
         #region Refactored code

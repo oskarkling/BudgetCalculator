@@ -31,16 +31,7 @@ namespace BudgetCalculator.Database.Tests
             Assert.ReferenceEquals(acc, res);
         }
 
-        [TestMethod()]
-        public void CheckIfIncomeExists()
-        {
-            var dc = new DatabaseConnection();
-            var res = dc.GetIncomeById(5);
 
-            var i = new Income();
-
-            Assert.ReferenceEquals(i, res);
-        }
         
 
     }
