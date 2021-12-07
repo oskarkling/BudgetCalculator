@@ -31,16 +31,13 @@ namespace BudgetCalculator
             return false;
         }
 
-        public void Register(string username, string password)
+        public bool Register(string username, string password)
         {
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                //return true;
+               return dbConnect.RegisterAccount(username, password);
             }
-            else
-            {
-                //return false;
-            }
+            return false;
         }
 
         public void Logout(Account account)
@@ -194,7 +191,20 @@ namespace BudgetCalculator
 
             return false;
         }
+        #region Get
 
+        #region Get Account
+        #region Get Income
+        #region Get Expense
+        #region Get Saving
+        #region Get Goal
 
+        #endregion Get Goal
+        #endregion Get Saving
+        #endregion Get Expense
+        #endregion Get Income
+        #endregion Get Account
+
+        #endregion Get
     }
 }
