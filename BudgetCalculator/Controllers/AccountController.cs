@@ -30,6 +30,18 @@ namespace BudgetCalculator
             }
         }
 
+        public bool Register(string username, string password)
+        {
+            if(!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void Logout(Account account)
         {
             if (AccountLoggedIn)
@@ -172,7 +184,7 @@ namespace BudgetCalculator
         private bool CheckUsernameAndPassword(string username, string password)
         {
             //try catch
-            //skicka vidare information till CRUD
+            //skicka vidare information till CRUD GetAccountByUsernameAndPassword(username, password)
             //Får svar kontrollerar nullcheck och sätter respons till CurrentAccount,
             //sätt AccountLoggedIn = true, retunera AccountLoggedIn
             return false;
