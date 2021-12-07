@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BudgetCalculator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace WpfApp1
     /// </summary>
     public partial class LoggInWindow : Window
     {
+        AccountController ac = new AccountController();
         public LoggInWindow()
         {
             InitializeComponent();
@@ -32,5 +34,32 @@ namespace WpfApp1
             }
         }
         
+        private void loginBtn_Click(object sender, RoutedEventArgs e)
+        {
+            
+            var username = usernameInput.Text;
+            var password = passwordInput.Password;
+
+            if(ac.Login(username, password))
+            {
+                MessageBox.Show("Success");
+            }
+            else
+            {
+                MessageBox.Show("Failed to login");
+            }
+            //MessageBox.Show($"{username} | {password}");
+        }
+        private void registerBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var username = usernameInput.Text;
+            var password = passwordInput.Password;
+            if(ac.Register(username, password))
+            {
+                MessageBox.Show("Success");
+            }
+            //MessageBox.Show("register button clicked!");
+        }
+
     }
 }
