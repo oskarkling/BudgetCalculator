@@ -32,5 +32,14 @@ namespace WpfApp1
             }
         }
         
+        private void loginBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("login button clicked!");
+        }
+        private void registerBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("register button clicked!");
+        }
+
     }
 }

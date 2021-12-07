@@ -80,8 +80,8 @@
             Background="White"
             Opacity="0.5"/>
             <StackPanel Orientation="Horizontal" Margin="0, 50, 0, 0">
-                <Button Width="100" Height="40" Content="LOGIN" Margin="60,0,60,0"/>
-                <Button Width="100" Height="40" Content="REGISTER"/>
+                <Button Width="100" Height="40" Content="LOGIN" Margin="60,0,60,0" Click="loginBtn_Click"/>
+                <Button Width="100" Height="40" Content="REGISTER" Click="registerBtn_Click"/>
             </StackPanel>
 
 
