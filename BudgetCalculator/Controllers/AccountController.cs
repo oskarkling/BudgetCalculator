@@ -18,6 +18,10 @@ namespace BudgetCalculator
 
         private DatabaseConnection dbConnect = new DatabaseConnection();
 
+        
+        #region Get
+
+        #region Get Account
         public bool Login(string username, string password)
         {
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
@@ -35,18 +39,53 @@ namespace BudgetCalculator
         {
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-               return dbConnect.RegisterAccount(username, password);
+                return dbConnect.RegisterAccount(username, password);
             }
             return false;
         }
 
-        public void Logout(Account account)
+        public void Logout()
         {
             if (AccountLoggedIn)
             {
                 AccountLoggedIn = false;
             }
         }
+
+        public bool DeleteAccount()
+        {
+            if (CurrentAccount != null)
+            {
+                return dbConnect.DeleteAccountById(CurrentAccount.Id);
+            }
+
+            return false;
+        }
+
+        private bool CheckUsernameAndPassword(string username, string password)
+        {
+            Account account = dbConnect.GetAccountByUsernameAndPassword(username, password);
+            if (account != null)
+            {
+                CurrentAccount = account;
+                AccountLoggedIn = true;
+                return true;
+            }
+
+            return false;
+        }
+        #region Get Income
+        #region Get Expense
+        #region Get Saving
+        #region Get Goal
+
+        #endregion Get Goal
+        #endregion Get Saving
+        #endregion Get Expense
+        #endregion Get Income
+        #endregion Get Account
+
+        #endregion Get
 
         public void CreateAnObject(bool loggedIn, string type, string expenseName = "", decimal amount = 0, int interval = 0, bool recurring = false, decimal goalAmount = 0, decimal amountSavedSoFar = 0, int monthsToGoal = 0, bool savedToDate = false, decimal saveEachMonth = 0)
         {
@@ -177,34 +216,5 @@ namespace BudgetCalculator
                 }
             }
         }
-
-
-        private bool CheckUsernameAndPassword(string username, string password)
-        {
-            Account account = dbConnect.GetAccountByUsernameAndPassword(username, password);
-            if (account != null)
-            {
-                CurrentAccount = account;
-                AccountLoggedIn = true;
-                return true;
-            }
-
-            return false;
-        }
-        #region Get
-
-        #region Get Account
-        #region Get Income
-        #region Get Expense
-        #region Get Saving
-        #region Get Goal
-
-        #endregion Get Goal
-        #endregion Get Saving
-        #endregion Get Expense
-        #endregion Get Income
-        #endregion Get Account
-
-        #endregion Get
     }
 }
