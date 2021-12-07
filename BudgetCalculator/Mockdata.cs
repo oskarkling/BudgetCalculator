@@ -8,15 +8,17 @@ namespace BudgetCalculator
 {
     public static class Mockdata
     {
-        public static void MockDatabase()
+        public static bool MockDatabase()
         {
-            using (var db = new BudgetCalcDbContext())
+            try
             {
-                db.Accounts.Add(new Account
+                using (var db = new BudgetCalcDbContext())
                 {
-                    Username = "Steven",
-                    Password = "password",
-                    Expenses = new List<Expense>()
+                    db.Accounts.Add(new Account
+                    {
+                        Username = "Steven",
+                        Password = "password",
+                        Expenses = new List<Expense>()
                     { new Expense
                         {
                         Name = "hyra",
@@ -26,7 +28,7 @@ namespace BudgetCalculator
                         Interval = 1,
                         }
                     },
-                    Incomes = new List<Income>()
+                        Incomes = new List<Income>()
                     { new Income
                         {
                         Name = "lön",
@@ -36,7 +38,7 @@ namespace BudgetCalculator
                         Interval = 1,
                         }
                     },
-                    Savings = new List<Saving>()
+                        Savings = new List<Saving>()
                     { new Saving
                         {
                         Name = "pension",
@@ -46,7 +48,7 @@ namespace BudgetCalculator
                         Interval = 1,
                         }
                     },
-                    Goals = new List<Goal>()
+                        Goals = new List<Goal>()
                     { new Goal
                         {
                         Name = "HELIKOPTER - rosa",
@@ -58,11 +60,18 @@ namespace BudgetCalculator
                         SaveToDate = false,
                         }
                     },
-                }) ;
+                    });
 
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

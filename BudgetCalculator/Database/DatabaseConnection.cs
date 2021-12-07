@@ -1,37 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace BudgetCalculator.Database
+namespace BudgetCalculator
 {
     public class DatabaseConnection
     {
         private static readonly BudgetCalcDbContext db = new();
 
+        public bool Login(string username, string password, out Account acc)
+        {
+            acc = new Account();
+            try
+            {
+                acc = GetAccountByUsernameAndPassword(username, password);
+                if(acc != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                ErrorLogger.Add(ex.Message);
+                return false;
+            }
+        }
+
         #region Get
 
         #region Get Account
-        public IEnumerable<Account> GetAllAccounts(int adminId)
-        {
-            try
-            {
-                var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
+        // public IEnumerable<Account> GetAllAccounts(int adminId)
+        // {
+        //     try
+        //     {
+        //         var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
 
-                if (user.IsAdmin) return db.Accounts.ToList();
+        //         //if (user.IsAdmin) return db.Accounts.ToList();
 
-                return null;
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
-        }
+        //         return null;
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         ErrorLogger.Add(e.Message);
+        //         return null;
+        //     }
+        // }
 
         public Account GetAccountById(int id)
         {
             try
             {
-                return db.Accounts.Where(a => a.Id == id) as Account;
+                return db.Accounts.Where(a => a.Id == id).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -39,12 +61,17 @@ namespace BudgetCalculator.Database
                 return null;
             }
         }
-
+        /// <summary>
+        /// Used for Login
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public Account GetAccountByUsernameAndPassword(string username, string password)
         {
             try
             {
-                return db.Accounts.Where(a => a.Username == username && a.Password == password) as Account;
+                return db.Accounts.Where(a => a.Username == username && a.Password == password).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -55,33 +82,21 @@ namespace BudgetCalculator.Database
         #endregion Get Account
 
         #region Get Income
-        public IEnumerable<Income> GetAllIncomes(int adminId)
-        {
-            try
-            {
-                var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
-                if (user.IsAdmin) return db.Incomes.ToList();
 
-                return null;
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
-        }
-
-        public Income GetIncomeById(int id)
+        public List<Income> GetIncomesOfUserId(int userId)
         {
-            try
-            {
-                return db.Incomes.Where(a => a.Id == id) as Income;
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
+           try
+           {
+
+               var list = db.Incomes.Where(a => a.AccountId == userId).ToList();
+               if(list != null) return list;    
+           }
+           catch (Exception e)
+           {
+               ErrorLogger.Add(e.Message);
+               return null;
+           }
+           return null;
         }
 
         #endregion Get Income
@@ -92,7 +107,7 @@ namespace BudgetCalculator.Database
             try
             {
                 var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
-                if (user.IsAdmin) return db.Expenses.ToList();
+                //if (user.IsAdmin) return db.Expenses.ToList();
 
                 return null;
             }
@@ -103,17 +118,20 @@ namespace BudgetCalculator.Database
             }
         }
 
-        public Expense GetExpenseById(int id)
+        public List<Expense> GetExpensesOfUserId(int userId)
         {
-            try
-            {
-                return db.Expenses.Where(a => a.Id == id) as Expense;
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
+           try
+           {
+
+               var list = db.Expenses.Where(a => a.AccountId == userId).ToList();
+               if(list != null) return list;    
+           }
+           catch (Exception e)
+           {
+               ErrorLogger.Add(e.Message);
+               return null;
+           }
+           return null;
         }
         #endregion Get Expense
 
@@ -135,18 +153,20 @@ namespace BudgetCalculator.Database
                 return null;
             }
         }
-
-        public Saving GetSavingById(int id)
+        public List<Saving> GetSavingsOfUserId(int userId)
         {
-            try
-            {
-                return db.Savings.Where(a => a.Id == id) as Saving;
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
+           try
+           {
+
+               var list = db.Savings.Where(a => a.AccountId == userId).ToList();
+               if(list != null) return list;    
+           }
+           catch (Exception e)
+           {
+               ErrorLogger.Add(e.Message);
+               return null;
+           }
+           return null;
         }
         #endregion Get Saving
 
@@ -155,7 +175,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                if (CheckIfUserExist(adminId).IsAdmin) return db.Goals.ToList();
+                //if (CheckIfUserExist(adminId).IsAdmin) return db.Goals.ToList();
 
                 return null;
             }
@@ -166,17 +186,20 @@ namespace BudgetCalculator.Database
             }
         }
 
-        public Goal GetGoalById(int id)
+        public List<Goal> GetGoalsOfUserId(int userId)
         {
-            try
-            {
-                return db.Goals.Where(a => a.Id == id) as Goal;
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
+           try
+           {
+
+               var list = db.Goals.Where(a => a.AccountId == userId).ToList();
+               if(list != null) return list;    
+           }
+           catch (Exception e)
+           {
+               ErrorLogger.Add(e.Message);
+               return null;
+           }
+           return null;
         }
         #endregion Get Goal
 
@@ -185,18 +208,564 @@ namespace BudgetCalculator.Database
         #region Update
 
         #region Update Account
+        public bool UpdateUsername(int userId, string username)
+        {
+            try
+            {
+                var acc = db.Accounts.FirstOrDefault(a => a.Id == userId);
+
+                if ( acc != null)
+                {
+                    acc.Username = username;
+
+                    db.Update(acc);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch(Exception e)
+            {
+                return LogB(e);                
+            }
+
+            return false;
+        }
+
+        public bool UpdatePassword(int userId, string password)
+        {
+            try
+            {
+                var acc = db.Accounts.FirstOrDefault(a => a.Id == userId);
+
+                if (acc == null)
+                {
+                    acc.Password = password;
+
+                    db.Update(acc);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
         #endregion Update Account
 
         #region Update Income
+        public bool UpdateIncomeName(int incomeId, int userId, string name)
+        {
+            try
+            {                
+                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId).FirstOrDefault();
+
+                if (income != null)
+                {
+                    income.Name = name;
+
+                    db.Update(income);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateIncomeInterval(int incomeId, int userId, int interval)
+        {
+            try
+            {
+                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId).FirstOrDefault();
+
+                if (income != null)
+                {
+                    income.Interval = interval;
+
+                    db.Update(income);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateIncomeAmount(int incomeId, int userId, decimal Amount)
+        {
+            try
+            {
+                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId).FirstOrDefault();
+
+                if (income != null)
+                {
+                    income.Amount = Amount;
+
+                    db.Update(income);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateIncomeRecurring(int incomeId, int userId, bool recurring)
+        {
+            try
+            {
+                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId).FirstOrDefault();
+                if (income != null)
+                {
+                    income.Recurring = recurring;
+
+                    db.Update(income);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
         #endregion Update Income
 
         #region Update Expense
+        public bool UpdateExpenseName(int expenseId, int userId, string name)
+        {
+            try
+            {
+                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId).FirstOrDefault();
+
+                if (expense != null)
+                {
+                    expense.Name = name;
+
+                    db.Update(expense);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateExpenseInterval(int expenseId, int userId, int interval)
+        {
+            try
+            {
+                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId).FirstOrDefault();
+
+                if (expense != null)
+                {
+                    expense.Interval = interval;
+
+                    db.Update(expense);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateExpenseAmount(int expenseId, int userId, decimal Amount)
+        {
+            try
+            {
+                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId).FirstOrDefault();
+
+                if (expense != null)
+                {
+                    expense.Amount = Amount;
+
+                    db.Update(expense);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateExpenseRecurring(int expenseId, int userId, bool recurring)
+        {
+            try
+            {
+                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId).FirstOrDefault();
+                if (expense != null)
+                {
+                    expense.Recurring = recurring;
+
+                    db.Update(expense);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
         #endregion Update Expense
 
         #region Update Saving
+        public bool UpdateSavingName(int savingId, int userId, string name)
+        {
+            try
+            {
+                var saving = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId).FirstOrDefault();
+
+                if (saving != null)
+                {
+                    saving.Name = name;
+
+                    db.Update(saving);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateSavingInterval(int savingId, int userId, int interval)
+        {
+            try
+            {
+                var saving = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId).FirstOrDefault();
+
+                if (saving != null)
+                {
+                    saving.Interval = interval;
+
+                    db.Update(saving);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateSavingAmount(int savingId, int userId, decimal Amount)
+        {
+            try
+            {
+                var expense = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId).FirstOrDefault();
+
+                if (expense != null)
+                {
+                    expense.Amount = Amount;
+
+                    db.Update(expense);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateSavingRecurring(int savingId, int userId, bool recurring)
+        {
+            try
+            {
+                var saving = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId).FirstOrDefault();
+                if (saving != null)
+                {
+                    saving.Recurring = recurring;
+
+                    db.Update(saving);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
         #endregion Update Saving
 
         #region Update Goal
+        public bool UpdateGoalName(int goalId, int userId, string name)
+        {
+            try
+            {
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
+
+                if (goal != null)
+                {
+                    goal.Name = name;
+
+                    db.Update(goal);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateGoalInterval(int goalId, int userId, int interval)
+        {
+            try
+            {
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
+                
+                if (goal != null)
+                {
+                    goal.Interval = interval;
+
+                    db.Update(goal);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateGoalGoalAmount(int goalId, int userId, decimal goalMount)
+        {
+            try
+            {
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
+
+                if (goal != null)
+                {
+                    goal.GoalAmount = goalMount;
+
+                    db.Update(goal);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateGoalAmount(int goalId, int userId, decimal amount)
+        {
+            try
+            {
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
+
+                if (goal != null)
+                {
+                    goal.Amount = amount;
+
+                    db.Update(goal);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateGoalMonthsToGoal(int goalId, int userId, int months)
+        {
+            try
+            {
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
+
+                if (goal != null)
+                {
+                    goal.MonthsToGoal = months;
+
+                    db.Update(goal);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateGoalCurrentTime(int goalId, int userId, DateTime time)
+        {
+            try
+            {
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
+
+                if (goal != null)
+                {
+                    goal.CurrentTime = time;
+
+                    db.Update(goal);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateGoalSaveToDateBool(int goalId, int userId, bool saveToDate)
+        {
+            try
+            {
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
+
+                if (goal != null)
+                {
+                    goal.SaveToDate = saveToDate;
+
+                    db.Update(goal);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateGoalSaveEachMonth(int goalId, int userId, decimal amount)
+        {
+            try
+            {
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
+                if (goal != null)
+                {
+                    goal.SaveEachMonth = amount;
+
+                    db.Update(goal);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
+        public bool UpdateGoalSavedSoFar(int goalId, int userId, decimal amount)
+        {
+            try
+            {
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
+
+                if (goal != null)
+                {
+                    goal.AmountSavedSoFar = amount;
+
+                    db.Update(goal);
+                    db.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+
+            return false;
+        }
+
         #endregion Update Goal
 
         #endregion Update
@@ -419,21 +988,23 @@ namespace BudgetCalculator.Database
                     Password = password
                 };
 
-                db.Add(newAccount);
-                db.Update(newAccount);
+                db.Accounts.Add(newAccount);
                 db.SaveChanges();
+                return true;
             }
             catch(Exception e)
             {
                 return LogB(e);
             }
-
-            return false;
         }
+
+        //TODO create lists of economic objects
+
+
         #endregion Create
 
         #region Refactored code
-        private static Account CheckIfUserExist(int userId)
+        public Account CheckIfUserExist(int userId)
         {
             return db.Accounts.FirstOrDefault(u => u.Id == userId);
         }
@@ -442,6 +1013,27 @@ namespace BudgetCalculator.Database
         {
             ErrorLogger.Add(e.Message);
             return false;
+        }
+
+        public bool CheckIfUserExists(int userId)
+        {
+            try
+            {
+                var user = db.Accounts.Where(u => u.Id.Equals(userId)).FirstOrDefault();
+                if (user != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLogger.Add(ex.Message);
+                return false;
+            }
         }
 
         #endregion Refactored code
