@@ -11,12 +11,19 @@ namespace BudgetCalculator.Tests
     [TestClass()]
     public class MockdataTests
     {
-        //[TestMethod()]
-        //public void MockDatabaseTest()
-        //{
-        //    //Mockdata.MockDatabase();
-        //    //DbExtensions.EmptyAllTables();
-        //    //Assert.Fail();
-        //}
+        [TestMethod()]
+        public void MockDatabaseTest()
+        {
+            var res = Mockdata.MockDatabase();
+            Assert.IsTrue(res);
+            //DbExtensions.EmptyAllTables();
+        }
+
+        [TestMethod()]
+        public void ClearTables()
+        {
+            var x = DbExtensions.EmptyAllTables();
+            Assert.IsTrue(x);
+        }
     }
 }

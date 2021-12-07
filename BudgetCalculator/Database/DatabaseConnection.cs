@@ -16,7 +16,7 @@ namespace BudgetCalculator.Database
             {
                 var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
 
-                if (user.IsAdmin) return db.Accounts.ToList();
+                //if (user.IsAdmin) return db.Accounts.ToList();
 
                 return null;
             }
@@ -31,7 +31,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                return db.Accounts.Where(a => a.Id == id) as Account;
+                return db.Accounts.Where(a => a.Id == id).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -44,7 +44,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                return db.Accounts.Where(a => a.Username == username && a.Password == password) as Account;
+                return db.Accounts.Where(a => a.Username == username && a.Password == password).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -60,7 +60,7 @@ namespace BudgetCalculator.Database
             try
             {
                 var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
-                if (user.IsAdmin) return db.Incomes.ToList();
+                //if (user.IsAdmin) return db.Incomes.ToList();
 
                 return null;
             }
@@ -75,7 +75,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                return db.Incomes.Where(a => a.Id == id) as Income;
+                return db.Incomes.Where(a => a.Id == id).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -83,6 +83,20 @@ namespace BudgetCalculator.Database
                 return null;
             }
         }
+
+        //public Income GetAllIncomeByUserId(int id)
+        //{
+        //    try
+        //    {
+        //        Income x = db.Incomes.Where(a => a.Id == id).First();
+        //        return 
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ErrorLogger.Add(e.Message);
+        //        return null;
+        //    }
+        //}
 
         #endregion Get Income
 
@@ -92,7 +106,7 @@ namespace BudgetCalculator.Database
             try
             {
                 var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
-                if (user.IsAdmin) return db.Expenses.ToList();
+                //if (user.IsAdmin) return db.Expenses.ToList();
 
                 return null;
             }
@@ -107,7 +121,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                return db.Expenses.Where(a => a.Id == id) as Expense;
+                return db.Expenses.Where(a => a.Id == id).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -140,7 +154,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                return db.Savings.Where(a => a.Id == id) as Saving;
+                return db.Savings.Where(a => a.Id == id).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -155,7 +169,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                if (CheckIfUserExist(adminId).IsAdmin) return db.Goals.ToList();
+                //if (CheckIfUserExist(adminId).IsAdmin) return db.Goals.ToList();
 
                 return null;
             }
@@ -170,7 +184,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                return db.Goals.Where(a => a.Id == id) as Goal;
+                return db.Goals.Where(a => a.Id == id).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -239,7 +253,7 @@ namespace BudgetCalculator.Database
         {
             try
             {                
-                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId) as Income;
+                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId).FirstOrDefault();
 
                 if (income != null)
                 {
@@ -263,7 +277,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId) as Income;
+                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId).FirstOrDefault();
 
                 if (income != null)
                 {
@@ -287,7 +301,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId) as Income;
+                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId).FirstOrDefault();
 
                 if (income != null)
                 {
@@ -311,7 +325,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId) as Income;
+                var income = db.Incomes.Where(i => i.Id == incomeId && i.AccountId == userId).FirstOrDefault();
                 if (income != null)
                 {
                     income.Recurring = recurring;
@@ -337,7 +351,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId) as Expense;
+                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId).FirstOrDefault();
 
                 if (expense != null)
                 {
@@ -361,7 +375,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId) as Expense;
+                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId).FirstOrDefault();
 
                 if (expense != null)
                 {
@@ -385,7 +399,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId) as Expense;
+                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId).FirstOrDefault();
 
                 if (expense != null)
                 {
@@ -409,7 +423,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId) as Expense;
+                var expense = db.Expenses.Where(i => i.Id == expenseId && i.AccountId == userId).FirstOrDefault();
                 if (expense != null)
                 {
                     expense.Recurring = recurring;
@@ -435,7 +449,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var saving = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId) as Saving;
+                var saving = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId).FirstOrDefault();
 
                 if (saving != null)
                 {
@@ -459,7 +473,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var saving = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId) as Saving;
+                var saving = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId).FirstOrDefault();
 
                 if (saving != null)
                 {
@@ -483,7 +497,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var expense = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId) as Saving;
+                var expense = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId).FirstOrDefault();
 
                 if (expense != null)
                 {
@@ -507,7 +521,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var saving = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId) as Saving;
+                var saving = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId).FirstOrDefault();
                 if (saving != null)
                 {
                     saving.Recurring = recurring;
@@ -532,7 +546,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId) as Goal;
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
 
                 if (goal != null)
                 {
@@ -556,7 +570,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId) as Goal;
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
                 
                 if (goal != null)
                 {
@@ -580,7 +594,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId) as Goal;
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
 
                 if (goal != null)
                 {
@@ -604,7 +618,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId) as Goal;
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
 
                 if (goal != null)
                 {
@@ -628,7 +642,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId) as Goal;
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
 
                 if (goal != null)
                 {
@@ -652,7 +666,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId) as Goal;
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
 
                 if (goal != null)
                 {
@@ -676,7 +690,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId) as Goal;
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
 
                 if (goal != null)
                 {
@@ -700,7 +714,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId) as Goal;
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
                 if (goal != null)
                 {
                     goal.SaveEachMonth = amount;
@@ -723,7 +737,7 @@ namespace BudgetCalculator.Database
         {
             try
             {
-                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId) as Goal;
+                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
 
                 if (goal != null)
                 {
@@ -965,8 +979,7 @@ namespace BudgetCalculator.Database
                     Password = password
                 };
 
-                db.Add(newAccount);
-                db.Update(newAccount);
+                db.Accounts.Add(newAccount);
                 db.SaveChanges();
             }
             catch(Exception e)
@@ -979,7 +992,7 @@ namespace BudgetCalculator.Database
         #endregion Create
 
         #region Refactored code
-        private static Account CheckIfUserExist(int userId)
+        public Account CheckIfUserExist(int userId)
         {
             return db.Accounts.FirstOrDefault(u => u.Id == userId);
         }
@@ -988,6 +1001,27 @@ namespace BudgetCalculator.Database
         {
             ErrorLogger.Add(e.Message);
             return false;
+        }
+
+        public bool CheckIfUserExists(int userId)
+        {
+            try
+            {
+                var user = db.Accounts.Where(u => u.Id.Equals(userId)).FirstOrDefault();
+                if (user != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLogger.Add(ex.Message);
+                return false;
+            }
         }
 
         #endregion Refactored code
