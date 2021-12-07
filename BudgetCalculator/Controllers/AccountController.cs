@@ -1,3 +1,4 @@
+using BudgetCalculator.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,30 +16,30 @@ namespace BudgetCalculator
         public List<Saving> listOfSavings = new();
         public List<Goal> listOfGoals = new();
 
-        public void Login(string username, string password)
+        private DatabaseConnection dbConnect = new DatabaseConnection();
+
+        public bool Login(string username, string password)
         {
-            if (username != string.Empty && password != string.Empty)
+            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
                 if (CheckUsernameAndPassword(username, password))
                 {
-                    //print successmessage to UI
-                }
-                else
-                {
-                    //print errormessage to UI
+                    return true;
                 }
             }
+
+            return false;
         }
 
-        public bool Register(string username, string password)
+        public void Register(string username, string password)
         {
-            if(!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                return true;
+                //return true;
             }
             else
             {
-                return false;
+                //return false;
             }
         }
 
@@ -183,10 +184,14 @@ namespace BudgetCalculator
 
         private bool CheckUsernameAndPassword(string username, string password)
         {
-            //try catch
-            //skicka vidare information till CRUD GetAccountByUsernameAndPassword(username, password)
-            //Får svar kontrollerar nullcheck och sätter respons till CurrentAccount,
-            //sätt AccountLoggedIn = true, retunera AccountLoggedIn
+            Account account = dbConnect.GetAccountByUsernameAndPassword(username, password);
+            if (account != null)
+            {
+                CurrentAccount = account;
+                AccountLoggedIn = true;
+                return true;
+            }
+
             return false;
         }
 
