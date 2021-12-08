@@ -80,21 +80,6 @@ namespace BudgetCalculator
         #endregion Get Income
 
         #region Get Expense
-        public IEnumerable<Expense> GetAllExpenses(int adminId)
-        {
-            try
-            {
-                var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
-                //if (user.IsAdmin) return db.Expenses.ToList();
-
-                return null;
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
-        }
 
         public List<Expense> GetExpensesOfUserId(int userId)
         {
@@ -149,26 +134,11 @@ namespace BudgetCalculator
         #endregion Get Saving
 
         #region Get Goal
-        public IEnumerable<Goal> GetAllGoals(int adminId)
-        {
-            try
-            {
-                //if (CheckIfUserExist(adminId).IsAdmin) return db.Goals.ToList();
-
-                return null;
-            }
-            catch (Exception e)
-            {
-                ErrorLogger.Add(e.Message);
-                return null;
-            }
-        }
 
         public List<Goal> GetGoalsOfUserId(int userId)
         {
            try
            {
-
                var list = db.Goals.Where(a => a.AccountId == userId).ToList();
                if(list != null) return list;    
            }
@@ -196,7 +166,7 @@ namespace BudgetCalculator
                 {
                     acc.Username = username;
 
-                    db.Update(acc);
+                    db.Accounts.Update(acc);
                     db.SaveChanges();
 
                     return true;
@@ -220,7 +190,7 @@ namespace BudgetCalculator
                 {
                     acc.Password = password;
 
-                    db.Update(acc);
+                    db.Accounts.Update(acc);
                     db.SaveChanges();
 
                     return true;
@@ -246,7 +216,7 @@ namespace BudgetCalculator
                 {
                     income.Name = name;
 
-                    db.Update(income);
+                    db.Incomes.Update(income);
                     db.SaveChanges();
 
                     return true;
@@ -270,7 +240,7 @@ namespace BudgetCalculator
                 {
                     income.Interval = interval;
 
-                    db.Update(income);
+                    db.Incomes.Update(income);
                     db.SaveChanges();
 
                     return true;
@@ -294,7 +264,7 @@ namespace BudgetCalculator
                 {
                     income.Amount = Amount;
 
-                    db.Update(income);
+                    db.Incomes.Update(income);
                     db.SaveChanges();
 
                     return true;
@@ -317,7 +287,7 @@ namespace BudgetCalculator
                 {
                     income.Recurring = recurring;
 
-                    db.Update(income);
+                    db.Incomes.Update(income);
                     db.SaveChanges();
 
                     return true;
@@ -344,7 +314,7 @@ namespace BudgetCalculator
                 {
                     expense.Name = name;
 
-                    db.Update(expense);
+                    db.Expenses.Update(expense);
                     db.SaveChanges();
 
                     return true;
@@ -368,7 +338,7 @@ namespace BudgetCalculator
                 {
                     expense.Interval = interval;
 
-                    db.Update(expense);
+                    db.Expenses.Update(expense);
                     db.SaveChanges();
 
                     return true;
@@ -392,7 +362,7 @@ namespace BudgetCalculator
                 {
                     expense.Amount = Amount;
 
-                    db.Update(expense);
+                    db.Expenses.Update(expense);
                     db.SaveChanges();
 
                     return true;
@@ -415,7 +385,7 @@ namespace BudgetCalculator
                 {
                     expense.Recurring = recurring;
 
-                    db.Update(expense);
+                    db.Expenses.Update(expense);
                     db.SaveChanges();
 
                     return true;
@@ -442,7 +412,7 @@ namespace BudgetCalculator
                 {
                     saving.Name = name;
 
-                    db.Update(saving);
+                    db.Savings.Update(saving);
                     db.SaveChanges();
 
                     return true;
@@ -466,7 +436,7 @@ namespace BudgetCalculator
                 {
                     saving.Interval = interval;
 
-                    db.Update(saving);
+                    db.Savings.Update(saving);
                     db.SaveChanges();
 
                     return true;
@@ -484,13 +454,13 @@ namespace BudgetCalculator
         {
             try
             {
-                var expense = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId).FirstOrDefault();
+                var saving = db.Savings.Where(i => i.Id == savingId && i.AccountId == userId).FirstOrDefault();
 
-                if (expense != null)
+                if (saving != null)
                 {
-                    expense.Amount = Amount;
+                    saving.Amount = Amount;
 
-                    db.Update(expense);
+                    db.Savings.Update(saving);
                     db.SaveChanges();
 
                     return true;
@@ -513,7 +483,7 @@ namespace BudgetCalculator
                 {
                     saving.Recurring = recurring;
 
-                    db.Update(saving);
+                    db.Savings.Update(saving);
                     db.SaveChanges();
 
                     return true;
@@ -539,10 +509,8 @@ namespace BudgetCalculator
                 {
                     goal.Name = name;
 
-                    db.Update(goal);
+                    db.Goals.Update(goal);
                     db.SaveChanges();
-
-                    return true;
                 }
             }
             catch (Exception e)
@@ -550,23 +518,21 @@ namespace BudgetCalculator
                 return LogB(e);
             }
 
-            return false;
+            return true;
         }
 
         public bool UpdateGoalInterval(int goalId, int userId, int interval)
         {
             try
             {
-                var goal = db.Goals.Where(i => i.Id == goalId && i.AccountId == userId).FirstOrDefault();
+                var goal = db.Goals.Where(g => g.Id == goalId && g.AccountId == userId).FirstOrDefault();
                 
                 if (goal != null)
                 {
                     goal.Interval = interval;
 
-                    db.Update(goal);
+                    db.Goals.Update(goal);
                     db.SaveChanges();
-
-                    return true;
                 }
             }
             catch (Exception e)
@@ -574,7 +540,7 @@ namespace BudgetCalculator
                 return LogB(e);
             }
 
-            return false;
+            return true;
         }
 
         public bool UpdateGoalGoalAmount(int goalId, int userId, decimal goalMount)
@@ -587,10 +553,8 @@ namespace BudgetCalculator
                 {
                     goal.GoalAmount = goalMount;
 
-                    db.Update(goal);
+                    db.Goals.Update(goal);
                     db.SaveChanges();
-
-                    return true;
                 }
             }
             catch (Exception e)
@@ -598,7 +562,7 @@ namespace BudgetCalculator
                 return LogB(e);
             }
 
-            return false;
+            return true;
         }
 
         public bool UpdateGoalAmount(int goalId, int userId, decimal amount)
@@ -611,10 +575,8 @@ namespace BudgetCalculator
                 {
                     goal.Amount = amount;
 
-                    db.Update(goal);
+                    db.Goals.Update(goal);
                     db.SaveChanges();
-
-                    return true;
                 }
             }
             catch (Exception e)
@@ -622,7 +584,7 @@ namespace BudgetCalculator
                 return LogB(e);
             }
 
-            return false;
+            return true;
         }
 
         public bool UpdateGoalMonthsToGoal(int goalId, int userId, int months)
@@ -635,10 +597,8 @@ namespace BudgetCalculator
                 {
                     goal.MonthsToGoal = months;
 
-                    db.Update(goal);
+                    db.Goals.Update(goal);
                     db.SaveChanges();
-
-                    return true;
                 }
             }
             catch (Exception e)
@@ -646,7 +606,7 @@ namespace BudgetCalculator
                 return LogB(e);
             }
 
-            return false;
+            return true;
         }
 
         public bool UpdateGoalCurrentTime(int goalId, int userId, DateTime time)
@@ -659,10 +619,8 @@ namespace BudgetCalculator
                 {
                     goal.CurrentTime = time;
 
-                    db.Update(goal);
+                    db.Goals.Update(goal);
                     db.SaveChanges();
-
-                    return true;
                 }
             }
             catch (Exception e)
@@ -670,7 +628,7 @@ namespace BudgetCalculator
                 return LogB(e);
             }
 
-            return false;
+            return true;
         }
 
         public bool UpdateGoalSaveToDateBool(int goalId, int userId, bool saveToDate)
@@ -683,10 +641,8 @@ namespace BudgetCalculator
                 {
                     goal.SaveToDate = saveToDate;
 
-                    db.Update(goal);
+                    db.Goals.Update(goal);
                     db.SaveChanges();
-
-                    return true;
                 }
             }
             catch (Exception e)
@@ -694,7 +650,7 @@ namespace BudgetCalculator
                 return LogB(e);
             }
 
-            return false;
+            return true;
         }
 
         public bool UpdateGoalSaveEachMonth(int goalId, int userId, decimal amount)
@@ -706,10 +662,8 @@ namespace BudgetCalculator
                 {
                     goal.SaveEachMonth = amount;
 
-                    db.Update(goal);
+                    db.Goals.Update(goal);
                     db.SaveChanges();
-
-                    return true;
                 }
             }
             catch (Exception e)
@@ -717,7 +671,7 @@ namespace BudgetCalculator
                 return LogB(e);
             }
 
-            return false;
+            return true;
         }
 
         public bool UpdateGoalSavedSoFar(int goalId, int userId, decimal amount)
@@ -730,10 +684,8 @@ namespace BudgetCalculator
                 {
                     goal.AmountSavedSoFar = amount;
 
-                    db.Update(goal);
+                    db.Goals.Update(goal);
                     db.SaveChanges();
-
-                    return true;
                 }
             }
             catch (Exception e)
@@ -741,7 +693,7 @@ namespace BudgetCalculator
                 return LogB(e);
             }
 
-            return false;
+            return true;
         }
 
         #endregion Update Goal
@@ -968,16 +920,16 @@ namespace BudgetCalculator
 
                 db.Accounts.Add(newAccount);
                 db.SaveChanges();
-                return true;
             }
             catch(Exception e)
             {
                 return LogB(e);
             }
+
+            return true;
         }
 
         //TODO create lists of economic objects
-
 
         #endregion Create
 
