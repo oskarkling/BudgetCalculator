@@ -16,9 +16,56 @@
             </Border.Background>            
         </Border>
         <StackPanel HorizontalAlignment="Center">
-            <Label HorizontalAlignment="Center" Content="hej oscar"></Label>
-            <TextBlock x:Name="inputTest" Text="skriv här"></TextBlock>
-        <Button Width="100" Height="40" Content="EXPENSE VIEW" Margin="60,0,60,0" Click="expenseBtn_Click"/>
+            <!--name of expense-->
+            <Label HorizontalAlignment="Center" Content="Name of Expense"></Label>
+            <!--Ev max värde på hur många tecken på input-->
+            <TextBox x:Name="expenseName" FontFamily="Helvetica"
+                       FontWeight="Light"
+                       Text="Ex Car"
+                       FontSize="20"
+                       HorizontalAlignment="Center"
+                       Foreground="White"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       Width="100"                    
+                       Opacity="0.5"
+                       Margin="0,0,0,0"/>
+            <Border 
+            Width="100" 
+            Height="2" 
+            Background="White"
+            Opacity="0.5"
+                Margin="0 0 0 10"/>
+
+            <ComboBox>
+                <ComboBoxItem Content="Every Month"/>
+                <ComboBoxItem Content="Only Once"/>
+                <ComboBoxItem Content="Every Other Month"/>
+                <ComboBoxItem Content="Quarterly"/>
+                <ComboBoxItem Content="Half Year"/>
+                <ComboBoxItem Content="Every Year"/>
+            </ComboBox>
+            <!--amount of expense-->
+            <Label HorizontalAlignment="Center" Content="Amount"></Label>
+            <!--Ev max värde på hur många tecken på input-->
+            <TextBox x:Name="expenseAmount" FontFamily="Helvetica"
+                       FontWeight="Light"
+                       Text="Ex 5000"
+                       FontSize="20"
+                       HorizontalAlignment="Center"
+                       Foreground="White"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       Width="100"                    
+                       Opacity="0.5"
+                       Margin="0,0,0,0"/>
+            <Border 
+            Width="100" 
+            Height="2" 
+            Background="White"
+            Opacity="0.5"
+                Margin="0 0 0 10"/>
+            <Button Width="100" Height="40" Content="ADD EXPENSE" Margin="60,0,60,0"/>
         </StackPanel>
         
     </Grid>

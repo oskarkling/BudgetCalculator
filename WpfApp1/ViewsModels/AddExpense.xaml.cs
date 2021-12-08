@@ -23,12 +23,5 @@ namespace WpfApp1.Views
         {
             InitializeComponent();
         }
-        private void expenseBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-             inputTest.Text = BackendManager.accountController.CurrentAccount.Password;
-
-
-        }
     }
 }
