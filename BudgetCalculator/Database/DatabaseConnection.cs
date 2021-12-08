@@ -10,23 +10,7 @@ namespace BudgetCalculator
         #region Get
 
         #region Get Account
-        // public IEnumerable<Account> GetAllAccounts(int adminId)
-        // {
-        //     try
-        //     {
-        //         var user = db.Accounts.FirstOrDefault(a => a.Id == adminId);
-
-        //         //if (user.IsAdmin) return db.Accounts.ToList();
-
-        //         return null;
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         ErrorLogger.Add(e.Message);
-        //         return null;
-        //     }
-        // }
-
+    
         public Account GetAccountById(int id)
         {
             try
@@ -74,6 +58,7 @@ namespace BudgetCalculator
                 ErrorLogger.Add(e.Message);
                 return null;
             }
+
             return null;
         }
 
@@ -170,6 +155,7 @@ namespace BudgetCalculator
                     db.Accounts.Update(acc);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -185,13 +171,14 @@ namespace BudgetCalculator
             {
                 var acc = db.Accounts.FirstOrDefault(a => a.Id == userId);
 
-                if (acc == null)
+                if (acc != null)
                 {
                     acc.Password = password;
 
                     db.Accounts.Update(acc);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -216,6 +203,7 @@ namespace BudgetCalculator
                     db.Incomes.Update(income);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -238,6 +226,7 @@ namespace BudgetCalculator
                     db.Incomes.Update(income);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -260,6 +249,7 @@ namespace BudgetCalculator
                     db.Incomes.Update(income);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -281,6 +271,7 @@ namespace BudgetCalculator
                     db.Incomes.Update(income);
                     //db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -306,6 +297,7 @@ namespace BudgetCalculator
                     db.Expenses.Update(expense);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -328,6 +320,7 @@ namespace BudgetCalculator
                     db.Expenses.Update(expense);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -350,6 +343,7 @@ namespace BudgetCalculator
                     db.Expenses.Update(expense);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -371,6 +365,7 @@ namespace BudgetCalculator
                     db.Expenses.Update(expense);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -396,6 +391,7 @@ namespace BudgetCalculator
                     db.Savings.Update(saving);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -418,6 +414,7 @@ namespace BudgetCalculator
                     db.Savings.Update(saving);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -440,6 +437,7 @@ namespace BudgetCalculator
                     db.Savings.Update(saving);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -461,6 +459,7 @@ namespace BudgetCalculator
                     db.Savings.Update(saving);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -485,6 +484,7 @@ namespace BudgetCalculator
                     db.Goals.Update(goal);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -507,6 +507,7 @@ namespace BudgetCalculator
                     db.Goals.Update(goal);
                     //db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -529,6 +530,7 @@ namespace BudgetCalculator
                     db.Goals.Update(goal);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -551,6 +553,7 @@ namespace BudgetCalculator
                     db.Goals.Update(goal);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -573,6 +576,7 @@ namespace BudgetCalculator
                     db.Goals.Update(goal);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -595,6 +599,7 @@ namespace BudgetCalculator
                     db.Goals.Update(goal);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -617,6 +622,7 @@ namespace BudgetCalculator
                     db.Goals.Update(goal);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -638,6 +644,7 @@ namespace BudgetCalculator
                     db.Goals.Update(goal);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {
@@ -660,6 +667,7 @@ namespace BudgetCalculator
                     db.Goals.Update(goal);
                     db.SaveChanges();
                 }
+                else return false;
             }
             catch (Exception e)
             {

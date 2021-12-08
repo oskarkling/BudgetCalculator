@@ -101,7 +101,7 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var income = dc.GetIncomesOfUserId(user.Id).FirstOrDefault();
-            var result = dc.UpdateIncomeName(income.Id, user.Id, "UpdatedIncomeName");
+            var result = dc.UpdateIncomeName(income.Id, user.Id, "UpdatedIncomeName5");
 
             Assert.IsTrue(result);
         }
