@@ -7,6 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border CornerRadius="15" Grid.RowSpan="2">
+            <Border.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="#7be9f6" Offset="0.0"/>
+                    <GradientStop Color="#f083da" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <Button Width="100" Height="40" Content="ADD EXPENSE" Margin="60,0,60,0" Click="openExpenseViewBtn_Click"/>
 
     </Grid>
 </Window>

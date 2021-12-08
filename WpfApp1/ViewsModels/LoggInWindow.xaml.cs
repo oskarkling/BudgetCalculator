@@ -42,7 +42,11 @@ namespace WpfApp1
 
             if(BackendManager.accountController.Login(username, password))
             {
-                MessageBox.Show("Success");
+
+                //MessageBox.Show("Success");
+                MainWindow main = new MainWindow();
+                main.Show();
+                this.Close();
                 // SLUSSA VIDARE TILL HEM VY
             }
             else
@@ -56,7 +60,7 @@ namespace WpfApp1
             var password = passwordInput.Password;
             if(BackendManager.accountController.Register(username, password))
             {
-                MessageBox.Show("Success");
+
             }
 
         }

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using WpfApp1.Views;
 
 namespace WpfApp1
 {
@@ -25,6 +25,12 @@ namespace WpfApp1
         {
             InitializeComponent();
             
+        }
+        private void openExpenseViewBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AddExpense expenseView = new AddExpense();
+            expenseView.Show();
+            this.Close();
         }
     }
 }
