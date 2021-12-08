@@ -212,14 +212,9 @@ namespace BudgetCalculator
                 if (income != null)
                 {
                     income.Name = name;
-                    using (db)
-                    {
-                        db.Incomes.Update(income);
-                    }
-                    using (db)
-                    {
-                        db.SaveChanges();
-                    }
+
+                    db.Incomes.Update(income);
+                    db.SaveChanges();
                 }
             }
             catch (Exception e)
