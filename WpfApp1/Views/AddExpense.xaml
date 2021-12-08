@@ -17,8 +17,8 @@
         </Border>
         <StackPanel HorizontalAlignment="Center">
             <Label HorizontalAlignment="Center" Content="hej oscar"></Label>
-            <TextBlock Text="Hej"></TextBlock>
-        <Button Width="100" Height="40" Content="EXPENSE VIEW" Margin="60,0,60,0"/>
+            <TextBlock x:Name="inputTest" Text="skriv här"></TextBlock>
+        <Button Width="100" Height="40" Content="EXPENSE VIEW" Margin="60,0,60,0" Click="expenseBtn_Click"/>
         </StackPanel>
         
     </Grid>
