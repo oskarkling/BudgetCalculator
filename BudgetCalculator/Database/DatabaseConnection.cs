@@ -7,28 +7,6 @@ namespace BudgetCalculator
     {
         private static readonly BudgetCalcDbContext db = new();
 
-        public bool Login(string username, string password, out Account acc)
-        {
-            acc = new Account();
-            try
-            {
-                acc = GetAccountByUsernameAndPassword(username, password);
-                if(acc != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch(Exception ex)
-            {
-                ErrorLogger.Add(ex.Message);
-                return false;
-            }
-        }
-
         #region Get
 
         #region Get Account
