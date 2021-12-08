@@ -20,7 +20,7 @@ namespace WpfApp1
     /// </summary>
     public partial class LoggInWindow : Window
     {
-        AccountController ac = new AccountController();
+        //AccountController ac = new AccountController();
         public LoggInWindow()
         {
             InitializeComponent();
@@ -40,25 +40,25 @@ namespace WpfApp1
             var username = usernameInput.Text;
             var password = passwordInput.Password;
 
-            if(ac.Login(username, password))
+            if(BackendManager.accountController.Login(username, password))
             {
                 MessageBox.Show("Success");
+                // SLUSSA VIDARE TILL HEM VY
             }
             else
             {
-                MessageBox.Show("Failed to login");
+                MessageBox.Show("Username or Password is invalid");
             }
-            //MessageBox.Show($"{username} | {password}");
         }
         private void registerBtn_Click(object sender, RoutedEventArgs e)
         {
             var username = usernameInput.Text;
             var password = passwordInput.Password;
-            if(ac.Register(username, password))
+            if(BackendManager.accountController.Register(username, password))
             {
                 MessageBox.Show("Success");
             }
-            //MessageBox.Show("register button clicked!");
+
         }
 
     }
