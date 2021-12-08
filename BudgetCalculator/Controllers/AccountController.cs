@@ -23,6 +23,13 @@ namespace BudgetCalculator
         #region Get
 
         #region Get Account
+
+        /// <summary>
+        /// NullorEmpty validation of username and password variables.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>bool</returns>
         public bool Login(string username, string password)
         {
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
@@ -36,15 +43,28 @@ namespace BudgetCalculator
             return false;
         }
 
+        /// <summary>
+        /// NullorEmpty validation of username and password variables.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>bool</returns>
         public bool Register(string username, string password)
         {
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                return dbConnect.RegisterAccount(username, password);
+                if (CheckUser(username) && CheckPassword(password))
+                {
+
+                    return CheckRegister(username, password);
+                }
             }
             return false;
         }
 
+        /// <summary>
+        /// Logs out user if account is currently logged in when called.
+        /// </summary>
         public void Logout()
         {
             if (AccountLoggedIn)
@@ -53,7 +73,7 @@ namespace BudgetCalculator
             }
         }
 
-        public bool DeleteAccount()
+        private bool DeleteAccount()
         {
             if (CurrentAccount != null)
             {
@@ -63,6 +83,53 @@ namespace BudgetCalculator
             return false;
         }
 
+        /// <summary>
+        /// Checks if username meets requirements by containing a letter and no whitespace.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>bool</returns>
+        private bool CheckUser(string username)
+        {
+            if (username.Any(char.IsLetter) && !username.Any(char.IsWhiteSpace))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if password meets requirements by containing a letter or digit with no whitespace.
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns>bool</returns>
+        private bool CheckPassword(string password)
+        {
+            if(password.Any(char.IsLetter) && !password.Any(char.IsWhiteSpace) || password.Any(char.IsDigit) && !password.Any(char.IsWhiteSpace))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Calling databasefunction for registration success or fail.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>bool</returns>
+        private bool CheckRegister(string username, string password)
+        {
+            return dbConnect.RegisterAccount(username, password);
+        }
+
+        /// <summary>
+        /// Calling databasefunction to check if account already exists
+        /// if so account gets returned from database
+        /// if so logged in status is updated
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>bool</returns>
         private bool CheckUsernameAndPassword(string username, string password)
         {
             Account account = dbConnect.GetAccountByUsernameAndPassword(username, password);
