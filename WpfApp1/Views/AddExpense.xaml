@@ -36,8 +36,8 @@
             Background="White"
             Opacity="0.5"
                 Margin="0 0 0 10"/>
-
-            <ComboBox>
+            <Label HorizontalAlignment="Center" Content="Timespan"></Label>
+            <ComboBox x:Name="timespan">
                 <ComboBoxItem Content="Every Month"/>
                 <ComboBoxItem Content="Only Once"/>
                 <ComboBoxItem Content="Every Other Month"/>
@@ -65,7 +65,8 @@
             Background="White"
             Opacity="0.5"
                 Margin="0 0 0 10"/>
-            <Button Width="100" Height="40" Content="ADD EXPENSE" Margin="60,0,60,0"/>
+            <Button VerticalAlignment ="Top" Width="100" Height="40" Content="ADD EXPENSE" 
+                    Margin="60,200,60,0" Click="AddExpenseBtn_Click"/>
         </StackPanel>
         
     </Grid>
