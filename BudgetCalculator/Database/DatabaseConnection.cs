@@ -95,7 +95,7 @@ namespace BudgetCalculator
                 return null;
             }
 
-                return null;
+            return null;
         }
         #endregion Get Expense
 
@@ -212,9 +212,14 @@ namespace BudgetCalculator
                 if (income != null)
                 {
                     income.Name = name;
-
-                    db.Incomes.Update(income);
-                    db.SaveChanges();
+                    using (db)
+                    {
+                        db.Incomes.Update(income);
+                    }
+                    using (db)
+                    {
+                        db.SaveChanges();
+                    }
                 }
             }
             catch (Exception e)
@@ -279,7 +284,7 @@ namespace BudgetCalculator
                     income.Recurring = recurring;
 
                     db.Incomes.Update(income);
-                    db.SaveChanges();
+                    //db.SaveChanges();
                 }
             }
             catch (Exception e)
@@ -505,7 +510,7 @@ namespace BudgetCalculator
                     goal.Interval = interval;
 
                     db.Goals.Update(goal);
-                    db.SaveChanges();
+                    //db.SaveChanges();
                 }
             }
             catch (Exception e)
