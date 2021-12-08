@@ -79,8 +79,10 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUser();
             var result = dc.UpdateUsername(user.Id, "RadNewUsername");
+            user = dc.GetAccountByUsernameAndPassword("RadNewUsername", user.Password);
 
             Assert.IsTrue(result);
+            Assert.AreEqual(user.Username, "RadNewUsername");
         }
 
         [TestMethod()]
@@ -88,9 +90,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUser();
             var result = dc.UpdatePassword(user.Id, "NewPassword");
-
             user = dc.GetAccountByUsernameAndPassword(user.Username, "NewPassword");
 
+            Assert.IsTrue(result);
             Assert.AreEqual(user.Password, "NewPassword");
         }
 
@@ -110,7 +112,7 @@ namespace BudgetCalculator.Tests
             var user = GetUserAndEcos();
             var income = dc.GetIncomesOfUserId(user.Id).FirstOrDefault();
 
-            var result = dc.UpdateIncomeInterval(income.Id, user.Id, 5);
+            var result = dc.UpdateIncomeInterval(income.Id, user.Id, 12);
             Assert.IsTrue(result);
         }
 
@@ -415,7 +417,7 @@ namespace BudgetCalculator.Tests
                 var success = dc.RegisterAccount("CoolDragon", "CantCrackThisNaNaNaNa");
                 Assert.IsTrue(success);
             }
-            
+
             Assert.ReferenceEquals(accountExists, refAcc);
 
         }
