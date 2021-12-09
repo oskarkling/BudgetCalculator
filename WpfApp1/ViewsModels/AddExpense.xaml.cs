@@ -26,6 +26,7 @@ namespace WpfApp1.Views
         }
         private void AddExpenseBtn_Click(object sender, RoutedEventArgs e)
         {
+           var bla = GetCurrenUser();//typ
             string type = "expense";
             var expenseNameInput = expenseName.Text;
             var timespanInput = timespan.SelectedIndex; // switch/ if
@@ -36,22 +37,20 @@ namespace WpfApp1.Views
             {
                 MessageBox.Show("Must write number!!");
             }
-
-
-
-
-
-
+            
             //Expense expense = new Expense();
             //expense.Name = expenseNameInput;
             //expense.Interval = timespanInput;
             //expense.Amount = int.Parse(expenseAmountInput);
             //expense.Recurring = recurring;
-
-
+            
 
             MessageBox.Show($"{expenseNameInput} ||| {timespanInput} ||| {amount}");
+        }
 
+        private int GetCurrenUser()
+        {
+            return 1;
         }
 
         private static void ConvertTimeSpan(ref int timespanInput, ref bool recurring)
