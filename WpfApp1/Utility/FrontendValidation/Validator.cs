@@ -10,11 +10,11 @@ namespace WpfApp1.Utility.FrontendValidation
     {
         public static bool AddExpenseValidator { get; set; }
 
-        public static bool GetAddExpenseValidaton()
+        public static bool GetAddExpenseValidation()
         {
             return AddExpenseValidator;
         }
-        public static void SetAddExpenseValidaton(bool statement)
+        public static void SetAddExpenseValidation(bool statement)
         {
             AddExpenseValidator = statement;
         }
