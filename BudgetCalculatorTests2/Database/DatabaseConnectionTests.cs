@@ -204,7 +204,7 @@ namespace BudgetCalculator.Tests
             var user = GetUserAndEcos();
             var savings = dc.GetSavingsOfUserId(user.Id).FirstOrDefault();
 
-            var result = dc.UpdateSavingInterval(savings.Id, user.Id, 123123);
+            var result = dc.UpdateSavingAmount(savings.Id, user.Id, 123123);
             Assert.IsTrue(result);
         }
 
