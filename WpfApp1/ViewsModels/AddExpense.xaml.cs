@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Utility.FrontendValidation;
 
 namespace WpfApp1.Views
 {
@@ -26,31 +27,38 @@ namespace WpfApp1.Views
         }
         private void AddExpenseBtn_Click(object sender, RoutedEventArgs e)
         {
-           var bla = GetCurrenUser();//typ
-            string type = "expense";
+
             var expenseNameInput = expenseName.Text;
-            var timespanInput = timespan.SelectedIndex; // switch/ if
-            var parseSuccessfull = decimal.TryParse(expenseAmount.Text, out decimal amount); // try parse
+            var timespanInput = timespan.SelectedIndex;
+            var parseSuccessfull = decimal.TryParse(expenseAmount.Text, out decimal amount);
             bool recurring = true;
+            GetCurrentUser(out Account loggedInAccount);
             ConvertTimeSpan(ref timespanInput, ref recurring);
-            if(!parseSuccessfull)
+            if (!parseSuccessfull && !Validator.GetAddExpenseValidaton())
             {
                 MessageBox.Show("Must write number!!");
             }
-            
-            //Expense expense = new Expense();
-            //expense.Name = expenseNameInput;
-            //expense.Interval = timespanInput;
-            //expense.Amount = int.Parse(expenseAmountInput);
-            //expense.Recurring = recurring;
-            
+            else
+            {
 
-            MessageBox.Show($"{expenseNameInput} ||| {timespanInput} ||| {amount}");
+                Expense expense = new Expense()
+                {
+                    Name = expenseNameInput,
+                    Interval = timespanInput,
+                    Amount = amount,
+                    Recurring = recurring,
+                    CreationTime = DateTime.Now,
+                    Account = loggedInAccount,
+                    AccountId = loggedInAccount.Id
+                };
+                MessageBox.Show($"{expense.Name} | {expense.Interval} | {expense.Amount} | {expense.Recurring} | {expense.CreationTime} | {expense.Account} | {expense.AccountId}");
+            }
+
         }
 
-        private int GetCurrenUser()
+        private void GetCurrentUser(out Account loggedInAccount)
         {
-            return 1;
+            loggedInAccount = BackendManager.accountController.CurrentAccount;
         }
 
         private static void ConvertTimeSpan(ref int timespanInput, ref bool recurring)
@@ -61,7 +69,7 @@ namespace WpfApp1.Views
                     timespanInput = 1;
                     break;
                 case 1:
-                    timespanInput = 0; // kolla upp
+                    timespanInput = 0;
                     recurring = false;
                     break;
                 case 2:
@@ -78,6 +86,7 @@ namespace WpfApp1.Views
                     break;
 
                 default:
+                    Validator.SetAddExpenseValidaton(false);
                     MessageBox.Show("Wrong input, choose timespan");
                     break;
             }
