@@ -308,24 +308,20 @@ namespace BudgetCalculator.Tests
             Assert.IsTrue(result);
         }
 
-        [TestMethod()]
-        public void DeleteAccountByIdTest()
-        {
-            dc.RegisterAccount("PimpMyDragon", "BigDaddy");
-            var user = dc.GetAccountByUsernameAndPassword("PimpMyDragon", "BigDaddy");
-            var result = dc.DeleteAccountById(user.Id);
-            user = dc.GetAccountById(user.Id);
+        //[TestMethod()]
+        //public void DeleteAccountByIdTest()
+        //{
+        //    var user = GetUser();
+        //    var result = dc.DeleteAccountById(user.Id);
+        //    user = dc.GetAccountById(user.Id);
 
-            Assert.IsTrue(result);
-            Assert.IsNull(user);
-        }
+        //    Assert.IsTrue(result);
+        //    Assert.IsNull(user);
+        //}
 
         //[TestMethod()]
         //public void DeleteAllIncomeTest()
         //{
-        //    dc.RegisterAccount("Maximus", "Pässwörd");
-        //    //dc.AddIncomes();
-        //    var user = dc.GetAccountByUsernameAndPassword("PimpMyDragon", "BigDaddy");
         //    var user = GetUser();
         //    var incomes = dc.GetIncomesOfUserId(user.Id);
         //    var result = dc.DeleteAllIncome(user.Id);
