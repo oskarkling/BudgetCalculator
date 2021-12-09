@@ -11,10 +11,7 @@ namespace BudgetCalculator
         public bool AccountLoggedIn { get; set; }
         public EconomicController ecoController { get; set; }
 
-        public List<Expense> listOfExpenses = new();
-        public List<Income> listOfIncomes = new();
-        public List<Saving> listOfSavings = new();
-        public List<Goal> listOfGoals = new();
+        
 
         private DatabaseConnection dbConnect = new DatabaseConnection();
         private EconomicController eco = new EconomicController();
@@ -170,7 +167,7 @@ namespace BudgetCalculator
                 {
                     if(CurrentAccount.Id == obj.AccountId)
                     {
-                        eco.AddEconomicObject(obj);
+                        eco.AddEcoToList(obj);
                         return true;
                     }
                 }
@@ -225,48 +222,48 @@ namespace BudgetCalculator
         }
 
 
-        public bool DeleteObject(EconomicObject ecoObj, bool loggedIn)
-        {
-            if (loggedIn && CurrentAccount != null)
-            {
-                //prata med crud on expense.Id existerar
-                if (ecoObj != null)
-                {
-                    if (ecoObj is Expense)
-                    {
-                        int tempId = ecoObj.Id;
-                        var obj = listOfExpenses.FirstOrDefault(e => e.Id == ecoObj.Id);
-                        listOfExpenses.Remove(obj);
-                        return dbConnect.DeleteExpenseById(CurrentAccount.Id, tempId);
-                        //pratar med crud f�r att radera ur databas, skicka in tempId
-                    }
-                    if (ecoObj is Income)
-                    {
-                        int tempId = ecoObj.Id;
-                        var obj = listOfIncomes.FirstOrDefault(e => e.Id == ecoObj.Id);
-                        listOfIncomes.Remove(obj);
-                        return dbConnect.DeleteIncomeById(CurrentAccount.Id, tempId);
-                        //pratar med crud f�r att radera ur databas, skicka in tempId
-                    }
-                    if (ecoObj is Goal)
-                    {
-                        int tempId = ecoObj.Id;
-                        var obj = listOfGoals.FirstOrDefault(e => e.Id == ecoObj.Id);
-                        listOfGoals.Remove(obj);
-                        return dbConnect.DeleteGoalById(CurrentAccount.Id, tempId);
-                        //pratar med crud f�r att radera ur databas, skicka in tempId
-                    }
-                    if (ecoObj is Saving)
-                    {
-                        int tempId = ecoObj.Id;
-                        var obj = listOfSavings.FirstOrDefault(e => e.Id == ecoObj.Id);
-                        listOfSavings.Remove(obj);
-                        return dbConnect.DeleteSavingById(CurrentAccount.Id, tempId);
-                        //pratar med crud f�r att radera ur databas, skicka in tempId
-                    }
-                }
-            }
-            return false;
-        }
+        //public bool DeleteObject(EconomicObject ecoObj, bool loggedIn)
+        //{
+        //    if (loggedIn && CurrentAccount != null)
+        //    {
+        //        //prata med crud on expense.Id existerar
+        //        if (ecoObj != null)
+        //        {
+        //            if (ecoObj is Expense)
+        //            {
+        //                int tempId = ecoObj.Id;
+        //                var obj = listOfExpenses.FirstOrDefault(e => e.Id == ecoObj.Id);
+        //                listOfExpenses.Remove(obj);
+        //                return dbConnect.DeleteExpenseById(CurrentAccount.Id, tempId);
+        //                //pratar med crud f�r att radera ur databas, skicka in tempId
+        //            }
+        //            if (ecoObj is Income)
+        //            {
+        //                int tempId = ecoObj.Id;
+        //                var obj = listOfIncomes.FirstOrDefault(e => e.Id == ecoObj.Id);
+        //                listOfIncomes.Remove(obj);
+        //                return dbConnect.DeleteIncomeById(CurrentAccount.Id, tempId);
+        //                //pratar med crud f�r att radera ur databas, skicka in tempId
+        //            }
+        //            if (ecoObj is Goal)
+        //            {
+        //                int tempId = ecoObj.Id;
+        //                var obj = listOfGoals.FirstOrDefault(e => e.Id == ecoObj.Id);
+        //                listOfGoals.Remove(obj);
+        //                return dbConnect.DeleteGoalById(CurrentAccount.Id, tempId);
+        //                //pratar med crud f�r att radera ur databas, skicka in tempId
+        //            }
+        //            if (ecoObj is Saving)
+        //            {
+        //                int tempId = ecoObj.Id;
+        //                var obj = listOfSavings.FirstOrDefault(e => e.Id == ecoObj.Id);
+        //                listOfSavings.Remove(obj);
+        //                return dbConnect.DeleteSavingById(CurrentAccount.Id, tempId);
+        //                //pratar med crud f�r att radera ur databas, skicka in tempId
+        //            }
+        //        }
+        //    }
+        //    return false;
+        //}
     }
 }

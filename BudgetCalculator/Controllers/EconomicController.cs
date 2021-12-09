@@ -7,6 +7,10 @@ namespace BudgetCalculator
 {
     public class EconomicController
     {
+        public List<Expense> listOfExpenses = new();
+        public List<Income> listOfIncomes = new();
+        public List<Saving> listOfSavings = new();
+        public List<Goal> listOfGoals = new();
 
         public List<EconomicObject> ListOfEcoObjs { get; }
         public decimal RemainingBalance { get; set; }
@@ -38,22 +42,37 @@ namespace BudgetCalculator
         }
 
         /// <summary>
-        /// Adds an economic object
+        /// Adds an economic object to list
         /// </summary>
         /// <param name="obj"></param>
         /// <returns> true if successful, false if not</returns>
-        public bool AddEconomicObject(EconomicObject obj)
+        public bool AddEcoToList(EconomicObject obj)
         {
-            if (obj == null) return false;
+            if(obj != null)
+            {
+                if(obj is Goal goal)
+                {
+                    listOfGoals.Add(goal);
+                    return IsGoal(goal);
+                }
+                else if(obj is Income income)
+                {
+                    listOfIncomes.Add(income);
+                    return IsIncome(income);
+                }
+                else if(obj is Expense expense)
+                {
+                    listOfExpenses.Add(expense);
+                    return IsExpense(expense);
+                }
+                else
+                {
+                    listOfSavings.Add(obj as Saving);
+                    return IsSaving(obj as Saving);
+                }
+            }
 
-            bool successs;
-
-            if (obj is Goal) successs = IsGoal(obj as Goal);
-            else if (obj is Income) successs = IsIncome(obj as Income);
-            else if (obj is Expense) successs = IsExpense(obj as Expense);
-            else successs = IsSaving(obj as Saving);
-
-            return successs;
+            return false;
         }
 
         private void SaveObjToDatabase(EconomicObject obj)
