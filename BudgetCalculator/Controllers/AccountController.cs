@@ -166,10 +166,13 @@ namespace BudgetCalculator
         {
             if (AccountLoggedIn && CurrentAccount != null)
             {
-                if(obj != null)
+                if(obj != null && obj.AccountId != 0)
                 {
-                    eco.AddEconomicObject(obj);
-                    return true;
+                    if(CurrentAccount.Id == obj.AccountId)
+                    {
+                        eco.AddEconomicObject(obj);
+                        return true;
+                    }
                 }
             }
             return false;
