@@ -10,7 +10,7 @@ namespace BudgetCalculator
         #region Get
 
         #region Get Account
-    
+
         public Account GetAccountById(int id)
         {
             try
@@ -934,6 +934,29 @@ namespace BudgetCalculator
             return true;
         }
 
+        public Income CreateIncome(string name, decimal amount, int interval, bool reccuring, int accountId, Account account)
+        {
+            try
+            {
+                var income = new Income()
+                {
+                    Name = name,
+                    Amount = amount,
+                    Interval = interval,
+                    Recurring = reccuring,
+                    CreationTime = DateTime.Now,
+                    Account = account,
+                    AccountId = accountId
+                };
+
+                return income;
+            }
+            catch(Exception e)
+            {
+                ErrorLogger.Add(e.Message);
+                return null;
+            }            
+        }
         //TODO create lists of economic objects
 
         #endregion Create
