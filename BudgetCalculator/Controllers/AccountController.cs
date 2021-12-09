@@ -7,7 +7,7 @@ namespace BudgetCalculator
 {
     public class AccountController
     {
-        public Account CurrentAccount { get; set; }
+        public Account CurrentAccount { get; private set; }
         public bool AccountLoggedIn { get; set; }
         public EconomicController ecoController { get; set; }
 
@@ -157,46 +157,19 @@ namespace BudgetCalculator
 
         #endregion Get
 
-        public bool CreateAnObject(bool loggedIn, string type, string expenseName = "", decimal amount = 0, int interval = 0, bool recurring = false, decimal goalAmount = 0, decimal amountSavedSoFar = 0, int monthsToGoal = 0, bool savedToDate = false, decimal saveEachMonth = 0)
+        /// <summary>
+        /// Creates an economic object
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>true if successful, false if not</returns>
+        public bool CreateAnEconomicObject(EconomicObject obj)
         {
-            if (loggedIn && CurrentAccount != null)
+            if (AccountLoggedIn && CurrentAccount != null)
             {
-                EconomicObject obj = null;
-                if (expenseName != string.Empty && amount != 0)
+                if(obj != null)
                 {
-                    if (type == "Expense")
-                    {
-                        listOfExpenses = new()
-                        {
-                            new Expense { Name = expenseName, Amount = amount, Recurring = recurring, Interval = interval, Account = CurrentAccount, AccountId = CurrentAccount.Id, CreationTime = DateTime.Now }
-                        };
-                        obj = listOfExpenses.Last();
-                    }
-                    if (type == "Income")
-                    {
-                        listOfIncomes = new()
-                        {
-                            new Income { Name = expenseName, Amount = amount, Recurring = recurring, Interval = interval, Account = CurrentAccount, AccountId = CurrentAccount.Id, CreationTime = DateTime.Now }
-                        };
-                        obj = listOfIncomes.Last();
-                    }
-                    if (type == "Goal")
-                    {
-                        listOfGoals = new()
-                        {
-                            new Goal { Name = expenseName, Amount = amount, Interval = interval, Account = CurrentAccount, AccountId = CurrentAccount.Id, CreationTime = DateTime.Now, GoalAmount = goalAmount, AmountSavedSoFar = amountSavedSoFar, MonthsToGoal = monthsToGoal, SaveToDate = savedToDate, SaveEachMonth = saveEachMonth, CurrentTime = DateTime.Now }
-                        };
-                        obj = listOfGoals.Last();
-                    }
-                    if (type == "Savings")
-                    {
-                        listOfSavings = new()
-                        {
-                            new Saving { Name = expenseName, Amount = amount, Recurring = recurring, Interval = interval, Account = CurrentAccount, AccountId = CurrentAccount.Id, CreationTime = DateTime.Now }
-                        };
-                        obj = listOfSavings.Last();
-                    }
-                    return eco.AddEconomicObject(obj);
+                    eco.AddEconomicObject(obj);
+                    return true;
                 }
             }
             return false;

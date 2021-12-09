@@ -37,6 +37,11 @@ namespace BudgetCalculator
             }
         }
 
+        /// <summary>
+        /// Adds an economic object
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns> true if successful, false if not</returns>
         public bool AddEconomicObject(EconomicObject obj)
         {
             if (obj == null) return false;
