@@ -19,18 +19,18 @@ namespace WpfApp1.Views
     /// <summary>
     /// Interaction logic for AddExpense.xaml
     /// </summary>
-    public partial class AddExpense : Window
+    public partial class AddIncome : Window
     {
-        public AddExpense()
+        public AddIncome()
         {
             InitializeComponent();
         }
-        private void AddExpenseBtn_Click(object sender, RoutedEventArgs e)
+        private void AddIncomeBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            var expenseNameInput = expenseName.Text;
-            var timespanInput = timespan.SelectedIndex;
-            var parseSuccessfull = decimal.TryParse(expenseAmount.Text, out decimal amount);
+            var expenseNameInput = incomeName.Text;
+            var timespanInput = incomeTimespan.SelectedIndex;
+            var parseSuccessfull = decimal.TryParse(incomeAmount.Text, out decimal amount);
             bool recurring = true;
             GetCurrentUser(out Account loggedInAccount);
             ConvertTimeSpan(ref timespanInput, ref recurring);
