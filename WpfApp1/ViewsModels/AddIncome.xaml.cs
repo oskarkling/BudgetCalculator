@@ -64,6 +64,7 @@ namespace WpfApp1.Views
 
         private static void ConvertTimeSpan(ref int timespanInput, ref bool recurring)
         {
+            // släng in i helper class
             switch (timespanInput)
             {
                 case 0:
