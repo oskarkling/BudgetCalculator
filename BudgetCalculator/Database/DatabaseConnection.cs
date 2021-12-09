@@ -31,6 +31,7 @@ namespace BudgetCalculator
         /// <returns></returns>
         public Account GetAccountByUsernameAndPassword(string username, string password)
         {
+            //var dbnew = new BudgetCalcDbContext();
             try
             {
                 return db.Accounts.Where(a => a.Username == username && a.Password == password).FirstOrDefault();
@@ -934,29 +935,31 @@ namespace BudgetCalculator
             return true;
         }
 
-        public Income CreateIncome(string name, decimal amount, int interval, bool reccuring, int accountId, Account account)
+        public bool CreateEco(EconomicObject obj)
         {
+            var dbnew = new BudgetCalcDbContext();
+
             try
             {
-                var income = new Income()
-                {
-                    Name = name,
-                    Amount = amount,
-                    Interval = interval,
-                    Recurring = reccuring,
-                    CreationTime = DateTime.Now,
-                    Account = account,
-                    AccountId = accountId
-                };
+                if (obj == null) return false;
 
-                return income;
+                if (obj is Income) db.Incomes.Add(obj as Income);
+                else if (obj is Expense) db.Expenses.Add(obj as Expense);
+                else if (obj is Saving) db.Savings.Add(obj as Saving);
+                else if (obj is Goal) db.Goals.Add(obj as Goal);
+
+                System.Threading.Thread.Sleep(3000);
+                db.SaveChanges();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ErrorLogger.Add(e.Message);
-                return null;
-            }            
+                return false;
+            }
+
+            return true;
         }
+
         //TODO create lists of economic objects
 
         #endregion Create
