@@ -5,7 +5,7 @@ namespace BudgetCalculator
 {
     public class DatabaseConnection
     {
-        private static BudgetCalcDbContext db = new();
+        //private static BudgetCalcDbContext db = new();
 
         #region Get
 
@@ -13,9 +13,10 @@ namespace BudgetCalculator
 
         public Account GetAccountById(int id)
         {
+            var dbnew = new BudgetCalcDbContext();
             try
             {
-                return db.Accounts.Where(a => a.Id == id).FirstOrDefault();
+                return dbnew.Accounts.Where(a => a.Id == id).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -31,9 +32,10 @@ namespace BudgetCalculator
         /// <returns></returns>
         public Account GetAccountByUsernameAndPassword(string username, string password)
         {
+            var dbnew = new BudgetCalcDbContext();
             try
             {
-                return db.Accounts.Where(a => a.Username == username && a.Password == password).FirstOrDefault();
+                return dbnew.Accounts.Where(a => a.Username == username && a.Password == password).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -47,10 +49,11 @@ namespace BudgetCalculator
 
         public List<Income> GetIncomesOfUserId(int userId)
         {
+            var dbnew = new BudgetCalcDbContext();
             try
             {
 
-                var list = db.Incomes.Where(a => a.AccountId == userId).ToList();
+                var list = dbnew.Incomes.Where(a => a.AccountId == userId).ToList();
                 if (list != null) return list;
             }
             catch (Exception e)
@@ -88,12 +91,14 @@ namespace BudgetCalculator
         #region Get Saving
         public IEnumerable<Saving> GetAllSavings(int userId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
                 var user = CheckIfUserExist(userId);
                 if (user == null) return null;
 
-                var results = db.Savings.Where(s => s.AccountId == userId);
+                var results = dbnew.Savings.Where(s => s.AccountId == userId);
 
                 return results;
             }
@@ -105,10 +110,12 @@ namespace BudgetCalculator
         }
         public List<Saving> GetSavingsOfUserId(int userId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
 
-                var list = db.Savings.Where(a => a.AccountId == userId).ToList();
+                var list = dbnew.Savings.Where(a => a.AccountId == userId).ToList();
                 if (list != null) return list;
             }
             catch (Exception e)
@@ -146,16 +153,18 @@ namespace BudgetCalculator
         #region Update Account
         public bool UpdateUsername(int userId, string username)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
-                var acc = db.Accounts.FirstOrDefault(a => a.Id == userId);
+                var acc = dbnew.Accounts.FirstOrDefault(a => a.Id == userId);
 
                 if (acc != null)
                 {
                     acc.Username = username;
 
-                    db.Accounts.Update(acc);
-                    db.SaveChanges();
+                    dbnew.Accounts.Update(acc);
+                    dbnew.SaveChanges();
                 }
                 else return false;
             }
@@ -169,16 +178,18 @@ namespace BudgetCalculator
 
         public bool UpdatePassword(int userId, string password)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
-                var acc = db.Accounts.FirstOrDefault(a => a.Id == userId);
+                var acc = dbnew.Accounts.FirstOrDefault(a => a.Id == userId);
 
                 if (acc != null)
                 {
                     acc.Password = password;
 
-                    db.Accounts.Update(acc);
-                    db.SaveChanges();
+                    dbnew.Accounts.Update(acc);
+                    dbnew.SaveChanges();
                 }
                 else return false;
             }
@@ -709,15 +720,17 @@ namespace BudgetCalculator
         #region Delete Account
         public bool DeleteAccountById(int accountToBeDeletedId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
-                var targetAccount = db.Accounts.FirstOrDefault(a => a.Id == accountToBeDeletedId) as Account;
+                var targetAccount = dbnew.Accounts.FirstOrDefault(a => a.Id == accountToBeDeletedId) as Account;
                 if (targetAccount == null) return false;
 
-                db.Accounts.Remove(targetAccount);
+                dbnew.Accounts.Remove(targetAccount);
 
-                db.Update(db.Incomes);
-                db.SaveChanges();
+                dbnew.Update(dbnew.Incomes);
+                dbnew.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -730,13 +743,15 @@ namespace BudgetCalculator
         #region Delete Income
         public bool DeleteAllIncome(int userId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
                 if (CheckIfUserExist(userId) == null) return false;
 
-                db.Incomes.RemoveRange(db.Incomes.Where(I => I.AccountId == userId));
-                db.Update(db.Incomes);
-                db.SaveChanges();
+                dbnew.Incomes.RemoveRange(dbnew.Incomes.Where(I => I.AccountId == userId));
+                dbnew.Update(dbnew.Incomes);
+                dbnew.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -747,19 +762,21 @@ namespace BudgetCalculator
 
         public bool DeleteIncomeById(int userId, int incomeId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
                 if (CheckIfUserExist(userId) == null) return false;
 
-                var targetIncome = db.Incomes.FirstOrDefault(I => I.AccountId == userId && I.Id == incomeId) as Income;
+                var targetIncome = dbnew.Incomes.FirstOrDefault(I => I.AccountId == userId && I.Id == incomeId) as Income;
                 if (targetIncome == null) return false;
 
-                var results = db.Incomes.Remove(targetIncome);
+                var results = dbnew.Incomes.Remove(targetIncome);
 
                 if (results == null) return false;
 
-                db.Update(db.Incomes);
-                db.SaveChanges();
+                dbnew.Update(dbnew.Incomes);
+                dbnew.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -772,13 +789,15 @@ namespace BudgetCalculator
         #region Delete Expense
         public bool DeleteAllExpenses(int userId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
                 if (CheckIfUserExist(userId) == null) return false;
 
-                db.Expenses.RemoveRange(db.Expenses.Where(I => I.AccountId == userId));
-                db.Update(db.Expenses);
-                db.SaveChanges();
+                dbnew.Expenses.RemoveRange(dbnew.Expenses.Where(I => I.AccountId == userId));
+                dbnew.Update(dbnew.Expenses);
+                dbnew.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -789,19 +808,21 @@ namespace BudgetCalculator
 
         public bool DeleteExpenseById(int userId, int ExpenseId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
                 if (CheckIfUserExist(userId) == null) return false;
 
-                var targetExpense = db.Expenses.FirstOrDefault(I => I.AccountId == userId && I.Id == ExpenseId) as Expense;
+                var targetExpense = dbnew.Expenses.FirstOrDefault(I => I.AccountId == userId && I.Id == ExpenseId) as Expense;
                 if (targetExpense == null) return false;
 
-                var results = db.Expenses.Remove(targetExpense);
+                var results = dbnew.Expenses.Remove(targetExpense);
 
                 if (results == null) return false;
 
-                db.Update(db.Expenses);
-                db.SaveChanges();
+                dbnew.Update(dbnew.Expenses);
+                dbnew.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -814,17 +835,19 @@ namespace BudgetCalculator
         #region Delete Saving
         public bool DeleteAllSavings(int userId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
-                var user = db.Accounts.FirstOrDefault(u => u.Id == userId);
+                var user = dbnew.Accounts.FirstOrDefault(u => u.Id == userId);
                 if (user == null) return false;
 
-                var targetSaving = db.Savings.Where(I => I.AccountId == userId);
+                var targetSaving = dbnew.Savings.Where(I => I.AccountId == userId);
                 if (targetSaving == null) return false;
 
-                db.Savings.RemoveRange(db.Savings.Where(I => I.AccountId == user.Id));
-                db.Update(db.Savings);
-                db.SaveChanges();
+                dbnew.Savings.RemoveRange(dbnew.Savings.Where(I => I.AccountId == user.Id));
+                dbnew.Update(dbnew.Savings);
+                dbnew.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -835,20 +858,22 @@ namespace BudgetCalculator
 
         public bool DeleteSavingById(int userId, int savingId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
-                var user = db.Accounts.FirstOrDefault(u => u.Id == userId);
+                var user = dbnew.Accounts.FirstOrDefault(u => u.Id == userId);
                 if (user == null) return false;
 
-                var targetSaving = db.Savings.FirstOrDefault(I => I.AccountId == userId && I.Id == savingId) as Saving;
+                var targetSaving = dbnew.Savings.FirstOrDefault(I => I.AccountId == userId && I.Id == savingId) as Saving;
                 if (targetSaving == null) return false;
 
-                var results = db.Savings.Remove(targetSaving);
+                var results = dbnew.Savings.Remove(targetSaving);
 
                 if (results == null) return false;
 
-                db.Update(db.Savings);
-                db.SaveChanges();
+                dbnew.Update(dbnew.Savings);
+                dbnew.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -861,17 +886,19 @@ namespace BudgetCalculator
         #region Delete Goal
         public bool DeleteAllGoals(int userId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
-                var user = db.Accounts.FirstOrDefault(u => u.Id == userId);
+                var user = dbnew.Accounts.FirstOrDefault(u => u.Id == userId);
                 if (user == null) return false;
 
-                var targetGoal = db.Goals.Where(I => I.AccountId == userId);
+                var targetGoal = dbnew.Goals.Where(I => I.AccountId == userId);
                 if (targetGoal == null) return false;
 
-                db.Goals.RemoveRange(db.Goals.Where(I => I.AccountId == user.Id));
-                db.Update(db.Goals);
-                db.SaveChanges();
+                dbnew.Goals.RemoveRange(dbnew.Goals.Where(I => I.AccountId == user.Id));
+                dbnew.Update(dbnew.Goals);
+                dbnew.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -882,20 +909,22 @@ namespace BudgetCalculator
 
         public bool DeleteGoalById(int userId, int goalId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
-                var user = db.Accounts.FirstOrDefault(u => u.Id == userId);
+                var user = dbnew.Accounts.FirstOrDefault(u => u.Id == userId);
                 if (user == null) return false;
 
-                var targetGoal = db.Goals.FirstOrDefault(I => I.AccountId == userId && I.Id == goalId) as Goal;
+                var targetGoal = dbnew.Goals.FirstOrDefault(I => I.AccountId == userId && I.Id == goalId) as Goal;
                 if (targetGoal == null) return false;
 
-                var results = db.Goals.Remove(targetGoal);
+                var results = dbnew.Goals.Remove(targetGoal);
 
                 if (results == null) return false;
 
-                db.Update(db.Goals);
-                db.SaveChanges();
+                dbnew.Update(dbnew.Goals);
+                dbnew.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -934,29 +963,31 @@ namespace BudgetCalculator
             return true;
         }
 
-        public Income CreateIncome(string name, decimal amount, int interval, bool reccuring, int accountId, Account account)
+        public bool CreateEco(EconomicObject obj)
         {
+            var dbnew = new BudgetCalcDbContext();
+
             try
             {
-                var income = new Income()
-                {
-                    Name = name,
-                    Amount = amount,
-                    Interval = interval,
-                    Recurring = reccuring,
-                    CreationTime = DateTime.Now,
-                    Account = account,
-                    AccountId = accountId
-                };
+                if (obj == null) return false;
 
-                return income;
+                if (obj is Income) dbnew.Incomes.Add(obj as Income);
+                else if (obj is Expense) dbnew.Expenses.Add(obj as Expense);
+                else if (obj is Saving) dbnew.Savings.Add(obj as Saving);
+                else if (obj is Goal) dbnew.Goals.Add(obj as Goal);
+
+                System.Threading.Thread.Sleep(3000);
+                dbnew.SaveChanges();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ErrorLogger.Add(e.Message);
-                return null;
-            }            
+                return false;
+            }
+
+            return true;
         }
+
         //TODO create lists of economic objects
 
         #endregion Create
@@ -964,7 +995,9 @@ namespace BudgetCalculator
         #region Refactored code
         public Account CheckIfUserExist(int userId)
         {
-            return db.Accounts.FirstOrDefault(u => u.Id == userId);
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
+            return dbnew.Accounts.FirstOrDefault(u => u.Id == userId);
         }
 
         private static bool LogB(Exception e)
@@ -975,9 +1008,11 @@ namespace BudgetCalculator
 
         public bool CheckIfUserExists(int userId)
         {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+
             try
             {
-                var user = db.Accounts.Where(u => u.Id.Equals(userId)).FirstOrDefault();
+                var user = dbnew.Accounts.Where(u => u.Id.Equals(userId)).FirstOrDefault();
                 if (user != null)
                 {
                     return true;
