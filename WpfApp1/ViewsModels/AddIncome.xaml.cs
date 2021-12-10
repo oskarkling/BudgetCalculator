@@ -19,31 +19,31 @@ namespace WpfApp1.Views
     /// <summary>
     /// Interaction logic for AddExpense.xaml
     /// </summary>
-    public partial class AddExpense : Window
+    public partial class AddIncome : Window
     {
-        public AddExpense()
+        public AddIncome()
         {
             InitializeComponent();
         }
-        private void AddExpenseBtn_Click(object sender, RoutedEventArgs e)
+        private void AddIncomeBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            var expenseNameInput = expenseName.Text;
-            var timespanInput = expenseTimespan.SelectedIndex;
-            var parseSuccessfull = decimal.TryParse(expenseAmount.Text, out decimal amount);
+            var incomeNameInput = incomeName.Text;
+            var timespanInput = incomeTimespan.SelectedIndex;
+            var parseSuccessfull = decimal.TryParse(incomeAmount.Text, out decimal amount);
             bool recurring = true;
             GetCurrentUser(out Account loggedInAccount);
             ConvertTimeSpan(ref timespanInput, ref recurring);
-            if (!parseSuccessfull && !Validator.GetAddExpenseValidation())
+            if (!parseSuccessfull && !Validator.AddIncomeValidator)
             {
                 MessageBox.Show("PLease fill all forms!!");
             }
             else
             {
 
-                Expense expense = new Expense()
+                Income income = new Income()
                 {
-                    Name = expenseNameInput,
+                    Name = incomeNameInput,
                     Interval = timespanInput,
                     Amount = amount,
                     Recurring = recurring,
@@ -51,8 +51,7 @@ namespace WpfApp1.Views
                     Account = loggedInAccount,
                     AccountId = loggedInAccount.Id
                 };
-                MessageBox.Show($"{expense.Name} | {expense.Interval} | {expense.Amount} | {expense.Recurring} | {expense.CreationTime} | {expense.Account.Username} | {expense.AccountId}");
-                
+                MessageBox.Show($"{income.Name} | {income.Interval} | {income.Amount} | {income.Recurring} | {income.CreationTime} | {income.Account.Username} | {income.AccountId}");
             }
 
         }
@@ -64,6 +63,7 @@ namespace WpfApp1.Views
 
         private static void ConvertTimeSpan(ref int timespanInput, ref bool recurring)
         {
+            // släng in i helper class
             switch (timespanInput)
             {
                 case 0:
@@ -87,7 +87,7 @@ namespace WpfApp1.Views
                     break;
 
                 default:
-                    Validator.SetAddExpenseValidation(false);
+                    Validator.AddIncomeValidator = false;
                     break;
             }
         }
