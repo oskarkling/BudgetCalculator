@@ -52,7 +52,7 @@ namespace WpfApp1.Views
                     AccountId = loggedInAccount.Id
                 };
                 MessageBox.Show($"{expense.Name} | {expense.Interval} | {expense.Amount} | {expense.Recurring} | {expense.CreationTime} | {expense.Account.Username} | {expense.AccountId}");
-
+                
             }
 
         }
