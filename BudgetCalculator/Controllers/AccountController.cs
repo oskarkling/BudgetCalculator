@@ -184,7 +184,7 @@ namespace BudgetCalculator
                 {
                     if(CurrentAccount.Id == obj.AccountId)
                     {
-                        eco.AddEcoToList(obj);
+                        eco.AddEconomicObject(obj);
                         return true;
                     }
                 }

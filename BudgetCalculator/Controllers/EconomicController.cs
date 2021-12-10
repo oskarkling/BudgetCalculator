@@ -7,11 +7,6 @@ namespace BudgetCalculator
 {
     public class EconomicController
     {
-        public List<Expense> listOfExpenses = new();
-        public List<Income> listOfIncomes = new();
-        public List<Saving> listOfSavings = new();
-        public List<Goal> listOfGoals = new();
-
         public List<EconomicObject> ListOfEcoObjs { get; }
         public decimal RemainingBalance { get; set; }
         
