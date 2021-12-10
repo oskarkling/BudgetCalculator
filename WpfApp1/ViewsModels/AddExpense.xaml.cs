@@ -48,13 +48,30 @@ namespace WpfApp1.Views
                     Amount = amount,
                     Recurring = recurring,
                     CreationTime = DateTime.Now,
-                    Account = loggedInAccount,
                     AccountId = loggedInAccount.Id
                 };
-                MessageBox.Show($"{expense.Name} | {expense.Interval} | {expense.Amount} | {expense.Recurring} | {expense.CreationTime} | {expense.Account.Username} | {expense.AccountId}");
+                MessageBox.Show($"{expense.Name} | {expense.Interval} | {expense.Amount} | {expense.Recurring} | {expense.CreationTime} | {expense.AccountId}");
                 
+
+                if(BackendManager.accountController.CreateAnEconomicObject(expense))
+                {
+                    MessageBox.Show("EXPENSE ADDED");
+                }
+                else
+                {
+                    MessageBox.Show("Could not add ");
+                }
+
+
+
             }
 
+        }
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow main = new MainWindow();
+            main.Show();
+            this.Close();
         }
 
         private void GetCurrentUser(out Account loggedInAccount)

@@ -48,10 +48,18 @@ namespace WpfApp1.Views
                     Amount = amount,
                     Recurring = recurring,
                     CreationTime = DateTime.Now,
-                    Account = loggedInAccount,
                     AccountId = loggedInAccount.Id
                 };
-                MessageBox.Show($"{saving.Name} | {saving.Interval} | {saving.Amount} | {saving.Recurring} | {saving.CreationTime} | {saving.Account.Username} | {saving.AccountId}");
+                MessageBox.Show($"{saving.Name} | {saving.Interval} | {saving.Amount} | {saving.Recurring} | {saving.CreationTime} | {saving.AccountId}");
+
+                if (BackendManager.accountController.CreateAnEconomicObject(saving))
+                {
+                    MessageBox.Show("SAVING ADDED");
+                }
+                else
+                {
+                    MessageBox.Show("Could not add ");
+                }
             }
 
         }

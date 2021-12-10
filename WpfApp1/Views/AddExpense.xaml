@@ -66,7 +66,10 @@
             Opacity="0.5"
                 Margin="0 0 0 10"/>
             <Button VerticalAlignment ="Top" Width="100" Height="40" Content="ADD EXPENSE" 
-                    Margin="60,200,60,0" Click="AddExpenseBtn_Click"/>
+                    Margin="60,0,60,0" Click="AddExpenseBtn_Click"/>
+            <Button VerticalAlignment ="Top" Width="100" Height="40" Content="BACK" 
+                    Margin="60,0,60,0" Click="Back_Click"/>
+
         </StackPanel>
         
     </Grid>

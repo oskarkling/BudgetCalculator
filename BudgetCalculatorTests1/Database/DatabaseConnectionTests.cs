@@ -445,45 +445,45 @@ namespace BudgetCalculator.Tests
             Assert.IsTrue(results);
         }
 
-        //[TestMethod()]
-        //public void CreateIncomeTest()
-        //{
-        //    var user = GetUser();
-        //    var obj = CreateTestEco(user, "income", 1, "TestIncome3", true, 1, 300).First();
-        //    var results = dc.CreateEco(obj);
+        [TestMethod()]
+        public void CreateIncomeTest()
+        {
+            var user = GetUser();
+            var obj = CreateTestEco(user, "income", 1, "TestIncome3", true, 1, 300).First();
+            var results = dc.CreateEco(obj);
 
-        //    Assert.IsTrue(results);
-        //}
+            Assert.IsTrue(results);
+        }
 
-        //[TestMethod()]
-        //public void CreateExpenseTest()
-        //{
-        //    var user = GetUser();
-        //    var obj = CreateTestEco(user, "expense", 1, "TestExpense2", true, 1, 300).First();
-        //    var results = dc.CreateEco(obj);
+        [TestMethod()]
+        public void CreateExpenseTest()
+        {
+            var user = GetUser();
+            var obj = CreateTestEco(user, "expense", 1, "TestExpense2", true, 1, 300).First();
+            var results = dc.CreateEco(obj);
 
-        //    Assert.IsTrue(results);
-        //}
+            Assert.IsTrue(results);
+        }
 
-        //[TestMethod()]
-        //public void CreateSavingTest()
-        //{
-        //    var user = GetUser();
-        //    var income = CreateTestEco(user, "saving", 1, "TestSaving2", true, 1, 300).First();
-        //    var results = dc.CreateEco(income);
+        [TestMethod()]
+        public void CreateSavingTest()
+        {
+            var user = GetUser();
+            var income = CreateTestEco(user, "saving", 1, "TestSaving2", true, 1, 300).First();
+            var results = dc.CreateEco(income);
 
-        //    Assert.IsTrue(results);
-        //}
+            Assert.IsTrue(results);
+        }
 
-        //[TestMethod()]
-        //public void CreateGoalTest()
-        //{
-        //    var user = GetUser();
-        //    var income = CreateTestEco(user, "saving", 1, "TestGoal2", true, 1, 300, 5, 300000, 20, false, 20).First();
-        //    var results = dc.CreateEco(income);
+        [TestMethod()]
+        public void CreateGoalTest()
+        {
+            var user = GetUser();
+            var income = CreateTestEco(user, "saving", 1, "TestGoal2", true, 1, 300, 5, 300000, 20, false, 20).First();
+            var results = dc.CreateEco(income);
 
-        //    Assert.IsTrue(results);
-        //}
+            Assert.IsTrue(results);
+        }
 
         private List<EconomicObject> CreateTestEco(Account acc, string typeOfObj, int amountOfObjToCreate, string name, bool rec, int interval, int amount, decimal amountSavedSoFar = 0, decimal goalAmount = 0, int monthsToGoal = 0, bool saveToDate = false, decimal saveEachMonth = 0)
         {
@@ -496,7 +496,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Income
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name,
                             Recurring = rec,
@@ -510,7 +510,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Income
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name,
                             Recurring = rec,
@@ -521,7 +521,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Income
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name + "1",
                             Recurring = rec,
@@ -538,7 +538,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Expense
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name,
                             Recurring = rec,
@@ -552,7 +552,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Expense
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name,
                             Recurring = rec,
@@ -563,7 +563,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Expense
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name + "1",
                             Recurring = rec,
@@ -580,7 +580,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Saving
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name,
                             Recurring = rec,
@@ -594,7 +594,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Saving
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name,
                             Recurring = rec,
@@ -605,7 +605,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Saving
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name + "1",
                             Recurring = rec,
@@ -622,7 +622,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Goal
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name,
                             Amount = amount,
@@ -641,7 +641,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Goal
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name,
                             Amount = amount,
@@ -657,7 +657,7 @@ namespace BudgetCalculator.Tests
                     ecos.Add(
                         new Goal
                         {
-                            Account = acc,
+                            
                             AccountId = acc.Id,
                             Name = name+"1",
                             Amount = amount,
