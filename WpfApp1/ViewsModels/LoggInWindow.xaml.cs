@@ -60,7 +60,11 @@ namespace WpfApp1
             var password = passwordInput.Password;
             if(BackendManager.accountController.Register(username, password))
             {
-
+                MessageBox.Show("Account is registered");
+            }
+            else
+            {
+                MessageBox.Show("Could not register account");
             }
 
         }
