@@ -89,7 +89,7 @@ namespace BudgetCalculator
         #endregion Get Expense
 
         #region Get Saving
-        public IEnumerable<Saving> GetAllSavings(int userId)
+        public List<Saving> GetAllSavings(int userId)
         {
             BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
 
@@ -98,7 +98,7 @@ namespace BudgetCalculator
                 var user = CheckIfUserExist(userId);
                 if (user == null) return null;
 
-                var results = dbnew.Savings.Where(s => s.AccountId == userId);
+                var results = dbnew.Savings.Where(s => s.AccountId == userId).ToList();
 
                 return results;
             }

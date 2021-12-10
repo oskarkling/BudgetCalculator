@@ -44,7 +44,7 @@ namespace BudgetCalculator
         {
             try
             {
-                CurrentAccount.Savings = (List<Saving>)dbConnect.GetAllSavings(CurrentAccount.Id);
+                CurrentAccount.Savings = dbConnect.GetAllSavings(CurrentAccount.Id);
                 CurrentAccount.Incomes = dbConnect.GetIncomesOfUserId(CurrentAccount.Id);
                 CurrentAccount.Expenses = dbConnect.GetExpensesOfUserId(CurrentAccount.Id);
                 CurrentAccount.Goals = dbConnect.GetGoalsOfUserId(CurrentAccount.Id);
