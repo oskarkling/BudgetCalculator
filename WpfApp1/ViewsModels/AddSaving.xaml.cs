@@ -17,42 +17,41 @@ using WpfApp1.Utility.FrontendValidation;
 namespace WpfApp1.Views
 {
     /// <summary>
-    /// Interaction logic for AddExpense.xaml
+    /// Interaction logic for AddSaving.xaml
     /// </summary>
-    public partial class AddExpense : Window
+    public partial class AddSaving : Window
     {
-        public AddExpense()
+        public AddSaving()
         {
             InitializeComponent();
         }
-        private void AddExpenseBtn_Click(object sender, RoutedEventArgs e)
+        private void AddSavingBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            var expenseNameInput = expenseName.Text;
-            var timespanInput = expenseTimespan.SelectedIndex;
-            var parseSuccessfull = decimal.TryParse(expenseAmount.Text, out decimal amount);
+            var savingNameInput = savingName.Text;
+            var timespanSaving = savingTimespan.SelectedIndex;
+            var parseSuccessfull = decimal.TryParse(savingAmount.Text, out decimal amount);
             bool recurring = true;
             GetCurrentUser(out Account loggedInAccount);
-            ConvertTimeSpan(ref timespanInput, ref recurring);
-            if (!parseSuccessfull && !Validator.GetAddExpenseValidation())
+            ConvertTimeSpan(ref timespanSaving, ref recurring);
+            if (!parseSuccessfull && !Validator.AddSavingValidator)
             {
                 MessageBox.Show("PLease fill all forms!!");
             }
             else
             {
 
-                Expense expense = new Expense()
+                Saving saving = new Saving()
                 {
-                    Name = expenseNameInput,
-                    Interval = timespanInput,
+                    Name = savingNameInput,
+                    Interval = timespanSaving,
                     Amount = amount,
                     Recurring = recurring,
                     CreationTime = DateTime.Now,
                     Account = loggedInAccount,
                     AccountId = loggedInAccount.Id
                 };
-                MessageBox.Show($"{expense.Name} | {expense.Interval} | {expense.Amount} | {expense.Recurring} | {expense.CreationTime} | {expense.Account.Username} | {expense.AccountId}");
-
+                MessageBox.Show($"{saving.Name} | {saving.Interval} | {saving.Amount} | {saving.Recurring} | {saving.CreationTime} | {saving.Account.Username} | {saving.AccountId}");
             }
 
         }
@@ -64,6 +63,7 @@ namespace WpfApp1.Views
 
         private static void ConvertTimeSpan(ref int timespanInput, ref bool recurring)
         {
+            // släng in i helper class
             switch (timespanInput)
             {
                 case 0:
@@ -87,10 +87,9 @@ namespace WpfApp1.Views
                     break;
 
                 default:
-                    Validator.SetAddExpenseValidation(false);
+                    Validator.AddSavingValidator = false;
                     break;
             }
         }
     }
-
 }

@@ -37,7 +37,7 @@
             Opacity="0.5"
                 Margin="0 0 0 10"/>
             <Label HorizontalAlignment="Center" Content="Timespan"></Label>
-            <ComboBox x:Name="timespan">
+            <ComboBox x:Name="expenseTimespan">
                 <ComboBoxItem Content="Every Month"/>
                 <ComboBoxItem Content="Only Once"/>
                 <ComboBoxItem Content="Every Other Month"/>

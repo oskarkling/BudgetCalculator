@@ -8,7 +8,9 @@ namespace WpfApp1.Utility.FrontendValidation
 {
     public static class Validator
     {
+        public static bool AddIncomeValidator { get; set; }
         public static bool AddExpenseValidator { get; set; }
+        public static bool AddSavingValidator { get; set; }
 
         public static bool GetAddExpenseValidation()
         {

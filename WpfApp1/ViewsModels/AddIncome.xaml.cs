@@ -28,22 +28,22 @@ namespace WpfApp1.Views
         private void AddIncomeBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            var expenseNameInput = incomeName.Text;
+            var incomeNameInput = incomeName.Text;
             var timespanInput = incomeTimespan.SelectedIndex;
             var parseSuccessfull = decimal.TryParse(incomeAmount.Text, out decimal amount);
             bool recurring = true;
             GetCurrentUser(out Account loggedInAccount);
             ConvertTimeSpan(ref timespanInput, ref recurring);
-            if (!parseSuccessfull && !Validator.GetAddExpenseValidaton())
+            if (!parseSuccessfull && !Validator.AddIncomeValidator)
             {
                 MessageBox.Show("PLease fill all forms!!");
             }
             else
             {
 
-                Expense expense = new Expense()
+                Income income = new Income()
                 {
-                    Name = expenseNameInput,
+                    Name = incomeNameInput,
                     Interval = timespanInput,
                     Amount = amount,
                     Recurring = recurring,
@@ -51,8 +51,7 @@ namespace WpfApp1.Views
                     Account = loggedInAccount,
                     AccountId = loggedInAccount.Id
                 };
-                MessageBox.Show($"{expense.Name} | {expense.Interval} | {expense.Amount} | {expense.Recurring} | {expense.CreationTime} | {expense.Account.Username} | {expense.AccountId}");
-                //MessageBox.Show($"{Binding expense.Account}");
+                MessageBox.Show($"{income.Name} | {income.Interval} | {income.Amount} | {income.Recurring} | {income.CreationTime} | {income.Account.Username} | {income.AccountId}");
             }
 
         }
@@ -88,7 +87,7 @@ namespace WpfApp1.Views
                     break;
 
                 default:
-                    Validator.SetAddExpenseValidaton(false);
+                    Validator.AddIncomeValidator = false;
                     break;
             }
         }

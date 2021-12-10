@@ -32,5 +32,17 @@ namespace WpfApp1
             expenseView.Show();
             this.Close();
         }
+        private void openIncomeViewBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AddIncome incomeView = new AddIncome();
+            incomeView.Show();
+            this.Close();
+        }
+        private void openSavingViewBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AddSaving savingView = new AddSaving();
+            savingView.Show();
+            this.Close();
+        }
     }
 }
