@@ -976,7 +976,7 @@ namespace BudgetCalculator
                 else if (obj is Saving) dbnew.Savings.Add(obj as Saving);
                 else if (obj is Goal) dbnew.Goals.Add(obj as Goal);
 
-                System.Threading.Thread.Sleep(3000);
+                
                 dbnew.SaveChanges();
             }
             catch (Exception e)

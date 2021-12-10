@@ -33,14 +33,14 @@ namespace BudgetCalculator
             {
                 if (CheckUsernameAndPassword(username, password))
                 {
-                    return FetchEcomicObjectesbyID();
+                    return FetchEconomicObjectesbyID();
                 }
             }
 
             return false;
         }
 
-        private bool FetchEcomicObjectesbyID()
+        private bool FetchEconomicObjectesbyID()
         {
             try
             {

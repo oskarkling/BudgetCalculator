@@ -14,9 +14,9 @@ namespace BudgetCalculator
         public decimal Amount { get; set; }
         public DateTime CreationTime { get; set; }
         public int Interval { get; set; }
-
+        
         public int AccountId { get; set; }
-        public Account Account { get; set; }
+        public Account Account { get; private set; }
 
     }
 }
