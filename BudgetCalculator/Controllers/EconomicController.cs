@@ -7,7 +7,6 @@ namespace BudgetCalculator
 {
     public class EconomicController
     {
-
         public List<EconomicObject> ListOfEcoObjs { get; }
         public decimal RemainingBalance { get; set; }
         
@@ -37,82 +36,45 @@ namespace BudgetCalculator
             }
         }
 
+        /// <summary>
+        /// Adds an economic object to list
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns> true if successful, false if not</returns>
         public bool AddEconomicObject(EconomicObject obj)
         {
+            var dbcon = new DatabaseConnection();
             if (obj == null) return false;
 
             bool successs;
 
-            if (obj is Goal) successs = IsGoal(obj as Goal);
-            else if (obj is Income) successs = IsIncome(obj as Income);
-            else if (obj is Expense) successs = IsExpense(obj as Expense);
-            else successs = IsSaving(obj as Saving);
-
-            return successs;
-        }
-
-        private void SaveObjToDatabase(EconomicObject obj)
-        {
-            //Spara in obj till databasen.
-
-            throw new NotImplementedException();
-        }
-
-        private bool IsGoal(Goal obj)
-        {
-            if (obj.SaveToDate)
-            {
-                CalculateAmountToSave(obj);
-            }
-            else
-            {
-                CalculateEndDate(obj);
-            }
-
-            try
-            {
-                SaveObjToDatabase(obj);
-            }
-            catch (Exception e) { ErrorLogger.Add(e.Message); }
+            if (obj is Goal) successs = dbcon.CreateEco(obj as Goal);
+            else if (obj is Income) successs = dbcon.CreateEco(obj as Income);
+            else if (obj is Expense) successs = dbcon.CreateEco(obj as Expense);
+            else successs = dbcon.CreateEco(obj as Saving);
 
             return false;
         }
 
-        private bool IsIncome(Income obj)
-        {
-            try
-            {
-                SaveObjToDatabase(obj);
-                return true;
-            }
-            catch (Exception e) { ErrorLogger.Add(e.Message); }
+        //private bool IsGoal(Goal obj)
+        //{
+        //    if (obj.SaveToDate)
+        //    {
+        //        CalculateAmountToSave(obj);
+        //    }
+        //    else
+        //    {
+        //        CalculateEndDate(obj);
+        //    }
 
-            return false;
-        }
+        //    try
+        //    {
+        //        SaveObjToDatabase(obj);
+        //    }
+        //    catch (Exception e) { ErrorLogger.Add(e.Message); }
 
-        private bool IsExpense(Expense obj)
-        {
-            try
-            {
-                SaveObjToDatabase(obj);
-                return true;
-            }
-            catch (Exception e) { ErrorLogger.Add(e.Message); }
-
-            return false;
-        }
-
-        private bool IsSaving(Saving obj)
-        {
-            try
-            {
-                SaveObjToDatabase(obj);
-                return true;
-            }
-            catch (Exception e) { ErrorLogger.Add(e.Message); }
-
-            return false;
-        }
+        //    return false;
+        //}
 
         private bool CalculateEndDate(Goal obj)
         {
