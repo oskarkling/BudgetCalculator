@@ -36,11 +36,28 @@ namespace BudgetCalculator
             {
                 if (CheckUsernameAndPassword(username, password))
                 {
-                    return true;
+                    return FetchEcomicObjectesbyID();
                 }
             }
 
             return false;
+        }
+
+        private bool FetchEcomicObjectesbyID()
+        {
+            try
+            {
+                CurrentAccount.Savings = (List<Saving>)dbConnect.GetAllSavings(CurrentAccount.Id);
+                CurrentAccount.Incomes = dbConnect.GetIncomesOfUserId(CurrentAccount.Id);
+                CurrentAccount.Expenses = dbConnect.GetExpensesOfUserId(CurrentAccount.Id);
+                CurrentAccount.Goals = dbConnect.GetGoalsOfUserId(CurrentAccount.Id);
+            }
+            catch (Exception e)
+            {
+                ErrorLogger.Add(e.Message);
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
