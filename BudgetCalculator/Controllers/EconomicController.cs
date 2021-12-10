@@ -7,6 +7,10 @@ namespace BudgetCalculator
 {
     public class EconomicController
     {
+        public List<Expense> listOfExpenses = new();
+        public List<Income> listOfIncomes = new();
+        public List<Saving> listOfSavings = new();
+        public List<Goal> listOfGoals = new();
 
         public List<EconomicObject> ListOfEcoObjs { get; }
         public decimal RemainingBalance { get; set; }
@@ -38,7 +42,7 @@ namespace BudgetCalculator
         }
 
         /// <summary>
-        /// Adds an economic object
+        /// Adds an economic object to list
         /// </summary>
         /// <param name="obj"></param>
         /// <returns> true if successful, false if not</returns>
@@ -54,7 +58,7 @@ namespace BudgetCalculator
             else if (obj is Expense) successs = dbcon.CreateEco(obj as Expense);
             else successs = dbcon.CreateEco(obj as Saving);
 
-            return successs;
+            return false;
         }
 
         //private bool IsGoal(Goal obj)
