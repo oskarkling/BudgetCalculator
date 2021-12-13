@@ -374,71 +374,102 @@ namespace BudgetCalculator.Tests
             Assert.IsTrue(result);
         }
 
-        //[TestMethod()]
-        //public void DeleteAllExpensesTest()
-        //{
-        //    var user = GetUser();
-        //    var expenses = dc.GetExpensesOfUserId(user.Id);
-        //    var result = dc.DeleteAllExpenses(user.Id);
+        [TestMethod()]
+        public void DeleteAllExpensesTest()
+        {
+            dc.RegisterAccount("Sture", "Banan");
+            var user = dc.GetAccountByUsernameAndPassword("Sture", "Banan");
+            var objs = CreateTestEco(user, "expense", 2, "Rent", true, 1, 5000);
+            var success1 = dc.CreateEco(objs.First());
+            var success2 = dc.CreateEco(objs.Last());
+            var expenses = dc.GetExpensesOfUserId(user.Id);
+            var result = dc.DeleteAllExpenses(user.Id);
 
-        //    Assert.IsNull(expenses);
-        //    Assert.IsTrue(result);
-        //}
+            Assert.IsTrue(success1);
+            Assert.IsTrue(success2);
+            Assert.IsNotNull(expenses);
+            Assert.IsTrue(result);
+        }
 
-        //[TestMethod()]
-        //public void DeleteExpenseByIdTest()
-        //{
-        //    var user = GetUser();
-        //    var expense = dc.GetExpensesOfUserId(user.Id).FirstOrDefault();
-        //    var result = dc.DeleteExpenseById(user.Id, expense.Id);
+        [TestMethod()]
+        public void DeleteExpenseByIdTest()
+        {
+            dc.RegisterAccount("Pinoccio", "CooltPassword");
+            var user = dc.GetAccountByUsernameAndPassword("Pinoccio", "CooltPassword");
+            var obj = CreateTestEco(user, "expense", 1, "TestExpense", true, 1, 1234).First();
+            var success1 = dc.CreateEco(obj);
+            var expense = dc.GetExpensesOfUserId(user.Id);
+            var result = dc.DeleteExpenseById(user.Id, obj.Id);
 
-        //    Assert.IsNull(expense);
-        //    Assert.IsTrue(result);
-        //}
+            Assert.IsTrue(success1);
+            Assert.IsNotNull(expense);
+            Assert.IsTrue(result);
+        }
 
-        //[TestMethod()]
-        //public void DeleteAllSavingsTest()
-        //{
-        //    var user = GetUser();
-        //    var savings = dc.GetSavingsOfUserId(user.Id);
-        //    var result = dc.DeleteAllSavings(user.Id);
+        [TestMethod()]
+        public void DeleteAllSavingsTest()
+        {
+            dc.RegisterAccount("Grizzlowe", "Shipmaster");
+            var user = dc.GetAccountByUsernameAndPassword("Grizzlowe", "Shipmaster");
+            var objs = CreateTestEco(user, "saving", 2, "Boat", false, 0, 20000000);
+            var success1 = dc.CreateEco(objs.First());
+            var success2 = dc.CreateEco(objs.Last());
+            var savings = dc.GetSavingsOfUserId(user.Id);
+            var result = dc.DeleteAllSavings(user.Id);
 
-        //    Assert.IsNull(savings);
-        //    Assert.IsTrue(result);
-        //}
+            Assert.IsTrue(success1);
+            Assert.IsTrue(success2);
+            Assert.IsNotNull(savings);
+            Assert.IsTrue(result);
+        }
 
-        //[TestMethod()]
-        //public void DeleteSavingByIdTest()
-        //{
-        //    var user = GetUser();
-        //    var saving = dc.GetSavingsOfUserId(user.Id).FirstOrDefault();
-        //    var result = dc.DeleteSavingById(user.Id, saving.Id);
+        [TestMethod()]
+        public void DeleteSavingByIdTest()
+        {
+            dc.RegisterAccount("Tervosh", "TheArchmage");
+            var user = dc.GetAccountByUsernameAndPassword("Tervosh", "TheArchmage");
+            var obj = CreateTestEco(user, "saving", 1, "Whiskey", true, 1, 500).First();
+            var success1 = dc.CreateEco(obj);
+            var saving = dc.GetSavingsOfUserId(user.Id);
+            var result = dc.DeleteSavingById(user.Id, obj.Id);
 
-        //    Assert.IsNull(saving);
-        //    Assert.IsTrue(result);
-        //}
+            Assert.IsTrue(success1);
+            Assert.IsNotNull(saving);
+            Assert.IsTrue(result);
+        }
 
-        //[TestMethod()]
-        //public void DeleteAllGoalsTest()
-        //{
-        //    var user = GetUser();
-        //    var goals = dc.GetGoalsOfUserId(user.Id);
-        //    var result = dc.DeleteAllGoals(user.Id);
+        [TestMethod()]
+        public void DeleteAllGoalsTest()
+        {
+            dc.RegisterAccount("Proudmoore", "Lady1337");
+            var user = dc.GetAccountByUsernameAndPassword("Proudmoore", "Lady1337");
+            var objs = CreateTestEco(user, "goal", 2, "Tower", true, 1, 5000, 12400, 9999999, 0, false, 5000);
+            var success1 = dc.CreateEco(objs.First());
+            var success2 = dc.CreateEco(objs.Last());
+            var goals = dc.GetGoalsOfUserId(user.Id);
+            var result = dc.DeleteAllGoals(user.Id);
 
-        //    Assert.IsNull(goals);
-        //    Assert.IsTrue(result);
-        //}
+            Assert.IsTrue(success1);
+            Assert.IsTrue(success2);
+            Assert.IsNotNull(goals);
+            Assert.IsTrue(result);
+        }
 
-        //[TestMethod()]
-        //public void DeleteGoalByIdTest()
-        //{
-        //    var user = GetUser();
-        //    var goal = dc.GetGoalsOfUserId(user.Id).FirstOrDefault();
-        //    var result = dc.DeleteGoalById(user.Id, goal.Id);
+        [TestMethod()]
+        public void DeleteGoalByIdTest()
+        {
+            dc.RegisterAccount("Grimble", "CooltPassword");
+            var user = dc.GetAccountByUsernameAndPassword("Grimble", "CooltPassword");
+            var obj = CreateTestEco(user, "goal", 2, "Tower", true, 1, 5000, 12400, 9999999, 0, false, 5000).First();
+            var success1 = dc.CreateEco(obj);
+            var goal = dc.GetGoalsOfUserId(user.Id);
+            var result = dc.DeleteGoalById(user.Id, obj.Id);
 
-        //    Assert.IsNull(goal);
-        //    Assert.IsTrue(result);
-        //}
+            Assert.IsTrue(success1);
+            Assert.IsNotNull(goal);
+            Assert.IsTrue(result);
+        }
+
 
         [TestMethod()]
         public void RegisterAccountTest()
@@ -776,7 +807,7 @@ namespace BudgetCalculator.Tests
                         Interval = 1,
                         GoalAmount = 999999,
                         AmountSavedSoFar = 0,
-                        SaveToDate = false,
+                        SaveToDate = false
                         }
                     };
 

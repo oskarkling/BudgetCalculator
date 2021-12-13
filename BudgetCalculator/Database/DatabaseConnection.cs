@@ -272,8 +272,7 @@ namespace BudgetCalculator
             {
                 if (CheckIfUserExist(userId) == null) return false;
 
-                dbnew.Expenses.RemoveRange(dbnew.Expenses.Where(I => I.AccountId == userId));
-                dbnew.Update(dbnew.Expenses);
+                dbnew.Expenses.RemoveRange(dbnew.Expenses.Where(I => I.AccountId == userId).ToList());
                 dbnew.SaveChanges();
                 return true;
             }
@@ -294,11 +293,7 @@ namespace BudgetCalculator
                 var targetExpense = dbnew.Expenses.FirstOrDefault(I => I.AccountId == userId && I.Id == ExpenseId) as Expense;
                 if (targetExpense == null) return false;
 
-                var results = dbnew.Expenses.Remove(targetExpense);
-
-                if (results == null) return false;
-
-                dbnew.Update(dbnew.Expenses);
+                dbnew.Expenses.Remove(targetExpense);
                 dbnew.SaveChanges();
                 return true;
             }
@@ -319,11 +314,10 @@ namespace BudgetCalculator
                 var user = dbnew.Accounts.FirstOrDefault(u => u.Id == userId);
                 if (user == null) return false;
 
-                var targetSaving = dbnew.Savings.Where(I => I.AccountId == userId);
+                var targetSaving = dbnew.Savings.Where(I => I.AccountId == userId).ToList();
                 if (targetSaving == null) return false;
 
                 dbnew.Savings.RemoveRange(dbnew.Savings.Where(I => I.AccountId == user.Id));
-                dbnew.Update(dbnew.Savings);
                 dbnew.SaveChanges();
                 return true;
             }
@@ -345,11 +339,7 @@ namespace BudgetCalculator
                 var targetSaving = dbnew.Savings.FirstOrDefault(I => I.AccountId == userId && I.Id == savingId) as Saving;
                 if (targetSaving == null) return false;
 
-                var results = dbnew.Savings.Remove(targetSaving);
-
-                if (results == null) return false;
-
-                dbnew.Update(dbnew.Savings);
+                dbnew.Savings.Remove(targetSaving);
                 dbnew.SaveChanges();
                 return true;
             }
@@ -360,55 +350,51 @@ namespace BudgetCalculator
         }
         #endregion Delete Saving
 
+
         #region Delete Goal
-        //public bool DeleteAllGoals(int userId)
-        //{
-        //    BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+        public bool DeleteAllGoals(int userId)
+        {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
 
-        //    try
-        //    {
-        //        var user = dbnew.Accounts.FirstOrDefault(u => u.Id == userId);
-        //        if (user == null) return false;
+            try
+            {
+                var user = dbnew.Accounts.FirstOrDefault(u => u.Id == userId);
+                if (user == null) return false;
 
-        //        var targetGoal = dbnew.Goals.Where(I => I.AccountId == userId);
-        //        if (targetGoal == null) return false;
+                var targetGoal = dbnew.Goals.Where(I => I.AccountId == userId);
+                if (targetGoal == null) return false;
 
-        //        dbnew.Goals.RemoveRange(dbnew.Goals.Where(I => I.AccountId == user.Id));
-        //        dbnew.Update(dbnew.Goals);
-        //        dbnew.SaveChanges();
-        //        return true;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return LogB(e);
-        //    }
-        //}
+                dbnew.Goals.RemoveRange(dbnew.Goals.Where(I => I.AccountId == user.Id).ToList());
+                dbnew.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+        }
 
-        //public bool DeleteGoalById(int userId, int goalId)
-        //{
-        //    BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+        public bool DeleteGoalById(int userId, int goalId)
+        {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
 
-        //    try
-        //    {
-        //        var user = dbnew.Accounts.FirstOrDefault(u => u.Id == userId);
-        //        if (user == null) return false;
+            try
+            {
+                var user = dbnew.Accounts.FirstOrDefault(u => u.Id == userId);
+                if (user == null) return false;
 
-        //        var targetGoal = dbnew.Goals.FirstOrDefault(I => I.AccountId == userId && I.Id == goalId) as Goal;
-        //        if (targetGoal == null) return false;
+                var targetGoal = dbnew.Goals.FirstOrDefault(I => I.AccountId == userId && I.Id == goalId) as Goal;
+                if (targetGoal == null) return false;
 
-        //        var results = dbnew.Goals.Remove(targetGoal);
-
-        //        if (results == null) return false;
-
-        //        dbnew.Update(dbnew.Goals);
-        //        dbnew.SaveChanges();
-        //        return true;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return LogB(e);
-        //    }
-        //}
+                dbnew.Goals.Remove(targetGoal);
+                dbnew.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return LogB(e);
+            }
+        }
         #endregion Delete Goal
 
         #endregion Delete
