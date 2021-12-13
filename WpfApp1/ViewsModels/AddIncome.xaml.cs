@@ -1,6 +1,7 @@
 ﻿using BudgetCalculator;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace WpfApp1.Views
         public AddIncome()
         {
             InitializeComponent();
+            var income = new ObservableCollection<Income>(BackendManager.accountController.CurrentAccount.Incomes);
             foreach (var item in BackendManager.accountController.CurrentAccount.Incomes)
             {
                 incomeListbox.Items.Add($"{item.Name} | {item.Amount} | {item.Interval}");
