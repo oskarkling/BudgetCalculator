@@ -48,10 +48,20 @@ namespace WpfApp1.Views
                     Amount = amount,
                     Recurring = recurring,
                     CreationTime = DateTime.Now,
-                    Account = loggedInAccount,
                     AccountId = loggedInAccount.Id
                 };
-                MessageBox.Show($"{income.Name} | {income.Interval} | {income.Amount} | {income.Recurring} | {income.CreationTime} | {income.Account.Username} | {income.AccountId}");
+                MessageBox.Show($"{income.Name} | {income.Interval} | {income.Amount} | {income.Recurring} | {income.CreationTime} | {income.AccountId}");
+
+
+
+                if (BackendManager.accountController.CreateAnEconomicObject(income))
+                {
+                    MessageBox.Show("INCOME ADDED");
+                }
+                else
+                {
+                    MessageBox.Show("Could not add ");
+                }
             }
 
         }
