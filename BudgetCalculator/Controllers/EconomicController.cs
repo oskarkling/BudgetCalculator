@@ -100,5 +100,41 @@ namespace BudgetCalculator
 
             return false;
         }
+        public decimal CalculateTotalIncome(List<Income> income)
+        {
+            decimal total = 0;
+            if(income != null)
+            {
+                foreach (var item in income)
+                {
+                    total += item.Amount;
+                }
+            }
+            return total;
+        }
+        public decimal CalculateTotalSavings(List<Saving> savings)
+        {
+            decimal total = 0;
+            if (savings != null)
+            {
+                foreach (var item in savings)
+                {
+                    total += item.Amount;
+                }
+            }
+            return total;
+        }
+        public decimal CalculateTotalExpenses(List<Expense> expenses)
+        {
+            decimal total = 0;
+            if (expenses != null)
+            {
+                foreach (var item in expenses)
+                {
+                    total += item.Amount;
+                }
+            }
+            return total;
+        }
     }
 }

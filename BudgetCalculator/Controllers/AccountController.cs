@@ -297,5 +297,26 @@ namespace BudgetCalculator
             }
             return false;
         }
+
+        /// <summary>
+        /// Returns decimal value of all incomes in account income list
+        /// </summary>
+        /// <returns>Decimal</returns>
+        public decimal GetTotalIncome()
+        {
+            var income = CurrentAccount.Incomes.Where(i => i.AccountId == CurrentAccount.Id).ToList();
+            return eco.CalculateTotalIncome(income);
+        }
+        public decimal GetTotalSavings()
+        {
+            var savings = CurrentAccount.Savings.Where(i => i.AccountId == CurrentAccount.Id).ToList();
+            return eco.CalculateTotalSavings(savings);
+        }
+        public decimal GetTotalExpense()
+        {
+            var expenses = CurrentAccount.Expenses.Where(i => i.AccountId == CurrentAccount.Id).ToList();
+            return eco.CalculateTotalExpenses(expenses);
+        }
+
     }
 }
