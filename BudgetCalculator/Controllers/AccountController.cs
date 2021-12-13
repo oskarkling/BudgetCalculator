@@ -225,32 +225,68 @@ namespace BudgetCalculator
             return false;
         }
 
-        //public bool UpdateObject(EconomicObject ecoObj)
-        //{
-        //    if (AccountLoggedIn && CurrentAccount != null)
-        //    {
-        //        if (ecoObj != null)
-        //        {
-        //            if (ecoObj is Expense)
-        //            {
-                        
-        //            }
-        //            if (ecoObj is Income)
-        //            {
-                        
-        //            }
-        //            if (ecoObj is Goal)
-        //            {
-                        
-        //            }
-        //            if (ecoObj is Saving)
-        //            {
-                        
-        //            }
-        //        }
-        //    }
-        //    return false;
-        //}
+        public bool UpdateObject(EconomicObject ecoObj)
+        {
+            if (AccountLoggedIn && CurrentAccount != null)
+            {
+                if (ecoObj != null)
+                {
+                    if (ecoObj is Expense)
+                    {
+                        if (dbConnect.UpdateEco(ecoObj))
+                        {
+                            var obj = CurrentAccount.Expenses.FirstOrDefault(e => e.Id == ecoObj.Id);
+                            int index = CurrentAccount.Expenses.FindIndex(i => i.Id == ecoObj.Id);
+                            if(obj != null && index >= 0)
+                            {
+                                CurrentAccount.Expenses[index] = (Expense)ecoObj;
+                                return true;
+                            }
+                        }
+                    }
+                    if (ecoObj is Income)
+                    {
+                        if (dbConnect.UpdateEco(ecoObj))
+                        {
+                            var obj = CurrentAccount.Incomes.FirstOrDefault(e => e.Id == ecoObj.Id);
+                            int index = CurrentAccount.Incomes.FindIndex(i => i.Id == ecoObj.Id);
+                            if (obj != null && index >= 0)
+                            {
+                                CurrentAccount.Incomes[index] = (Income)ecoObj;
+                                return true;
+                            }
+                        }
+                    }
+                    if (ecoObj is Goal)
+                    {
+                        if (dbConnect.UpdateEco(ecoObj))
+                        {
+                            var obj = CurrentAccount.Goals.FirstOrDefault(e => e.Id == ecoObj.Id);
+                            int index = CurrentAccount.Goals.FindIndex(i => i.Id == ecoObj.Id);
+                            if (obj != null && index >= 0)
+                            {
+                                CurrentAccount.Goals[index] = (Goal)ecoObj;
+                                return true;
+                            }
+                        }
+                    }
+                    if (ecoObj is Saving)
+                    {
+                        if (dbConnect.UpdateEco(ecoObj))
+                        {
+                            var obj = CurrentAccount.Savings.FirstOrDefault(e => e.Id == ecoObj.Id);
+                            int index = CurrentAccount.Savings.FindIndex(i => i.Id == ecoObj.Id);
+                            if (obj != null && index >= 0)
+                            {
+                                CurrentAccount.Savings[index] = (Saving)ecoObj;
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
 
 
         /// <summary>
