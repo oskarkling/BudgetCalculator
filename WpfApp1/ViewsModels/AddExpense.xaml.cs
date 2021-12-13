@@ -24,6 +24,10 @@ namespace WpfApp1.Views
         public AddExpense()
         {
             InitializeComponent();
+            foreach (var item in BackendManager.accountController.CurrentAccount.Expenses)
+            {
+                expenseListbox.Items.Add($"{item.Name} | {item.Amount} | {item.Interval}");
+            }
         }
         private void AddExpenseBtn_Click(object sender, RoutedEventArgs e)
         {

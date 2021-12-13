@@ -24,6 +24,10 @@ namespace WpfApp1.Views
         public AddSaving()
         {
             InitializeComponent();
+            foreach (var item in BackendManager.accountController.CurrentAccount.Savings)
+            {
+                savingListbox.Items.Add($"{item.Name} | {item.Amount} | {item.Interval}");
+            }
         }
         private void AddSavingBtn_Click(object sender, RoutedEventArgs e)
         {
