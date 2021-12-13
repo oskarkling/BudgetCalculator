@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetCalculator.Migrations
 {
     [DbContext(typeof(BudgetCalcDbContext))]
-    [Migration("20211207110230_InitDb2")]
-    partial class InitDb2
+    [Migration("20211213133010_InitDb")]
+    partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -94,9 +94,6 @@ namespace BudgetCalculator.Migrations
 
                     b.Property<DateTime>("CurrentTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal>("GoalAmount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Interval")
                         .HasColumnType("int");
