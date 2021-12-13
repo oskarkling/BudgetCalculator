@@ -93,9 +93,6 @@ namespace BudgetCalculator.Migrations
                     b.Property<DateTime>("CurrentTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("GoalAmount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("Interval")
                         .HasColumnType("int");
 

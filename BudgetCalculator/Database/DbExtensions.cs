@@ -26,12 +26,32 @@ namespace BudgetCalculator
                 db.Goals.Clear();
                 db.Incomes.Clear();
                 db.Savings.Clear();
-
                 db.SaveChanges();
 
                 return true;
             }
             catch(Exception ex)
+            {
+                ErrorLogger.Add(ex.Message);
+                return false;
+            }
+        }
+
+        public static bool DeleteTables()
+        {
+            try
+            {
+                using BudgetCalcDbContext db = new();
+                db.Accounts.FromSqlRaw("DROP TABLE Accounts");
+                db.Incomes.FromSqlRaw("DROP TABLE Incomes");
+                db.Expenses.FromSqlRaw("DROP TABLE Expenses");
+                db.Savings.FromSqlRaw("DROP TABLE Savings");
+                db.Goals.FromSqlRaw("DROP TABLE Goals");
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
             {
                 ErrorLogger.Add(ex.Message);
                 return false;

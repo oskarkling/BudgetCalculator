@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BudgetCalculator.Migrations
 {
-    public partial class InitDb2 : Migration
+    public partial class InitDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,7 +51,6 @@ namespace BudgetCalculator.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GoalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AmountSavedSoFar = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     MonthsToGoal = table.Column<int>(type: "int", nullable: false),
                     CurrentTime = table.Column<DateTime>(type: "datetime2", nullable: false),
