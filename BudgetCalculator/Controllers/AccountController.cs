@@ -298,6 +298,10 @@ namespace BudgetCalculator
             return false;
         }
 
+        public void GetBalance()
+        {
+            var res = eco.CalculateBalance(GetTotalIncome(), GetTotalSavings(), GetTotalExpense(), GetGoals());
+        }
         /// <summary>
         /// Returns decimal value of all incomes in account income list
         /// </summary>
@@ -318,5 +322,15 @@ namespace BudgetCalculator
             return eco.CalculateTotalExpenses(expenses);
         }
 
+        //goals section
+        public void GetGoal()
+        {
+
+        }
+        public decimal GetGoals()
+        {
+            var goals = CurrentAccount.Goals.Where(g => g.AccountId == CurrentAccount.Id).ToList();
+            return eco.CalculateTotalGoals(goals);
+        }
     }
 }

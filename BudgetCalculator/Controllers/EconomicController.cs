@@ -76,30 +76,7 @@ namespace BudgetCalculator
         //    return false;
         //}
 
-        private bool CalculateEndDate(Goal obj)
-        {
-            try
-            {
-                // Rounds up becouse of months saved.
-                obj.MonthsToGoal = (int)MathF.Ceiling((float)obj.Amount / (float)obj.SaveEachMonth);
-                return true;
-            }
-            catch (Exception e) { ErrorLogger.Add(e.Message); }
-
-            return false;
-        }
-
-        private bool CalculateAmountToSave(Goal obj)
-        {
-            try
-            {
-                obj.SaveEachMonth = obj.Amount / obj.MonthsToGoal;
-                return true;
-            }
-            catch (Exception e) { ErrorLogger.Add(e.Message); }
-
-            return false;
-        }
+        
         public decimal CalculateTotalIncome(List<Income> income)
         {
             decimal total = 0;
@@ -135,6 +112,57 @@ namespace BudgetCalculator
                 }
             }
             return total;
+        }
+        //public void CalculateCurrentGoals(List<Goal> goals)
+        //{
+        //    var goalSummery = new List<Goal>();
+        //    decimal total = 0;
+        //    if (goals != null)
+        //    {
+        //        foreach (var item in goals)
+        //        {
+        //            if(item.)
+        //        }
+        //    }
+        //}
+
+        private DateTime CalculateEndDate(Goal obj)
+        {
+            try
+            {
+                obj.MonthsToGoal = (int)MathF.Ceiling((float)obj.Amount / (float)obj.SaveEachMonth);
+                return obj.CreationTime.AddMonths(obj.MonthsToGoal);
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+            return new DateTime();
+        }
+
+        private decimal CalculateAmountToSave(Goal obj)
+        {
+            try
+            {
+                return obj.SaveEachMonth = obj.Amount / obj.MonthsToGoal;
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return 0;
+        }
+        public decimal CalculateTotalGoals(List<Goal> goals)
+        {
+            decimal sum = 0;
+            if(goals != null)
+            {
+                foreach (var item in goals)
+                {
+                    sum += item.Amount;
+                }
+                return sum;
+            }
+            return 0;
+        }
+        public decimal CalculateBalance(decimal income, decimal expenses, decimal savings, decimal goals)
+        {
+            return income - (expenses + savings + goals);
         }
     }
 }
