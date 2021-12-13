@@ -330,42 +330,49 @@ namespace BudgetCalculator.Tests
             Assert.IsTrue(result);
         }
 
-        //[TestMethod()]
-        //public void DeleteAccountByIdTest()
-        //{
-        //    dc.RegisterAccount("PimpMyDragon", "BigDaddy");
-        //    var user = dc.GetAccountByUsernameAndPassword("PimpMyDragon", "BigDaddy");
-        //    var result = dc.DeleteAccountById(user.Id);
-        //    user = dc.GetAccountById(user.Id);
+        [TestMethod()]
+        public void DeleteAccountByIdTest()
+        {
+            dc.RegisterAccount("PimpMyDragon", "BigDaddy");
+            var user = dc.GetAccountByUsernameAndPassword("PimpMyDragon", "BigDaddy");
+            var result = dc.DeleteAccountById(user.Id);
+            user = dc.GetAccountById(user.Id);
 
-        //    Assert.IsTrue(result);
-        //    Assert.IsNull(user);
-        //}
+            Assert.IsTrue(result);
+            Assert.IsNull(user);
+        }
 
-        //[TestMethod()]
-        //public void DeleteAllIncomeTest()
-        //{
-        //    dc.RegisterAccount("Maximus", "Pässwörd");
-        //    //dc.AddIncomes();
-        //    var user = dc.GetAccountByUsernameAndPassword("PimpMyDragon", "BigDaddy");
-        //    var user = GetUser();
-        //    var incomes = dc.GetIncomesOfUserId(user.Id);
-        //    var result = dc.DeleteAllIncome(user.Id);
+        [TestMethod()]
+        public void DeleteAllIncomeTest()
+        {
+            dc.RegisterAccount("Maximus", "Pässwörd");
+            var user = dc.GetAccountByUsernameAndPassword("Maximus", "Pässwörd");
+            var objs = CreateTestEco(user, "income", 2, "CSN", true, 1, 10000);
+            var success1 = dc.CreateEco(objs.First());
+            var success2 = dc.CreateEco(objs.Last());
+            var incomes = dc.GetIncomesOfUserId(user.Id);
+            var result = dc.DeleteAllIncome(user.Id);
 
-        //    Assert.IsNull(incomes);
-        //    Assert.IsTrue(result);
-        //}
+            Assert.IsTrue(success1);
+            Assert.IsTrue(success2);
+            Assert.IsNotNull(incomes);
+            Assert.IsTrue(result);
+        }
 
-        //[TestMethod()]
-        //public void DeleteIncomeByIdTest()
-        //{
-        //    var user = GetUser();
-        //    var income = dc.GetIncomesOfUserId(user.Id).FirstOrDefault();
-        //    var result = dc.DeleteIncomeById(user.Id, income.Id);
+        [TestMethod()]
+        public void DeleteIncomeByIdTest()
+        {
+            dc.RegisterAccount("Picca", "ChOOOO");
+            var user = dc.GetAccountByUsernameAndPassword("Picca", "ChOOOO");
+            var obj = CreateTestEco(user, "income", 1, "Veckopeng", true, 1, 9999).First();
+            var success1 = dc.CreateEco(obj);
+            var income = dc.GetIncomesOfUserId(user.Id);
+            var result = dc.DeleteIncomeById(user.Id, obj.Id);
 
-        //    Assert.IsNull(income);
-        //    Assert.IsTrue(result);
-        //}
+            Assert.IsTrue(success1);
+            Assert.IsNotNull(income);
+            Assert.IsTrue(result);
+        }
 
         //[TestMethod()]
         //public void DeleteAllExpensesTest()
