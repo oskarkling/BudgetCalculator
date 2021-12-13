@@ -101,7 +101,8 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var income = dc.GetIncomesOfUserId(user.Id).FirstOrDefault();
-            var result = dc.UpdateIncomeName(income.Id, user.Id, "UpdatedIncomeName5");
+            income.Name = "UpdatedIncomeName5";
+            var result = dc.UpdateEco(income);
 
             Assert.IsTrue(result);
         }
@@ -111,8 +112,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var income = dc.GetIncomesOfUserId(user.Id).FirstOrDefault();
+            income.Interval = 12;
 
-            var result = dc.UpdateIncomeInterval(income.Id, user.Id, 12);
+            var result = dc.UpdateEco(income);
             Assert.IsTrue(result);
         }
 
@@ -121,8 +123,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var income = dc.GetIncomesOfUserId(user.Id).FirstOrDefault();
+            income.Amount = 5000000;
 
-            var result = dc.UpdateIncomeAmount(income.Id, user.Id, 5000000);
+            var result = dc.UpdateEco(income);
             Assert.IsTrue(result);
         }
 
@@ -131,8 +134,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var income = dc.GetIncomesOfUserId(user.Id).FirstOrDefault();
+            income.Recurring = !income.Recurring;
 
-            var result = dc.UpdateIncomeRecurring(income.Id, user.Id, !income.Recurring);
+            var result = dc.UpdateEco(income);
             Assert.IsTrue(result);
         }
 
@@ -141,10 +145,13 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var expense = dc.GetExpensesOfUserId(user.Id).FirstOrDefault();
-            var result = dc.UpdateExpenseName(expense.Id, user.Id, "UpdatedExpenseName");
-            expense = dc.GetExpensesOfUserId(user.Id).FirstOrDefault();
+            expense.Name = "UpdatedExpenseName";
 
+            var result = dc.UpdateEco(expense);
             Assert.IsTrue(result);
+
+
+            expense = dc.GetExpensesOfUserId(user.Id).FirstOrDefault();
             Assert.AreEqual(expense.Name, "UpdatedExpenseName");
         }
 
@@ -153,8 +160,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var expense = dc.GetExpensesOfUserId(user.Id).FirstOrDefault();
+            expense.Interval = 12;
 
-            var result = dc.UpdateExpenseInterval(expense.Id, user.Id, 12);
+            var result = dc.UpdateEco(expense);
             Assert.IsTrue(result);
         }
 
@@ -163,8 +171,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var expense = dc.GetExpensesOfUserId(user.Id).FirstOrDefault();
+            expense.Amount = 123123123;
 
-            var result = dc.UpdateExpenseAmount(expense.Id, user.Id, 123123123);
+            var result = dc.UpdateEco(expense);
             Assert.IsTrue(result);
         }
 
@@ -173,8 +182,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var expense = dc.GetExpensesOfUserId(user.Id).FirstOrDefault();
+            expense.Recurring = !expense.Recurring;
 
-            var result = dc.UpdateExpenseRecurring(expense.Id, user.Id, true);
+            var result = dc.UpdateEco(expense);
             Assert.IsTrue(result);
         }
 
@@ -183,8 +193,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var savings = dc.GetSavingsOfUserId(user.Id).FirstOrDefault();
+            savings.Name = "UpdatedSavingsName2";
 
-            var result = dc.UpdateSavingName(savings.Id, user.Id, "UpdatedSavingsName2");
+            var result = dc.UpdateEco(savings);
             Assert.IsTrue(result);
         }
 
@@ -193,8 +204,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var savings = dc.GetSavingsOfUserId(user.Id).FirstOrDefault();
+            savings.Interval = 7;
 
-            var result = dc.UpdateSavingInterval(savings.Id, user.Id, 7);
+            var result = dc.UpdateEco(savings);
             Assert.IsTrue(result);
         }
 
@@ -203,8 +215,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var savings = dc.GetSavingsOfUserId(user.Id).FirstOrDefault();
+            savings.Amount = 123123;
 
-            var result = dc.UpdateSavingAmount(savings.Id, user.Id, 123123);
+            var result = dc.UpdateEco(savings);
             Assert.IsTrue(result);
         }
 
@@ -213,8 +226,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var savings = dc.GetSavingsOfUserId(user.Id).FirstOrDefault();
+            savings.Recurring = !savings.Recurring;
 
-            var result = dc.UpdateSavingRecurring(savings.Id, user.Id, false);
+            var result = dc.UpdateEco(savings);
             Assert.IsTrue(result);
         }
 
@@ -223,8 +237,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var goal = dc.GetGoalsOfUserId(user.Id).FirstOrDefault();
+            goal.Name = "UpdatedGoalName";
 
-            var result = dc.UpdateGoalName(goal.Id, user.Id, "UpdatedGoalName");
+            var result = dc.UpdateEco(goal);
             Assert.IsTrue(result);
         }
 
@@ -233,8 +248,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var goal = dc.GetGoalsOfUserId(user.Id).FirstOrDefault();
-            var result = dc.UpdateGoalInterval(goal.Id, user.Id, 12);
+            goal.Interval = 12;
 
+            var result = dc.UpdateEco(goal);
             Assert.IsTrue(result);
         }
 
@@ -243,8 +259,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var goal = dc.GetGoalsOfUserId(user.Id).FirstOrDefault();
+            goal.GoalAmount = 333333;
 
-            var result = dc.UpdateGoalGoalAmount(goal.Id, user.Id, 333333);
+            var result = dc.UpdateEco(goal);
             Assert.IsTrue(result);
         }
 
@@ -253,8 +270,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var goal = dc.GetGoalsOfUserId(user.Id).FirstOrDefault();
+            goal.Amount = 32322;
 
-            var result = dc.UpdateGoalAmount(goal.Id, user.Id, 3232);
+            var result = dc.UpdateEco(goal);
             Assert.IsTrue(result);
         }
 
@@ -263,8 +281,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var goal = dc.GetGoalsOfUserId(user.Id).FirstOrDefault();
+            goal.MonthsToGoal = 122;
 
-            var result = dc.UpdateGoalMonthsToGoal(goal.Id, user.Id, 122);
+            var result = dc.UpdateEco(goal);
             Assert.IsTrue(result);
         }
 
@@ -273,8 +292,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var goal = dc.GetGoalsOfUserId(user.Id).FirstOrDefault();
+            goal.CreationTime = DateTime.Now;
 
-            var result = dc.UpdateGoalCurrentTime(goal.Id, user.Id, DateTime.Now);
+            var result = dc.UpdateEco(goal);
             Assert.IsTrue(result);
         }
 
@@ -283,8 +303,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var goal = dc.GetGoalsOfUserId(user.Id).FirstOrDefault();
+            goal.SaveToDate = !goal.SaveToDate;
 
-            var result = dc.UpdateGoalSaveToDateBool(goal.Id, user.Id, false);
+            var result = dc.UpdateEco(goal);
             Assert.IsTrue(result);
         }
 
@@ -293,8 +314,9 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var goal = dc.GetGoalsOfUserId(user.Id).FirstOrDefault();
+            goal.SaveEachMonth = 765;
 
-            var result = dc.UpdateGoalSaveEachMonth(goal.Id, user.Id, 765);
+            var result = dc.UpdateEco(goal);
             Assert.IsTrue(result);
         }
 
@@ -303,8 +325,8 @@ namespace BudgetCalculator.Tests
         {
             var user = GetUserAndEcos();
             var goal = dc.GetGoalsOfUserId(user.Id).FirstOrDefault();
-
-            var result = dc.UpdateGoalSavedSoFar(goal.Id, user.Id, 1337);
+            goal.AmountSavedSoFar = 1337;
+            var result = dc.UpdateEco(goal);
             Assert.IsTrue(result);
         }
 
