@@ -24,6 +24,12 @@ namespace WpfApp1.Views
         public AddIncome()
         {
             InitializeComponent();
+            
+            //List<string> testList = new List<String>() { "Test", "Test2", "Test3", "Test3", "Test3", "Test3", "Test3", "Test3", "Test3"};
+            foreach (var item in BackendManager.accountController.CurrentAccount.Incomes)
+            {
+            incomeListbox.Items.Add($"{item.Name} | {item.Amount} | {item.Interval}");
+            }
         }
         private void AddIncomeBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -50,7 +56,7 @@ namespace WpfApp1.Views
                     CreationTime = DateTime.Now,
                     AccountId = loggedInAccount.Id
                 };
-                MessageBox.Show($"{income.Name} | {income.Interval} | {income.Amount} | {income.Recurring} | {income.CreationTime} | {income.AccountId}");
+                //MessageBox.Show($"{income.Name} | {income.Interval} | {income.Amount} | {income.Recurring} | {income.CreationTime} | {income.AccountId}");
 
 
 
@@ -62,6 +68,7 @@ namespace WpfApp1.Views
                 {
                     MessageBox.Show("Could not add ");
                 }
+
             }
 
         }

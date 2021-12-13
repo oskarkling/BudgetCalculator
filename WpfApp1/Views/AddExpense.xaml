@@ -69,6 +69,9 @@
                     Margin="60,0,60,0" Click="AddExpenseBtn_Click"/>
             <Button VerticalAlignment ="Top" Width="100" Height="40" Content="BACK" 
                     Margin="60,0,60,0" Click="Back_Click"/>
+            <DataGrid x:Name="dataGridExpense" />
+
+
 
         </StackPanel>
         
