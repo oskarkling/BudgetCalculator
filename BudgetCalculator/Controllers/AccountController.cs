@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,15 +86,15 @@ namespace BudgetCalculator
             }
         }
 
-        private bool DeleteAccount()
-        {
-            if (CurrentAccount != null)
-            {
-                return dbConnect.DeleteAccountById(CurrentAccount.Id);
-            }
+        //private bool DeleteAccount()
+        //{
+        //    if (CurrentAccount != null)
+        //    {
+        //        return dbConnect.DeleteAccountById(CurrentAccount.Id);
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
         /// <summary>
         /// Checks if username meets requirements by containing a letter and no whitespace.
@@ -217,7 +216,6 @@ namespace BudgetCalculator
                         ecoObj.Name = expenseName;
                         ecoObj.Amount = amount;
                         ecoObj.Interval = interval;
-                        ((Goal)ecoObj).GoalAmount = goalAmount;
                         ((Goal)ecoObj).AmountSavedSoFar = amountSavedSoFar;
                         ((Goal)ecoObj).MonthsToGoal = monthsToGoal;
                         //((Goal)ecoObj).CurrentTime = n�t? annars nej.

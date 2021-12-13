@@ -52,10 +52,9 @@ namespace BudgetCalculator
                     { new Goal
                         {
                         Name = "HELIKOPTER - rosa",
-                        Amount = 900,
+                        Amount = 90000,
                         CreationTime = DateTime.Now,
                         Interval = 1,
-                        GoalAmount = 999999,
                         AmountSavedSoFar = 0,
                         SaveToDate = false,
                         }

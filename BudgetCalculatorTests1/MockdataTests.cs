@@ -25,5 +25,12 @@ namespace BudgetCalculator.Tests
             var x = DbExtensions.EmptyAllTables();
             Assert.IsTrue(x);
         }
+
+        [TestMethod()]
+        public void DeleteAllTables()
+        {
+            var x = DbExtensions.DeleteTables();
+            Assert.IsTrue(x);
+        }
     }
 }
