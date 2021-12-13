@@ -216,7 +216,6 @@ namespace BudgetCalculator
                         ecoObj.Name = expenseName;
                         ecoObj.Amount = amount;
                         ecoObj.Interval = interval;
-                        ((Goal)ecoObj).GoalAmount = goalAmount;
                         ((Goal)ecoObj).AmountSavedSoFar = amountSavedSoFar;
                         ((Goal)ecoObj).MonthsToGoal = monthsToGoal;
                         //((Goal)ecoObj).CurrentTime = n�t? annars nej.

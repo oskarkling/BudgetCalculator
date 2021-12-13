@@ -255,17 +255,6 @@ namespace BudgetCalculator.Tests
         }
 
         [TestMethod()]
-        public void UpdateGoalGoalAmountTest()
-        {
-            var user = GetUserAndEcos();
-            var goal = dc.GetGoalsOfUserId(user.Id).FirstOrDefault();
-            goal.GoalAmount = 333333;
-
-            var result = dc.UpdateEco(goal);
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod()]
         public void UpdateGoalAmountTest()
         {
             var user = GetUserAndEcos();
@@ -443,7 +432,7 @@ namespace BudgetCalculator.Tests
         {
             dc.RegisterAccount("Proudmoore", "Lady1337");
             var user = dc.GetAccountByUsernameAndPassword("Proudmoore", "Lady1337");
-            var objs = CreateTestEco(user, "goal", 2, "Tower", true, 1, 5000, 12400, 9999999, 0, false, 5000);
+            var objs = CreateTestEco(user, "goal", 2, "Tower", true, 1, 9999999, 12400, 0, false, 5000);
             var success1 = dc.CreateEco(objs.First());
             var success2 = dc.CreateEco(objs.Last());
             var goals = dc.GetGoalsOfUserId(user.Id);
@@ -460,7 +449,7 @@ namespace BudgetCalculator.Tests
         {
             dc.RegisterAccount("Grimble", "CooltPassword");
             var user = dc.GetAccountByUsernameAndPassword("Grimble", "CooltPassword");
-            var obj = CreateTestEco(user, "goal", 2, "Tower", true, 1, 5000, 12400, 9999999, 0, false, 5000).First();
+            var obj = CreateTestEco(user, "goal", 2, "Tower", true, 1, 9999999, 12400, 0, false, 5000).First();
             var success1 = dc.CreateEco(obj);
             var goal = dc.GetGoalsOfUserId(user.Id);
             var result = dc.DeleteGoalById(user.Id, obj.Id);
@@ -539,13 +528,13 @@ namespace BudgetCalculator.Tests
         public void CreateGoalTest()
         {
             var user = GetUser();
-            var income = CreateTestEco(user, "saving", 1, "TestGoal2", true, 1, 300, 5, 300000, 20, false, 20).First();
+            var income = CreateTestEco(user, "saving", 1, "TestGoal2", true, 1, 9999999, 5, 20, false, 20).First();
             var results = dc.CreateEco(income);
 
             Assert.IsTrue(results);
         }
 
-        private List<EconomicObject> CreateTestEco(Account acc, string typeOfObj, int amountOfObjToCreate, string name, bool rec, int interval, int amount, decimal amountSavedSoFar = 0, decimal goalAmount = 0, int monthsToGoal = 0, bool saveToDate = false, decimal saveEachMonth = 0)
+        private List<EconomicObject> CreateTestEco(Account acc, string typeOfObj, int amountOfObjToCreate, string name, bool rec, int interval, int amount, decimal amountSavedSoFar = 0, int monthsToGoal = 0, bool saveToDate = false, decimal saveEachMonth = 0)
         {
             List<EconomicObject> ecos = new();
 
@@ -689,7 +678,6 @@ namespace BudgetCalculator.Tests
                             CreationTime = DateTime.Now,
                             Interval = interval,
                             AmountSavedSoFar = amountSavedSoFar,
-                            GoalAmount = goalAmount,
                             MonthsToGoal = monthsToGoal,
                             SaveToDate = saveToDate,
                             CurrentTime = DateTime.Now,
@@ -708,7 +696,6 @@ namespace BudgetCalculator.Tests
                             CreationTime = DateTime.Now,
                             Interval = interval,
                             AmountSavedSoFar = amountSavedSoFar,
-                            GoalAmount = goalAmount,
                             MonthsToGoal = monthsToGoal,
                             SaveToDate = saveToDate,
                             CurrentTime = DateTime.Now,
@@ -724,7 +711,6 @@ namespace BudgetCalculator.Tests
                             CreationTime = DateTime.Now,
                             Interval = interval,
                             AmountSavedSoFar = amountSavedSoFar,
-                            GoalAmount = goalAmount,
                             MonthsToGoal = monthsToGoal,
                             SaveToDate = saveToDate,
                             CurrentTime = DateTime.Now,
@@ -802,10 +788,9 @@ namespace BudgetCalculator.Tests
                         new Goal
                         {
                         Name = "HELIKOPTER - rosa",
-                        Amount = 900,
+                        Amount = 900900,
                         CreationTime = DateTime.Now,
                         Interval = 1,
-                        GoalAmount = 999999,
                         AmountSavedSoFar = 0,
                         SaveToDate = false
                         }
