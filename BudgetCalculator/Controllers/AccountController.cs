@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +39,10 @@ namespace BudgetCalculator
             return false;
         }
 
+        /// <summary>
+        /// Fetches the economicObjects lists from database depending on Account id
+        /// </summary>
+        /// <returns>true if successful, false if not</returns>
         private bool FetchEconomicObjectesbyID()
         {
             try
@@ -87,15 +90,15 @@ namespace BudgetCalculator
             }
         }
 
-        private bool DeleteAccount()
-        {
-            if (CurrentAccount != null)
-            {
-                return dbConnect.DeleteAccountById(CurrentAccount.Id);
-            }
+        //private bool DeleteAccount()
+        //{
+        //    if (CurrentAccount != null)
+        //    {
+        //        return dbConnect.DeleteAccountById(CurrentAccount.Id);
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
         /// <summary>
         /// Checks if username meets requirements by containing a letter and no whitespace.
@@ -184,104 +187,237 @@ namespace BudgetCalculator
                 {
                     if(CurrentAccount.Id == obj.AccountId)
                     {
-                        eco.AddEconomicObject(obj);
-                        
-                        return true;
+                        var success = eco.AddEconomicObject(obj);
+                        if (success)
+                        {
+                            return AddEcoObjectToAccountList(obj);
+                        }
                     }
                 }
             }
             return false;
         }
 
-        public void UpdateObject(EconomicObject ecoObj, bool loggedIn, string expenseName = "", decimal amount = 0, int interval = 0, bool recurring = false, decimal goalAmount = 0, decimal amountSavedSoFar = 0, int monthsToGoal = 0, bool savedToDate = false, decimal saveEachMonth = 0)
+        /// <summary>
+        /// Adds the economic object to the correct Account list
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>true if successful, false if not</returns>
+        public bool AddEcoObjectToAccountList(EconomicObject obj)
         {
-            if (loggedIn && CurrentAccount != null)
+            if(obj != null && obj.AccountId == CurrentAccount.Id)
+            {
+                if (obj is Income)
+                {
+                    CurrentAccount.Incomes.Add((Income)obj);
+                }
+                if (obj is Expense)
+                {
+                    CurrentAccount.Expenses.Add((Expense)obj);
+                }
+                if (obj is Saving)
+                {
+                    CurrentAccount.Savings.Add((Saving)obj);
+                }
+                if (obj is Goal)
+                {
+                    CurrentAccount.Goals.Add((Goal)obj);
+                }
+
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Updates an economic object
+        /// </summary>
+        /// <param name="ecoObj"></param>
+        /// <returns>true if successful, false if not</returns>
+        public bool UpdateObject(EconomicObject ecoObj)
+        {
+            if (AccountLoggedIn && CurrentAccount != null)
             {
                 if (ecoObj != null)
                 {
                     if (ecoObj is Expense)
                     {
-                        ecoObj.Name = expenseName;
-                        ecoObj.Amount = amount;
-                        ecoObj.Interval = interval;
-                        ((Expense)ecoObj).Recurring = recurring;
+                        if (dbConnect.UpdateEco(ecoObj))
+                        {
+                            var obj = CurrentAccount.Expenses.FirstOrDefault(e => e.Id == ecoObj.Id);
+                            int index = CurrentAccount.Expenses.FindIndex(i => i.Id == ecoObj.Id);
+                            if(obj != null && index >= 0)
+                            {
+                                CurrentAccount.Expenses[index] = (Expense)ecoObj;
+                                return true;
+                            }
+                        }
                     }
                     if (ecoObj is Income)
                     {
-                        ecoObj.Name = expenseName;
-                        ecoObj.Amount = amount;
-                        ecoObj.Interval = interval;
-                        ((Income)ecoObj).Recurring = recurring;
+                        if (dbConnect.UpdateEco(ecoObj))
+                        {
+                            var obj = CurrentAccount.Incomes.FirstOrDefault(e => e.Id == ecoObj.Id);
+                            int index = CurrentAccount.Incomes.FindIndex(i => i.Id == ecoObj.Id);
+                            if (obj != null && index >= 0)
+                            {
+                                CurrentAccount.Incomes[index] = (Income)ecoObj;
+                                return true;
+                            }
+                        }
                     }
                     if (ecoObj is Goal)
                     {
-                        ecoObj.Name = expenseName;
-                        ecoObj.Amount = amount;
-                        ecoObj.Interval = interval;
-                        ((Goal)ecoObj).GoalAmount = goalAmount;
-                        ((Goal)ecoObj).AmountSavedSoFar = amountSavedSoFar;
-                        ((Goal)ecoObj).MonthsToGoal = monthsToGoal;
-                        //((Goal)ecoObj).CurrentTime = n�t? annars nej.
-                        ((Goal)ecoObj).SaveToDate = savedToDate;
-                        ((Goal)ecoObj).SaveEachMonth = saveEachMonth;
+                        if (dbConnect.UpdateEco(ecoObj))
+                        {
+                            var obj = CurrentAccount.Goals.FirstOrDefault(e => e.Id == ecoObj.Id);
+                            int index = CurrentAccount.Goals.FindIndex(i => i.Id == ecoObj.Id);
+                            if (obj != null && index >= 0)
+                            {
+                                CurrentAccount.Goals[index] = (Goal)ecoObj;
+                                return true;
+                            }
+                        }
                     }
                     if (ecoObj is Saving)
                     {
-                        ecoObj.Name = expenseName;
-                        ecoObj.Amount = amount;
-                        ecoObj.Interval = interval;
-                        ((Expense)ecoObj).Recurring = recurring;
+                        if (dbConnect.UpdateEco(ecoObj))
+                        {
+                            var obj = CurrentAccount.Savings.FirstOrDefault(e => e.Id == ecoObj.Id);
+                            int index = CurrentAccount.Savings.FindIndex(i => i.Id == ecoObj.Id);
+                            if (obj != null && index >= 0)
+                            {
+                                CurrentAccount.Savings[index] = (Saving)ecoObj;
+                                return true;
+                            }
+                        }
                     }
-
-                    //Prata med crud f�r uppdatering av expense objekt
                 }
             }
-
+            return false;
         }
 
 
-        //public bool DeleteObject(EconomicObject ecoObj, bool loggedIn)
-        //{
-        //    if (loggedIn && CurrentAccount != null)
-        //    {
-        //        //prata med crud on expense.Id existerar
-        //        if (ecoObj != null)
-        //        {
-        //            if (ecoObj is Expense)
-        //            {
-        //                int tempId = ecoObj.Id;
-        //                var obj = listOfExpenses.FirstOrDefault(e => e.Id == ecoObj.Id);
-        //                listOfExpenses.Remove(obj);
-        //                return dbConnect.DeleteExpenseById(CurrentAccount.Id, tempId);
-        //                //pratar med crud f�r att radera ur databas, skicka in tempId
-        //            }
-        //            if (ecoObj is Income)
-        //            {
-        //                int tempId = ecoObj.Id;
-        //                var obj = listOfIncomes.FirstOrDefault(e => e.Id == ecoObj.Id);
-        //                listOfIncomes.Remove(obj);
-        //                return dbConnect.DeleteIncomeById(CurrentAccount.Id, tempId);
-        //                //pratar med crud f�r att radera ur databas, skicka in tempId
-        //            }
-        //            if (ecoObj is Goal)
-        //            {
-        //                int tempId = ecoObj.Id;
-        //                var obj = listOfGoals.FirstOrDefault(e => e.Id == ecoObj.Id);
-        //                listOfGoals.Remove(obj);
-        //                return dbConnect.DeleteGoalById(CurrentAccount.Id, tempId);
-        //                //pratar med crud f�r att radera ur databas, skicka in tempId
-        //            }
-        //            if (ecoObj is Saving)
-        //            {
-        //                int tempId = ecoObj.Id;
-        //                var obj = listOfSavings.FirstOrDefault(e => e.Id == ecoObj.Id);
-        //                listOfSavings.Remove(obj);
-        //                return dbConnect.DeleteSavingById(CurrentAccount.Id, tempId);
-        //                //pratar med crud f�r att radera ur databas, skicka in tempId
-        //            }
-        //        }
-        //    }
-        //    return false;
-        //}
+        /// <summary>
+        /// Deletes an EconomicObject from the Account list
+        /// </summary>
+        /// <param name="ecoObj"></param>
+        /// <returns>true if successful, false if not</returns>
+        public bool DeleteObject(EconomicObject ecoObj)
+        {
+            if (AccountLoggedIn && CurrentAccount != null)
+            {
+                if (ecoObj != null)
+                {
+                    if (ecoObj is Expense)
+                    {
+                        int tempId = ecoObj.Id;
+                        var obj = CurrentAccount.Expenses.FirstOrDefault(e => e.Id == ecoObj.Id);
+                        CurrentAccount.Expenses.Remove(obj);
+                        return dbConnect.DeleteExpenseById(CurrentAccount.Id, tempId);
+                    }
+                    if (ecoObj is Income)
+                    {
+                        int tempId = ecoObj.Id;
+                        var obj = CurrentAccount.Incomes.FirstOrDefault(e => e.Id == ecoObj.Id);
+                        CurrentAccount.Incomes.Remove(obj);
+                        return dbConnect.DeleteIncomeById(CurrentAccount.Id, tempId);
+                    }
+                    if (ecoObj is Goal)
+                    {
+                        int tempId = ecoObj.Id;
+                        var obj = CurrentAccount.Goals.FirstOrDefault(e => e.Id == ecoObj.Id);
+                        CurrentAccount.Goals.Remove(obj);
+                        return dbConnect.DeleteGoalById(CurrentAccount.Id, tempId);
+                    }
+                    if (ecoObj is Saving)
+                    {
+                        int tempId = ecoObj.Id;
+                        var obj = CurrentAccount.Savings.FirstOrDefault(e => e.Id == ecoObj.Id);
+                        CurrentAccount.Savings.Remove(obj);
+                        return dbConnect.DeleteSavingById(CurrentAccount.Id, tempId);
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Get balance remaining for the user
+        /// </summary>
+        /// <returns>decimal</returns>
+        public decimal GetBalance()
+        {
+            return eco.CalculateBalance(GetTotalIncome(), GetTotalSavings(), GetTotalExpense(), GetTotalGoals());
+        }
+
+        /// <summary>
+        /// Returns decimal value of all incomes in account income list
+        /// </summary>
+        /// <returns>Decimal</returns>
+        public decimal GetTotalIncome()
+        {
+            var income = CurrentAccount.Incomes.Where(i => i.AccountId == CurrentAccount.Id).ToList();
+            return eco.CalculateTotalIncome(income);
+        }
+
+        /// <summary>
+        /// Returns decimal value of all savings in account savings list
+        /// </summary>
+        /// <returns></returns>
+        public decimal GetTotalSavings()
+        {
+            var savings = CurrentAccount.Savings.Where(i => i.AccountId == CurrentAccount.Id).ToList();
+            return eco.CalculateTotalSavings(savings);
+        }
+
+        /// <summary>
+        /// Returns decial value of all expenses in account expenses list
+        /// </summary>
+        /// <returns>decimal</returns>
+        public decimal GetTotalExpense()
+        {
+            var expenses = CurrentAccount.Expenses.Where(i => i.AccountId == CurrentAccount.Id).ToList();
+            return eco.CalculateTotalExpenses(expenses);
+        }
+
+        /// <summary>
+        /// Gets the calculated end date if prop SaveEachMonth is prefilled
+        /// </summary>
+        /// <param name="goal"></param>
+        /// <returns>the end date for reaching goal</returns>
+        public DateTime GetGoalEndDate(Goal goal)
+        {
+            if(goal.SaveEachMonth != 0)
+            {
+                return eco.CalculateEndDate(goal);
+            }
+            return new DateTime();
+        }
+
+        /// <summary>
+        /// Gets the calculated amount needed to save each month to reach goal
+        /// </summary>
+        /// <param name="goal"></param>
+        /// <returns>decimal, the amound needed per month</returns>
+        public decimal GetGoalAmountNeededEachMonth(Goal goal)
+        {
+            if (goal.SaveToDate && goal.MonthsToGoal != 0)
+            {
+                return eco.CalculateAmountToSave(goal);
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Returns decimal value of all goals in account goals list
+        /// </summary>
+        /// <returns>decimal</returns>
+        public decimal GetTotalGoals()
+        {
+            var goals = CurrentAccount.Goals.Where(g => g.AccountId == CurrentAccount.Id).ToList();
+            return eco.CalculateTotalGoals(goals);
+        }
     }
 }
