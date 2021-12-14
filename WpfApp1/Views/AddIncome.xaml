@@ -67,9 +67,10 @@
                 Margin="0 0 0 10"/>
             <ListBox x:Name="incomeListbox" MaxHeight="100"/>
 
-
             <Button VerticalAlignment ="Top" Width="100" Height="40" Content="ADD INCOME" 
-                    Margin="60,50,60,0" Click="AddIncomeBtn_Click"/>
+                    Margin="60,0,60,0" Click="AddIncomeBtn_Click"/>
+            <Button VerticalAlignment ="Top" Width="100" Height="40" Content="BACK" 
+                    Margin="60,0,60,0" Click="Back_Click"/>
         </StackPanel>
         
     </Grid>

@@ -70,7 +70,9 @@
                                         VerticalAlignment="Center"
                                         Foreground="White"/>
             <Button VerticalAlignment ="Top" Width="100" Height="40" Content="ADD SAVING" 
-                    Margin="60,60,60,0" Click="AddSavingBtn_Click"/>
+                    Margin="60,0,60,0" Click="AddSavingBtn_Click"/>
+            <Button VerticalAlignment ="Top" Width="100" Height="40" Content="BACK" 
+                    Margin="60,0,60,0" Click="Back_Click"/>
         </StackPanel>
 
     </Grid>

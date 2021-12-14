@@ -24,9 +24,14 @@ namespace WpfApp1.Views
         public AddSaving()
         {
             InitializeComponent();
+            UpdateUI();
+            
+        }
+        private void UpdateUI()
+        {
             foreach (var item in BackendManager.accountController.CurrentAccount.Savings)
             {
-                savingListbox.Items.Add($"{item.Name} | {item.Amount} | {item.Interval}");
+                savingListbox.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
         private void AddSavingBtn_Click(object sender, RoutedEventArgs e)
@@ -59,6 +64,7 @@ namespace WpfApp1.Views
                 if (BackendManager.accountController.CreateAnEconomicObject(saving))
                 {
                     MessageBox.Show("SAVING ADDED");
+                    UpdateUI();
                 }
                 else
                 {
@@ -66,6 +72,12 @@ namespace WpfApp1.Views
                 }
             }
 
+        }
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow main = new MainWindow();
+            main.Show();
+            this.Close();
         }
 
         private void GetCurrentUser(out Account loggedInAccount)

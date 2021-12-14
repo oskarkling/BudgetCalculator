@@ -25,13 +25,15 @@ namespace WpfApp1.Views
         public AddIncome()
         {
             InitializeComponent();
-            var income = new ObservableCollection<Income>(BackendManager.accountController.CurrentAccount.Incomes);
+            UpdateUI();
+        }
+        private void UpdateUI()
+        {
             foreach (var item in BackendManager.accountController.CurrentAccount.Incomes)
             {
-                incomeListbox.Items.Add($"{item.Name} | {item.Amount} | {item.Interval}");
+                incomeListbox.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
-
 
         private void AddIncomeBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -65,6 +67,7 @@ namespace WpfApp1.Views
                 if (BackendManager.accountController.CreateAnEconomicObject(income))
                 {
                     MessageBox.Show("INCOME ADDED");
+                    UpdateUI();
                 }
                 else
                 {
@@ -73,6 +76,12 @@ namespace WpfApp1.Views
 
             }
 
+        }
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow main = new MainWindow();
+            main.Show();
+            this.Close();
         }
 
         private void GetCurrentUser(out Account loggedInAccount)

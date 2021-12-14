@@ -27,7 +27,6 @@ namespace WpfApp1.Views
         public AddExpense()
         {
             InitializeComponent();
-
             UpdateUI();
         }
 
@@ -35,7 +34,7 @@ namespace WpfApp1.Views
         {
             foreach (var item in BackendManager.accountController.CurrentAccount.Expenses)
             {
-                expenseListbox.Items.Add($"{item.Name} | {item.Amount} | {item.Interval}");
+                expenseListbox.Items.Add($"{item.Name} | {item.Amount}");
             }
             //expenseListbox.ItemsSource = BackendManager.accountController.CurrentAccount.Expenses.; 
         }
@@ -71,7 +70,6 @@ namespace WpfApp1.Views
                 if(BackendManager.accountController.CreateAnEconomicObject(expense))
                 {
                     MessageBox.Show("EXPENSE ADDED");
-                    
                     UpdateUI();
                 }
                 else
