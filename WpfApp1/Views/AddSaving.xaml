@@ -65,11 +65,14 @@
             Background="White"
             Opacity="0.5"
                 Margin="0 0 0 10"/>
+            <ListBox x:Name="savingListbox" MaxHeight="100"/>
             <iconPacks:PackIconMaterial Kind="ArrowLeftThick"
                                         VerticalAlignment="Center"
                                         Foreground="White"/>
             <Button VerticalAlignment ="Top" Width="100" Height="40" Content="ADD SAVING" 
-                    Margin="60,200,60,0" Click="AddSavingBtn_Click"/>
+                    Margin="60,0,60,0" Click="AddSavingBtn_Click"/>
+            <Button VerticalAlignment ="Top" Width="100" Height="40" Content="BACK" 
+                    Margin="60,0,60,0" Click="Back_Click"/>
         </StackPanel>
 
     </Grid>

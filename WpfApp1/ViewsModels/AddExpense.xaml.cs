@@ -19,12 +19,25 @@ namespace WpfApp1.Views
     /// <summary>
     /// Interaction logic for AddExpense.xaml
     /// </summary>
+    /// 
+
     public partial class AddExpense : Window
     {
+    
         public AddExpense()
         {
             InitializeComponent();
+            UpdateUI();
         }
+
+        private void UpdateUI()
+        {
+            foreach (var item in BackendManager.accountController.CurrentAccount.Expenses)
+            {
+                expenseListbox.Items.Add($"{item.Name} | {item.Amount}");
+            }
+        }
+
         private void AddExpenseBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -32,7 +45,7 @@ namespace WpfApp1.Views
             var timespanInput = expenseTimespan.SelectedIndex;
             var parseSuccessfull = decimal.TryParse(expenseAmount.Text, out decimal amount);
             bool recurring = true;
-            GetCurrentUser(out Account loggedInAccount);
+            var loggedInAccount = BackendManager.accountController.CurrentAccount;
             ConvertTimeSpan(ref timespanInput, ref recurring);
             if (!parseSuccessfull && !Validator.GetAddExpenseValidation())
             {
@@ -50,12 +63,11 @@ namespace WpfApp1.Views
                     CreationTime = DateTime.Now,
                     AccountId = loggedInAccount.Id
                 };
-                MessageBox.Show($"{expense.Name} | {expense.Interval} | {expense.Amount} | {expense.Recurring} | {expense.CreationTime} | {expense.AccountId}");
                 
-
                 if(BackendManager.accountController.CreateAnEconomicObject(expense))
                 {
                     MessageBox.Show("EXPENSE ADDED");
+                    UpdateUI();
                 }
                 else
                 {

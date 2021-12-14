@@ -42,12 +42,9 @@ namespace WpfApp1
 
             if(BackendManager.accountController.Login(username, password))
             {
-
-                //MessageBox.Show("Success");
                 MainWindow main = new MainWindow();
                 main.Show();
                 this.Close();
-                // SLUSSA VIDARE TILL HEM VY
             }
             else
             {

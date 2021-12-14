@@ -1,6 +1,7 @@
 ﻿using BudgetCalculator;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,16 @@ namespace WpfApp1.Views
         public AddIncome()
         {
             InitializeComponent();
+            UpdateUI();
         }
+        private void UpdateUI()
+        {
+            foreach (var item in BackendManager.accountController.CurrentAccount.Incomes)
+            {
+                incomeListbox.Items.Add($"{item.Name} | {item.Amount}");
+            }
+        }
+
         private void AddIncomeBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -50,20 +60,27 @@ namespace WpfApp1.Views
                     CreationTime = DateTime.Now,
                     AccountId = loggedInAccount.Id
                 };
-                MessageBox.Show($"{income.Name} | {income.Interval} | {income.Amount} | {income.Recurring} | {income.CreationTime} | {income.AccountId}");
 
 
 
                 if (BackendManager.accountController.CreateAnEconomicObject(income))
                 {
                     MessageBox.Show("INCOME ADDED");
+                    UpdateUI();
                 }
                 else
                 {
                     MessageBox.Show("Could not add ");
                 }
+
             }
 
+        }
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow main = new MainWindow();
+            main.Show();
+            this.Close();
         }
 
         private void GetCurrentUser(out Account loggedInAccount)
