@@ -34,6 +34,10 @@ namespace WpfApp1.Views
                 incomeListbox.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+        private void AddItemToListBox(EconomicObject ecoObject)
+        {
+            incomeListbox.Items.Add($"{ecoObject.Name} | {ecoObject.Amount}");
+        }
 
         private void AddIncomeBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -66,7 +70,7 @@ namespace WpfApp1.Views
                 if (BackendManager.accountController.CreateAnEconomicObject(income))
                 {
                     MessageBox.Show("INCOME ADDED");
-                    UpdateUI();
+                    AddItemToListBox(income);
                 }
                 else
                 {

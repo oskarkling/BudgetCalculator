@@ -37,6 +37,10 @@ namespace WpfApp1.Views
                 expenseListbox.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+        private void AddItemToListBox(EconomicObject ecoObject)
+        {
+            expenseListbox.Items.Add($"{ecoObject.Name} | {ecoObject.Amount}");
+        }
 
         private void AddExpenseBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -67,7 +71,7 @@ namespace WpfApp1.Views
                 if(BackendManager.accountController.CreateAnEconomicObject(expense))
                 {
                     MessageBox.Show("EXPENSE ADDED");
-                    UpdateUI();
+                    AddItemToListBox(expense);
                 }
                 else
                 {

@@ -34,6 +34,10 @@ namespace WpfApp1.Views
                 savingListbox.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+        private void AddItemToListBox(EconomicObject ecoObject)
+        {
+            savingListbox.Items.Add($"{ecoObject.Name} | {ecoObject.Amount}");
+        }
         private void AddSavingBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -63,7 +67,7 @@ namespace WpfApp1.Views
                 if (BackendManager.accountController.CreateAnEconomicObject(saving))
                 {
                     MessageBox.Show("SAVING ADDED");
-                    UpdateUI();
+                    AddItemToListBox(saving);
                 }
                 else
                 {

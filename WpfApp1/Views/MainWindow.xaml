@@ -25,6 +25,7 @@
             <Button Width="100" Height="40" Content="ADD EXPENSE" Margin="60,0,60,0" Click="openExpenseViewBtn_Click"/>
             <Button Width="100" Height="40" Content="ADD INCOME" Margin="60,0,60,0" Click="openIncomeViewBtn_Click"/>
             <Button Width="100" Height="40" Content="ADD SAVING" Margin="60,0,60,0" Click="openSavingViewBtn_Click"/>
+            <Button Width="100" Height="40" Content="ADD GOAL" Margin="60,0,60,0" Click="openAddGoalViewBtn_Click"/>
         </StackPanel>
 
 

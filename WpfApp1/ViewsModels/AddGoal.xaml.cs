@@ -23,5 +23,13 @@ namespace WpfApp1.Views
         {
             InitializeComponent();
         }
+        private void SaveEachMonth_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Monthly");
+        }
+        private void SaveToDate_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("To Date");
+        }
     }
 }

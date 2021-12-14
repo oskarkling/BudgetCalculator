@@ -44,5 +44,11 @@ namespace WpfApp1
             savingView.Show();
             this.Close();
         }
+        private void openAddGoalViewBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AddGoal addGoal = new AddGoal();
+            addGoal.Show();
+            this.Close();
+        }
     }
 }
