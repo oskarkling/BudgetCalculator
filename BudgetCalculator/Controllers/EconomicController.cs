@@ -126,7 +126,7 @@ namespace BudgetCalculator
         //    }
         //}
 
-        private DateTime CalculateEndDate(Goal obj)
+        public DateTime CalculateEndDate(Goal obj)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace BudgetCalculator
             return new DateTime();
         }
 
-        private decimal CalculateAmountToSave(Goal obj)
+        public decimal CalculateAmountToSave(Goal obj)
         {
             try
             {

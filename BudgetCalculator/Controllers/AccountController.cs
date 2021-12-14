@@ -39,6 +39,10 @@ namespace BudgetCalculator
             return false;
         }
 
+        /// <summary>
+        /// Fetches the economicObjects lists from database depending on Account id
+        /// </summary>
+        /// <returns>true if successful, false if not</returns>
         private bool FetchEconomicObjectesbyID()
         {
             try
@@ -225,6 +229,11 @@ namespace BudgetCalculator
             return false;
         }
 
+        /// <summary>
+        /// Updates an economic object
+        /// </summary>
+        /// <param name="ecoObj"></param>
+        /// <returns>true if successful, false if not</returns>
         public bool UpdateObject(EconomicObject ecoObj)
         {
             if (AccountLoggedIn && CurrentAccount != null)
@@ -333,10 +342,15 @@ namespace BudgetCalculator
             return false;
         }
 
-        public void GetBalance()
+        /// <summary>
+        /// Get balance remaining for the user
+        /// </summary>
+        /// <returns>decimal</returns>
+        public decimal GetBalance()
         {
-            var res = eco.CalculateBalance(GetTotalIncome(), GetTotalSavings(), GetTotalExpense(), GetGoals());
+            return eco.CalculateBalance(GetTotalIncome(), GetTotalSavings(), GetTotalExpense(), GetTotalGoals());
         }
+
         /// <summary>
         /// Returns decimal value of all incomes in account income list
         /// </summary>
@@ -346,23 +360,61 @@ namespace BudgetCalculator
             var income = CurrentAccount.Incomes.Where(i => i.AccountId == CurrentAccount.Id).ToList();
             return eco.CalculateTotalIncome(income);
         }
+
+        /// <summary>
+        /// Returns decimal value of all savings in account savings list
+        /// </summary>
+        /// <returns></returns>
         public decimal GetTotalSavings()
         {
             var savings = CurrentAccount.Savings.Where(i => i.AccountId == CurrentAccount.Id).ToList();
             return eco.CalculateTotalSavings(savings);
         }
+
+        /// <summary>
+        /// Returns decial value of all expenses in account expenses list
+        /// </summary>
+        /// <returns>decimal</returns>
         public decimal GetTotalExpense()
         {
             var expenses = CurrentAccount.Expenses.Where(i => i.AccountId == CurrentAccount.Id).ToList();
             return eco.CalculateTotalExpenses(expenses);
         }
 
-        //goals section
-        public void GetGoal()
+        /// <summary>
+        /// Gets the calculated end date if prop SaveEachMonth is prefilled
+        /// </summary>
+        /// <param name="goal"></param>
+        /// <returns>the end date for reaching goal</returns>
+        public DateTime GetGoalEndDate(Goal goal)
         {
-
+            if(goal.SaveEachMonth != 0)
+            {
+                return eco.CalculateEndDate(goal);
+            }
+            return new DateTime();
         }
-        public decimal GetGoals()
+
+        /// <summary>
+        /// Gets the calculated amount needed to save each month to reach goal
+        /// </summary>
+        /// <param name="goal"></param>
+        /// <returns>decimal, the amound needed per month</returns>
+        public decimal GetGoalAmountNeededEachMonth(Goal goal)
+        {
+            if (goal.SaveToDate && goal.MonthsToGoal != 0)
+            {
+                return eco.CalculateAmountToSave(goal);
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Returns decimal value of all goals in account goals list
+        /// </summary>
+        /// <returns>decimal</returns>
+        public decimal GetTotalGoals()
         {
             var goals = CurrentAccount.Goals.Where(g => g.AccountId == CurrentAccount.Id).ToList();
             return eco.CalculateTotalGoals(goals);
