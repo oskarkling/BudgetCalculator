@@ -11,7 +11,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border CornerRadius="15" Grid.RowSpan="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border CornerRadius="15" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Border.Background>
                 <LinearGradientBrush>
                     <GradientStop Color="#7be9f6" Offset="0.0"/>
@@ -24,10 +28,19 @@
                    FontFamily="helvetica"
                    FontSize="22"
                    Foreground="White"/>
+        <TextBlock Grid.Column="1" Text="Your goals" HorizontalAlignment="Center" 
+                   FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="22"
+                   Foreground="White"/>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            
+        <ListBox x:Name="listboxGoals" MaxHeight="400"/>
+        </StackPanel>
         <StackPanel Grid.Row="1">
+            <!--NAME OF GOAL-->
             <Label HorizontalAlignment="Center" Content="Name of Goal" Margin="0 20 0 0"/>
-            <!--Ev max värde på hur många tecken på input-->
-            <TextBox x:Name="expenseName" FontFamily="Helvetica"
+            <TextBox x:Name="nameOfGoal" FontFamily="Helvetica"
                        FontWeight="Light"
                        Text="Ex Travel"
                        FontSize="20"
@@ -44,6 +57,57 @@
             Background="White"
             Opacity="0.5"
                 Margin="0 0 0 10"/>
+            <!--TOTAL AMOUNT TO SAVE-->
+            <Label HorizontalAlignment="Center" Content="Total Amount To Save"/>
+            <TextBox x:Name="totalAmountToSave" FontFamily="Helvetica"
+                       FontWeight="Light"
+                       Text="Ex 5000"
+                       FontSize="20"
+                       HorizontalAlignment="Center"
+                       Foreground="White"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       Width="100"                    
+                       Opacity="0.5"
+                       Margin="0,0,0,0"/>
+            <Border 
+            Width="100" 
+            Height="2" 
+            Background="White"
+            Opacity="0.5"
+                Margin="0 0 0 10"/>
+            <!--TOTAL AMOUNT TO SAVE EACH MONTH-->
+            <Label HorizontalAlignment="Center" Content="Amount To Save Each Month"/>
+            <TextBox x:Name="amountToSaveEachMonth" FontFamily="Helvetica"
+                       FontWeight="Light"
+                       Text="Ex 5000"
+                       FontSize="20"
+                       HorizontalAlignment="Center"
+                       Foreground="White"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       Width="100"                    
+                       Opacity="0.5"/>
+            <Border 
+            Width="100" 
+            Height="2" 
+            Background="White"
+            Opacity="0.5"
+                Margin="0 0 0 10"/>
+            <!--CALCULATE BUTTON-->
+            <Button x:Name="calculateBtn" VerticalAlignment ="Top" Width="100" Height="40" Content="CALCULATE" 
+                    Margin="60,10,60,0" Click="CalculateBtn_Click"/>
+            <!--ListBox-->
+            <ListBox x:Name="resultListbox" Width="200" Height="60" Margin="0 15 0 0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 12 0 0">
+                <!--ADD GOAL BUTTON-->
+            <Button x:Name="addGoalBtn" VerticalAlignment ="Top" Width="100" Height="40" Content="ADD GOAL" 
+                    Margin="60,0,10,0" Click="AddBtn_Click"/>
+                <!--GO BACK BUTTON-->
+            <Button VerticalAlignment ="Top" Width="100" Height="40" Content="BACK" 
+                    Margin="10,0,60,0" Click="Back_Click"/>
+            </StackPanel>
+
         </StackPanel>
     </Grid>
 </Window>

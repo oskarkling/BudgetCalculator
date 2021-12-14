@@ -25,11 +25,19 @@ namespace WpfApp1.Views
         }
         private void SaveEachMonth_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Monthly");
+            SaveEachMonthGoal monthlyGoal = new SaveEachMonthGoal();
+            monthlyGoal.Show();
+            this.Close();
         }
         private void SaveToDate_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("To Date");
+        }
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow main = new MainWindow();
+            main.Show();
+            this.Close();
         }
     }
 }
