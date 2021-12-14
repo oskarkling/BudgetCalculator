@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="AddExpense" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Border CornerRadius="15" Grid.RowSpan="2">
             <Border.Background>
                 <LinearGradientBrush>
@@ -15,9 +19,14 @@
                 </LinearGradientBrush>
             </Border.Background>            
         </Border>
-        <StackPanel HorizontalAlignment="Center">
+        <TextBlock Text="ADD EXPENSE" HorizontalAlignment="Center" 
+                   FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="22"
+                   Foreground="White"/>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
             <!--name of expense-->
-            <Label HorizontalAlignment="Center" Content="Name of Expense"></Label>
+            <Label HorizontalAlignment="Center" Content="Name of Expense" Margin="0 20 0 0"/>
             <!--Ev max värde på hur många tecken på input-->
             <TextBox x:Name="expenseName" FontFamily="Helvetica"
                        FontWeight="Light"
@@ -65,11 +74,11 @@
             Background="White"
             Opacity="0.5"
                 Margin="0 0 0 10"/>
-            <ListBox x:Name="expenseListbox" MaxHeight="100"/>
+            <ListBox x:Name="expenseListbox" MaxHeight="100" Margin="0 0 0 10"/>
             <Button VerticalAlignment ="Top" Width="100" Height="40" Content="ADD EXPENSE" 
                     Margin="60,0,60,0" Click="AddExpenseBtn_Click"/>
             <Button VerticalAlignment ="Top" Width="100" Height="40" Content="BACK" 
-                    Margin="60,0,60,0" Click="Back_Click"/>
+                    Margin="60,10,60,0" Click="Back_Click"/>
 
 
 
