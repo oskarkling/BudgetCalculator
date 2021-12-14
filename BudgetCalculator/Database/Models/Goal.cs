@@ -4,7 +4,7 @@ namespace BudgetCalculator
 {
     public class Goal : EconomicObject
     {
-        private decimal GoalAmount { get; set; } // Borde tas bort
+        
         public decimal AmountSavedSoFar { get; set; }
         public int MonthsToGoal { get; set; }
         public DateTime CurrentTime { get; set; }
