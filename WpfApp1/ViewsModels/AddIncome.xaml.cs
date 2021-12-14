@@ -60,7 +60,6 @@ namespace WpfApp1.Views
                     CreationTime = DateTime.Now,
                     AccountId = loggedInAccount.Id
                 };
-                //MessageBox.Show($"{income.Name} | {income.Interval} | {income.Amount} | {income.Recurring} | {income.CreationTime} | {income.AccountId}");
 
 
 

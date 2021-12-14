@@ -36,7 +36,6 @@ namespace WpfApp1.Views
             {
                 expenseListbox.Items.Add($"{item.Name} | {item.Amount}");
             }
-            //expenseListbox.ItemsSource = BackendManager.accountController.CurrentAccount.Expenses.; 
         }
 
         private void AddExpenseBtn_Click(object sender, RoutedEventArgs e)
@@ -64,9 +63,7 @@ namespace WpfApp1.Views
                     CreationTime = DateTime.Now,
                     AccountId = loggedInAccount.Id
                 };
-                MessageBox.Show($"{expense.Name} | {expense.Interval} | {expense.Amount} | {expense.Recurring} | {expense.CreationTime} | {expense.AccountId}");
                 
-
                 if(BackendManager.accountController.CreateAnEconomicObject(expense))
                 {
                     MessageBox.Show("EXPENSE ADDED");

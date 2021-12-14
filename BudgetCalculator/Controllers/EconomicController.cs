@@ -53,7 +53,7 @@ namespace BudgetCalculator
             else if (obj is Expense) successs = dbcon.CreateEco(obj as Expense);
             else successs = dbcon.CreateEco(obj as Saving);
 
-            return false;
+            return successs;
         }
 
         //private bool IsGoal(Goal obj)

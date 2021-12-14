@@ -59,7 +59,6 @@ namespace WpfApp1.Views
                     CreationTime = DateTime.Now,
                     AccountId = loggedInAccount.Id
                 };
-                MessageBox.Show($"{saving.Name} | {saving.Interval} | {saving.Amount} | {saving.Recurring} | {saving.CreationTime} | {saving.AccountId}");
 
                 if (BackendManager.accountController.CreateAnEconomicObject(saving))
                 {
