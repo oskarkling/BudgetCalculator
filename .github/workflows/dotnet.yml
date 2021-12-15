@@ -54,7 +54,7 @@ jobs:
         with:
           dotnet-version: 5.0.x
       - name: Test integration
-        working-directory: ./BudgetCalculatorTests
+        working-directory: ./BudgetCalculatorTests4
         run: dotnet test --verbosity normal
 
   deploy:
