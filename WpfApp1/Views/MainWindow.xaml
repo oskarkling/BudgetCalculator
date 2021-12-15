@@ -8,12 +8,18 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-        <Border CornerRadius="15" Grid.RowSpan="2">
+        <Border CornerRadius="15" Grid.RowSpan="3" Grid.ColumnSpan="6">
             <Border.Background>
                 <LinearGradientBrush>
                     <GradientStop Color="#7be9f6" Offset="0.0"/>
@@ -21,12 +27,69 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <StackPanel>
+        <!--HEADER-->
+        <TextBlock Grid.Column="1" Text="BankApp" HorizontalAlignment="Center" 
+                   FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="30"
+                   Foreground="White"/>
+        <!--USER-->
+        <TextBlock Grid.Column ="4" x:Name="greetUser" HorizontalAlignment="Center" 
+                   FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="30"
+                   Foreground="White"/>
+        <!--INCOMES-->
+        <Button Grid.Row="1" Grid.Column="1" Margin="0 10 0 0" Click="Incomes_Click">
+            <StackPanel>
+                <TextBlock Text="Your Incomes" HorizontalAlignment="Left" Margin="10 0 0 0" 
+                   FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="22"/>
+                <ListBox x:Name="listboxIncomes" MaxHeight="400" Height="300"/>
+                <Label HorizontalAlignment="Right" Content="TOTAL INCOME: "/>
+            </StackPanel>
+        </Button>
+        <!--Expenses-->
+        <Button Grid.Row="1" Grid.Column="2" Margin="0 10 0 0" Click="Expenses_Click">
+            <StackPanel>
+                <TextBlock Grid.Column="1" Text="Your Expenses" HorizontalAlignment="Left" Margin="10 0 0 0"  
+                   FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="22"/>
+                <ListBox x:Name="listboxExpenses" MaxHeight="400" Height="300"/>
+                <Label HorizontalAlignment="Right" Content="TOTAL EXPENSE: "/>
+            </StackPanel>
+        </Button>
+        <!--Savings-->
+        <Button Grid.Row="1" Grid.Column="3" Margin="0 10 0 0" Click="Savings_Click">
+            <StackPanel>
+                <TextBlock Grid.Column="1" Text="Your Savings" HorizontalAlignment="Left" Margin="10 0 0 0"  
+                   FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="22"/>
+                <ListBox x:Name="listboxSavings" MaxHeight="400" Height="300"/>
+                <Label HorizontalAlignment="Right" Content="TOTAL SAVING: "/>
+            </StackPanel>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="4" Margin="0 10 0 0" Click="Goals_Click">
+            <StackPanel>
+                <TextBlock Grid.Column="1" Text="Your Goals" HorizontalAlignment="Left" Margin="10 0 0 0"  
+                   FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="22"/>
+                <ListBox x:Name="listboxGoals" MaxHeight="400" Height="300"/>
+                <Label HorizontalAlignment="Right" Content="TOTAL GOAL: "/>
+            </StackPanel>
+        </Button>
+
+
+        <!--<StackPanel>
             <Button Width="100" Height="40" Content="ADD EXPENSE" Margin="60,0,60,0" Click="openExpenseViewBtn_Click"/>
             <Button Width="100" Height="40" Content="ADD INCOME" Margin="60,0,60,0" Click="openIncomeViewBtn_Click"/>
             <Button Width="100" Height="40" Content="ADD SAVING" Margin="60,0,60,0" Click="openSavingViewBtn_Click"/>
             <Button Width="100" Height="40" Content="ADD GOAL" Margin="60,0,60,0" Click="openAddGoalViewBtn_Click"/>
-        </StackPanel>
+        </StackPanel>-->
 
 
     </Grid>
