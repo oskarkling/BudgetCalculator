@@ -31,7 +31,9 @@ namespace WpfApp1.Views
         }
         private void SaveToDate_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("To Date");
+            SaveToEndDateGoal endDateGoal = new SaveToEndDateGoal();
+            endDateGoal.Show();
+            this.Close();
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {

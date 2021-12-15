@@ -36,7 +36,7 @@
                    FontFamily="helvetica"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
-            <Button Content="To Date" Width="100" Height="40" HorizontalAlignment="Center" Margin="0 0 0 30" Click="SaveToDate_Click"/>
+            <Button Content="To End Date" Width="100" Height="40" HorizontalAlignment="Center" Margin="0 0 0 30" Click="SaveToDate_Click"/>
             <TextBlock Height="50" Text="Click this if you need the item at a specific date" HorizontalAlignment="Center" TextWrapping="Wrap"  FontSize="17" FontWeight="Light"
                    FontFamily="helvetica"/>
         </StackPanel>

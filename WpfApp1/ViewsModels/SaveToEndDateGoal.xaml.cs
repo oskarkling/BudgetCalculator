@@ -16,17 +16,16 @@ using System.Windows.Shapes;
 namespace WpfApp1.Views
 {
     /// <summary>
-    /// Interaction logic for SaveEachMonthGoal.xaml
+    /// Interaction logic for SaveToEndDateGoal.xaml
     /// </summary>
-    public partial class SaveEachMonthGoal : Window
+    public partial class SaveToEndDateGoal : Window
     {
         Goal goal = new Goal();
-        public SaveEachMonthGoal()
+        public SaveToEndDateGoal()
         {
             InitializeComponent();
             UpdateUI();
             addGoalBtn.IsEnabled = false;
-
         }
         private void UpdateUI()
         {
@@ -44,12 +43,12 @@ namespace WpfApp1.Views
             var loggedInAccount = BackendManager.accountController.CurrentAccount;
             var goalName = nameOfGoal.Text;
             var totAmountToSaveTxt = totalAmountToSave.Text;
-            var amountPerMonthTxt = amountToSaveEachMonth.Text;
+            var numberOfMonthsTxt = numberOfMonths.Text;
 
             var totAmountParseSuccessfull = decimal.TryParse(totAmountToSaveTxt, out decimal totAmountToSave);
-            var amountPerMonthParseSuccessfull = decimal.TryParse(amountPerMonthTxt, out decimal amountPerMonth);
+            var numberOfMonthsParseSuccessfull = int.TryParse(numberOfMonthsTxt, out int numberOfMonthsToSave);
 
-            if (!totAmountParseSuccessfull || !amountPerMonthParseSuccessfull || string.IsNullOrEmpty(goalName))
+            if (!totAmountParseSuccessfull || !numberOfMonthsParseSuccessfull || string.IsNullOrEmpty(goalName))
             {
                 MessageBox.Show("Not valid input! Try again");
             }
@@ -57,21 +56,17 @@ namespace WpfApp1.Views
             {
                 goal.Name = goalName;
                 goal.Amount = totAmountToSave;
-                goal.SaveEachMonth = amountPerMonth;
+                goal.MonthsToGoal = numberOfMonthsToSave;
+                goal.SaveToDate = true;
                 goal.CreationTime = DateTime.Now;
                 goal.AccountId = loggedInAccount.Id;
 
-                var dateToAccomplishGoal = BackendManager.accountController.GetGoalEndDate(goal);
-                if (dateToAccomplishGoal < goal.CreationTime)
-                {
-                    MessageBox.Show("Something went wrong! Try again");
-                }
-                else
-                {
-                    resultListbox.Items.Clear();
-                    resultListbox.Items.Add($"you will afford {goal.Name} at\n{dateToAccomplishGoal.ToShortDateString()}\nwhen saving {goal.SaveEachMonth} per month");
-                    addGoalBtn.IsEnabled = true;
-                }
+                var goalAmountNeededEachMonth = BackendManager.accountController.GetGoalAmountNeededEachMonth(goal);
+
+                resultListbox.Items.Clear();
+                // display max 2 decimals if needed?
+                resultListbox.Items.Add($"you will have to save {string.Format(goalAmountNeededEachMonth % 1 == 0 ? "{0:0}" : "{0:0.00}", goalAmountNeededEachMonth)} each month\nto afford {goal.Name} in {goal.MonthsToGoal} months");
+                addGoalBtn.IsEnabled = true;
             }
         }
         private void AddBtn_Click(object sender, RoutedEventArgs e)
@@ -96,6 +91,5 @@ namespace WpfApp1.Views
             addGoal.Show();
             this.Close();
         }
-
     }
 }
