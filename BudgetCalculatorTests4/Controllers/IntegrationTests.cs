@@ -22,8 +22,8 @@ namespace BudgetCalculator
             List<bool> results = new();
             bool success = true;
 
-            ac.Register("Nicklass", "Passwsord1234");
-            results.Add(ac.Login("Nicklas", "Password1234"));
+            ac.Register("Nicklas", "Password");
+            results.Add(ac.Login("Nicklas", "Password"));
             var acc = ac.CurrentAccount;
 
             AddEcosForIntegrationTest(ac, results, acc);
