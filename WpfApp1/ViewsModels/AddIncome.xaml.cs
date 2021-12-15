@@ -92,7 +92,8 @@ namespace WpfApp1.Views
             var selectedIncome = BackendManager.accountController.CurrentAccount.Incomes.FirstOrDefault(i => i.Id == incomeId);
             if(selectedIncome != null)
             {
-
+                UpdateEconomicObject update = new UpdateEconomicObject();
+                update.Show();
             }
         }
 
