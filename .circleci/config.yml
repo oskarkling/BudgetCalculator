@@ -1,0 +1,27 @@
+version: 2.1 # Use version 2.1 to enable Orb usage.
+
+orbs:
+  win: circleci/windows@2.2.0 # The Windows orb give you everything you need to start using the Windows executor.
+
+workflows:
+  build-and-test:
+    jobs:
+      - build-and-test:
+          filters:
+            branches:
+              only:
+                - dev
+
+jobs:
+  build-and-test: # name of your job Yeah
+    executor: win/default # executor type Yeah
+    
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: Dotnet Build
+          command: dotnet build
+      - run:
+          name: Dotnet All Tests
+          command: dotnet test
