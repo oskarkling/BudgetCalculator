@@ -10,21 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BudgetCalculator.Controllers;
 
-namespace WpfApp1
+namespace WpfApp1.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AddGoal.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddGoal : Window
     {
-        public MainWindow()
+        public AddGoal()
         {
             InitializeComponent();
-            EconomicController eco = new EconomicController();
         }
     }
 }

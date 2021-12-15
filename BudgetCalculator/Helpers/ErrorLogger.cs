@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BudgetCalculator.Helpers
+namespace BudgetCalculator
 {
     /// <summary>
     /// Static class that contains a list of errors.

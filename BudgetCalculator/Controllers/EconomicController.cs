@@ -1,282 +1,262 @@
-﻿using BudgetCalculator.Helpers;
-using BudgetCalculator.Models;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace BudgetCalculator.Controllers
+namespace BudgetCalculator
 {
-    /// <summary>
-    /// The controller of EconomicObject objects.
-    /// </summary>
     public class EconomicController
     {
-        #region Public Methods
-
-        /// <summary>
-        /// Constructor for EconomicController
-        /// instanciate a new list of EconomicObject
-        /// </summary>
+        public List<EconomicObject> ListOfEcoObjs { get; }
+        public decimal RemainingBalance { get; set; }
+        
         public EconomicController()
         {
-            GetList = new List<EconomicObject>();
+            ListOfEcoObjs = new List<EconomicObject>();
         }
 
-        public List<EconomicObject> GetList { get; }
-
-        /// <summary>
-        /// Add Economic object to EconomicObjectList
-        /// </summary>
-        /// <param name="name">string name</param>
-        /// <param name="type">Type of object</param>
-        /// <param name="amount">double amount</param>
-        /// <returns>bool true or false</returns>
-        public bool AddEconomicObjectToList(string name, EconomicType type, double amount)
+        public bool UpdateEcoObjects()
         {
-            if (IsValidString(name) && IsAmountMoreThanZero(amount))
-            {
-                if (!DoListContainName(name))
+            try{
+                foreach(var ecoobj in ListOfEcoObjs)
                 {
-                    GetList.Add(new EconomicObject
+                    if(ecoobj is Goal)
                     {
-                        Name = name,
-                        Type = type,
-                        Amount = amount,
-                    });
-                    return true;
+                        ((Goal)ecoobj).AmountSavedSoFar += ((Goal)ecoobj).Amount;
+                        ((Goal)ecoobj).CurrentTime = ((Goal)ecoobj).CurrentTime.AddMonths(1);
+                        ((Goal)ecoobj).MonthsToGoal = ((Goal)ecoobj).MonthsToGoal - 1;
+                    }   
                 }
-                else
-                {
-                    string errormsg = $"{this} String name does already exist in economic object list";
-                    Debug.WriteLine(errormsg);
-                    ErrorLogger.Add(errormsg);
-                    return false;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Remove an economic object from EconomicObjectList
-        /// </summary>
-        /// <param name="name">string name</param>
-        /// <returns>bool true or false</returns>
-        public bool RemoveEconomicObjectFromList(string name)
-        {
-            if (IsValidString(name))
-            {
-                if (DoListContainName(name))
-                {
-                    GetList.RemoveAll(x => x.Name == name);
-                    return true;
-                }
-
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Updates an economic objects amount
-        /// </summary>
-        /// <param name="name">string name</param>
-        /// <param name="newAmount">double new amount</param>
-        /// <returns>bool true if success</returns>
-        public bool UpdateEconomicObjectAmount(string name, double newAmount)
-        {
-            if (IsValidString(name) && IsAmountMoreThanZero(newAmount) && !IsAmountMoreThanMaxValue(newAmount))
-            {
-                if (DoListContainName(name))
-                {
-                    foreach (var ecoObj in GetList)
-                    {
-                        if (ecoObj.Name.Contains(name))
-                        {
-                            ecoObj.Amount = newAmount;
-                            return true;
-                        }
-                    }
-                }
-                else
-                {
-                    string errormsg = $"{this} Name Does not exist in the list, therefore cannot update.";
-                    Debug.WriteLine(errormsg);
-                    ErrorLogger.Add(errormsg);
-                    return false;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Updates an economic object name if name
-        /// dosent exist
-        /// </summary>
-        /// <param name="oldName">string old name</param>
-        /// <param name="newName">string new name</param>
-        /// <returns>bool true if success else false</returns>
-        public bool UpdateEconomicObjectName(string oldName, string newName)
-        {
-            if (IsValidString(oldName) && IsValidString(newName))
-            {
-                foreach (var ecoObj in GetList)
-                {
-                    if (ecoObj.Name.Contains(oldName))
-                    {
-                        ecoObj.Name = newName;
-                        return true;
-                    }
-                }
-
-                string errormsg = $"{this} String name does not exist in economic object list";
-                Debug.WriteLine(errormsg);
-                ErrorLogger.Add(errormsg);
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        #endregion Public Methods
-
-        #region Private Methods
-        /// <summary>
-        /// Checks if incoming value is more than double.MaxValue
-        /// </summary>
-        /// <param name="amount"></param>
-        /// <returns>True if value is over double.MaxValue</returns>
-        private bool IsAmountMoreThanMaxValue(double amount)
-        {
-            if (amount > double.MaxValue)
-            {
                 return true;
             }
-            else
+            catch (Exception ex)
             {
-                string errormsg = $"{this} Amount was more than double.MaxValue";
-                Debug.WriteLine(errormsg);
-                ErrorLogger.Add(errormsg);
+                ErrorLogger.Add(ex.Message);
                 return false;
             }
         }
 
         /// <summary>
-        /// Checks so the string name dosent contain
-        /// null, string empty and string whitespace
+        /// Adds an economic object to list
         /// </summary>
-        /// <param name="check">string check</param>
-        /// <returns>bool if success</returns>
-        private bool IsValidString(string check)
+        /// <param name="obj"></param>
+        /// <returns> true if successful, false if not</returns>
+        public bool AddEconomicObject(EconomicObject obj)
         {
-            string errormsg;
-            if (!IsStringNull(check))
+            var dbcon = new DatabaseConnection();
+            if (obj == null) return false;
+
+            bool successs;
+
+            if (obj is Goal) successs = dbcon.CreateEco(obj as Goal);
+            else if (obj is Income) successs = dbcon.CreateEco(obj as Income);
+            else if (obj is Expense) successs = dbcon.CreateEco(obj as Expense);
+            else successs = dbcon.CreateEco(obj as Saving);
+
+            return successs;
+        }
+
+        //private bool IsGoal(Goal obj)
+        //{
+        //    if (obj.SaveToDate)
+        //    {
+        //        CalculateAmountToSave(obj);
+        //    }
+        //    else
+        //    {
+        //        CalculateEndDate(obj);
+        //    }
+
+        //    try
+        //    {
+        //        SaveObjToDatabase(obj);
+        //    }
+        //    catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+        //    return false;
+        //}
+
+        
+        public decimal CalculateTotalIncome(List<Income> income)
+        {
+            decimal total = 0;
+            if(income != null)
             {
-                if (!IsStringEmpty(check))
+                foreach (var item in income)
                 {
-                    if (!IsStringPreWhitespace(check))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        errormsg = $"{this} String name had a whitespace as first character";
-                        Debug.WriteLine(errormsg);
-                        ErrorLogger.Add(errormsg);
-                        return false;
-                    }
+                    total += item.Amount;
                 }
-                else
+            }
+            return total;
+        }
+        public decimal CalculateTotalSavings(List<Saving> savings)
+        {
+            decimal total = 0;
+            if (savings != null)
+            {
+                foreach (var item in savings)
                 {
-                    errormsg = $"{this} String name was empty";
-                    Debug.WriteLine(errormsg);
-                    ErrorLogger.Add(errormsg);
+                    total += item.Amount;
+                }
+            }
+            return total;
+        }
+        public decimal CalculateTotalExpenses(List<Expense> expenses)
+        {
+            decimal total = 0;
+            if (expenses != null)
+            {
+                foreach (var item in expenses)
+                {
+                    total += item.Amount;
+                }
+            }
+            return total;
+        }
+        //public void CalculateCurrentGoals(List<Goal> goals)
+        //{
+        //    var goalSummery = new List<Goal>();
+        //    decimal total = 0;
+        //    if (goals != null)
+        //    {
+        //        foreach (var item in goals)
+        //        {
+        //            if(item.)
+        //        }
+        //    }
+        //}
+
+        public DateTime CalculateEndDate(Goal obj)
+        {
+            try
+            {
+                obj.MonthsToGoal = (int)MathF.Ceiling((float)obj.Amount / (float)obj.SaveEachMonth);
+                return obj.CreationTime.AddMonths(obj.MonthsToGoal);
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+            return new DateTime();
+        }
+
+        public decimal CalculateAmountToSave(Goal obj)
+        {
+            try
+            {
+                return obj.SaveEachMonth = obj.Amount / obj.MonthsToGoal;
+            }
+            catch (Exception e) { ErrorLogger.Add(e.Message); }
+
+            return 0;
+        }
+        public decimal CalculateTotalGoals(List<Goal> goals)
+        {
+            decimal sum = 0;
+            if(goals != null)
+            {
+                foreach (var item in goals)
+                {
+                    sum += item.Amount;
+                }
+                return sum;
+            }
+            return 0;
+        }
+        public decimal CalculateBalance(decimal income, decimal expenses, decimal savings, decimal goals)
+        {
+            return income - (expenses + savings + goals);
+        }
+
+        public bool ReoccuringPayment(EconomicObject obj, int month)
+        {
+            int sum = 0;
+            if (obj != null)
+            {
+                if (obj is Expense expense && expense.Recurring)
+                {
+                    sum = expense.Interval + ReturnMonthOfCreationTime(obj);
+                }
+                if (obj is Income income && income.Recurring)
+                {
+                    sum = income.Interval + ReturnMonthOfCreationTime(obj);
+                }
+                if (obj is Saving saving && saving.Recurring)
+                {
+                    sum = saving.Interval + ReturnMonthOfCreationTime(obj);
+                }
+                var currentMonth = DateTime.Now.Month;
+
+                while (sum < currentMonth)
+                {
+                    sum += obj.Interval;
+                }
+
+                if (sum > currentMonth)
+                {
                     return false;
+                    //IspayedThisMonth = false;
+                }
+                if (sum == currentMonth /*Antingen datetime att checka senaste betalningen lr int som representerar månad*/)
+                {
+                    //Lägg till nytt datum för senaste betalning
+                    //IspayedThisMonth = true;
+                    return true;
                 }
             }
-            else
+            return false;
+        }
+        private int ReturnMonthOfCreationTime(EconomicObject obj)
+        {
+            return (Int32)obj.CreationTime.Month;
+        }
+
+        public bool JumpForward(EconomicObject obj, DateTime currentMonth)
+        {
+            if (obj is Saving saving && saving.Recurring)
             {
-                errormsg = $"{this} String name was null";
-                Debug.WriteLine(errormsg);
-                ErrorLogger.Add(errormsg);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Checks if string is null
-        /// </summary>
-        /// <param name="check">string check</param>
-        /// <returns>if string is null return false</returns>
-        private static bool IsStringNull(string check)
-        {
-            return check == null;
-        }
-
-        /// <summary>
-        /// Checks if string is Empty
-        /// </summary>
-        /// <param name="check">string check</param>
-        /// <returns>if string is empty return false</returns>
-        private static bool IsStringEmpty(string check)
-        {
-            return check.Length == 0;
-        }
-
-        /// <summary>
-        ///  Checks if string is starts with whitespace
-        /// </summary>
-        /// <param name="check">string check</param>
-        /// <returns>if string starts with whitespace return false</returns>
-        private static bool IsStringPreWhitespace(string check)
-        {
-            return check[0] == ' ';
-        }
-
-        /// <summary>
-        /// Checks if objects amount is greater than 0
-        /// </summary>
-        /// <param name="amount">double amount</param>
-        /// <returns>If double amount is greater than 0 return true</returns>
-        private bool IsAmountMoreThanZero(double amount)
-        {
-            if (amount > 0)
-            {
-                return true;
-            }
-            else
-            {
-                string errormsg = $"{this} Amount was less than zero";
-                Debug.WriteLine(errormsg);
-                ErrorLogger.Add(errormsg);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Checks if objects name already exists
-        /// </summary>
-        /// <param name="name">string name</param>
-        /// <returns>bool true if name dosent exists</returns>
-        private bool DoListContainName(string name)
-        {
-            foreach (var ecoObj in GetList)
-            {
-                if (ecoObj.Name.Contains(name))
+                if (saving.CreationTime <= currentMonth)
                 {
                     return true;
                 }
             }
-
+            if (obj is Expense expense && expense.Recurring)
+            {
+                if (expense.CreationTime <= currentMonth)
+                {
+                    return true;
+                }
+            }
+            if (obj is Goal goal)
+            {
+                if (goal.MonthsToGoal <= currentMonth.Month)
+                {
+                    return true;
+                }
+            }
             return false;
         }
-
-        #endregion Private Methods
+        public bool JumpBackward(EconomicObject obj, DateTime currentMonth)
+        {
+            if (obj is Saving saving && saving.Recurring)
+            {
+                if (saving.CreationTime >= currentMonth)
+                {
+                    return true;
+                }
+            }
+            if (obj is Expense expense && expense.Recurring)
+            {
+                if (expense.CreationTime >= currentMonth)
+                {
+                    return true;
+                }
+            }
+            if (obj is Goal goal)
+            {
+                if (goal.MonthsToGoal >= currentMonth.Month)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
