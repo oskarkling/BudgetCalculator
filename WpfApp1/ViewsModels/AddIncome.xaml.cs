@@ -86,6 +86,15 @@ namespace WpfApp1.Views
             main.Show();
             this.Close();
         }
+        private void UpdateIncome_Click(object sender, RoutedEventArgs e)
+        {
+            var incomeId = incomeListbox.SelectedIndex;
+            var selectedIncome = BackendManager.accountController.CurrentAccount.Incomes.FirstOrDefault(i => i.Id == incomeId);
+            if(selectedIncome != null)
+            {
+
+            }
+        }
 
         private void GetCurrentUser(out Account loggedInAccount)
         {
