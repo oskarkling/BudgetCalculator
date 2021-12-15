@@ -49,9 +49,9 @@ namespace BudgetCalculator
             {
                 if (ClearAllAccountLists())
                 {
-
-                    List<Saving> listOfSavings = dbConnect.GetAllSavings(CurrentAccount.Id);
-                    if (listOfSavings.Count != 0)
+                    CurrentAccount.Savings = new List<Saving>();
+                    var listOfSavings = dbConnect.GetAllSavings(CurrentAccount.Id);
+                    if (listOfSavings != null)
                     {
                         foreach (var item in listOfSavings)
                         {
@@ -69,8 +69,9 @@ namespace BudgetCalculator
                         }
                     }
 
-                    List<Income> listOfIncomes = dbConnect.GetIncomesOfUserId(CurrentAccount.Id);
-                    if (listOfIncomes.Count != 0)
+                    CurrentAccount.Incomes = new List<Income>();
+                    var listOfIncomes = dbConnect.GetIncomesOfUserId(CurrentAccount.Id);
+                    if (listOfIncomes != null)
                     {
                         foreach (var item in listOfIncomes)
                         {
@@ -88,8 +89,9 @@ namespace BudgetCalculator
                         }
                     }
 
+                    CurrentAccount.Expenses = new List<Expense>();
                     List<Expense> listOfExpenses = dbConnect.GetExpensesOfUserId(CurrentAccount.Id);
-                    if (listOfExpenses.Count != 0)
+                    if (listOfExpenses != null)
                     {
                         foreach (var item in listOfExpenses)
                         {
@@ -107,8 +109,9 @@ namespace BudgetCalculator
                         }
                     }
 
+                    CurrentAccount.Goals = new List<Goal>();
                     List<Goal> listOfGoals = dbConnect.GetGoalsOfUserId(CurrentAccount.Id);
-                    if (listOfGoals.Count != 0)
+                    if (listOfGoals != null)
                     {
                         foreach (var item in listOfGoals)
                         {
@@ -144,10 +147,22 @@ namespace BudgetCalculator
         {
             try
             {
-                CurrentAccount.Incomes.Clear();
-                CurrentAccount.Expenses.Clear();
-                CurrentAccount.Savings.Clear();
-                CurrentAccount.Goals.Clear();
+                if (CurrentAccount.Incomes != null)
+                {
+                    CurrentAccount.Incomes.Clear();
+                }
+                if (CurrentAccount.Expenses != null)
+                {
+                    CurrentAccount.Expenses.Clear();
+                }
+                if (CurrentAccount.Savings != null)
+                {
+                    CurrentAccount.Savings.Clear();
+                }
+                if (CurrentAccount.Goals != null)
+                {
+                    CurrentAccount.Goals.Clear();
+                }
             }
             catch (Exception e)
             {
