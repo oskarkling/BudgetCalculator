@@ -74,7 +74,6 @@ namespace WpfApp1.Views
             if (BackendManager.accountController.CreateAnEconomicObject(goal))
             {
                 MessageBox.Show("GOAL ADDED");
-                MessageBox.Show($"{goal.Name} | {goal.Amount} | {goal.SaveEachMonth}");
                 AddItemToListBox(goal);
                 addGoalBtn.IsEnabled = false;
                 resultListbox.Items.Clear();
