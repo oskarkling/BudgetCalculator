@@ -10,7 +10,7 @@ namespace BudgetCalculator
         public bool AccountLoggedIn { get; set; }
         public EconomicController ecoController { get; set; }
 
-        
+
 
         private DatabaseConnection dbConnect = new DatabaseConnection();
         private EconomicController eco = new EconomicController();
@@ -32,7 +32,7 @@ namespace BudgetCalculator
             {
                 if (CheckUsernameAndPassword(username, password))
                 {
-                    return FetchEconomicObjectesbyID();
+                    return FetchEconomicObjectesbyID(DateTime.Now);
                 }
             }
 
@@ -43,14 +43,126 @@ namespace BudgetCalculator
         /// Fetches the economicObjects lists from database depending on Account id
         /// </summary>
         /// <returns>true if successful, false if not</returns>
-        private bool FetchEconomicObjectesbyID()
+        private bool FetchEconomicObjectesbyID(DateTime currentTime)
         {
             try
             {
-                CurrentAccount.Savings = dbConnect.GetAllSavings(CurrentAccount.Id);
-                CurrentAccount.Incomes = dbConnect.GetIncomesOfUserId(CurrentAccount.Id);
-                CurrentAccount.Expenses = dbConnect.GetExpensesOfUserId(CurrentAccount.Id);
-                CurrentAccount.Goals = dbConnect.GetGoalsOfUserId(CurrentAccount.Id);
+                if (ClearAllAccountLists())
+                {
+                    CurrentAccount.Savings = new List<Saving>();
+                    var listOfSavings = dbConnect.GetAllSavings(CurrentAccount.Id);
+                    if (listOfSavings != null)
+                    {
+                        foreach (var item in listOfSavings)
+                        {
+                            if (item.Recurring)
+                            {
+                                if (eco.ReoccuringPayment(item, currentTime.Month))
+                                {
+                                    CurrentAccount.Savings.Add(item);
+                                }
+                            }
+                            else if (!item.Recurring && item.CreationTime.Month == currentTime.Month)
+                            {
+                                CurrentAccount.Savings.Add(item);
+                            }
+                        }
+                    }
+
+                    CurrentAccount.Incomes = new List<Income>();
+                    var listOfIncomes = dbConnect.GetIncomesOfUserId(CurrentAccount.Id);
+                    if (listOfIncomes != null)
+                    {
+                        foreach (var item in listOfIncomes)
+                        {
+                            if (item.Recurring)
+                            {
+                                if (eco.ReoccuringPayment(item, currentTime.Month))
+                                {
+                                    CurrentAccount.Incomes.Add(item);
+                                }
+                            }
+                            else if (!item.Recurring && item.CreationTime.Month == currentTime.Month)
+                            {
+                                CurrentAccount.Incomes.Add(item);
+                            }
+                        }
+                    }
+
+                    CurrentAccount.Expenses = new List<Expense>();
+                    List<Expense> listOfExpenses = dbConnect.GetExpensesOfUserId(CurrentAccount.Id);
+                    if (listOfExpenses != null)
+                    {
+                        foreach (var item in listOfExpenses)
+                        {
+                            if (item.Recurring)
+                            {
+                                if (eco.ReoccuringPayment(item, currentTime.Month))
+                                {
+                                    CurrentAccount.Expenses.Add(item);
+                                }
+                            }
+                            else if (!item.Recurring && item.CreationTime.Month == currentTime.Month)
+                            {
+                                CurrentAccount.Expenses.Add(item);
+                            }
+                        }
+                    }
+
+                    CurrentAccount.Goals = new List<Goal>();
+                    List<Goal> listOfGoals = dbConnect.GetGoalsOfUserId(CurrentAccount.Id);
+                    if (listOfGoals != null)
+                    {
+                        foreach (var item in listOfGoals)
+                        {
+                            if (item.SaveEachMonth != 0)
+                            {
+                                DateTime endDate = GetGoalEndDate(item);
+                                if (endDate.Month <= currentTime.Month)
+                                {
+                                    CurrentAccount.Goals.Add(item);
+                                }
+                            }
+                            else if (item.SaveToDate && item.MonthsToGoal != 0 && item.CreationTime.Month == currentTime.Month)
+                            {
+                                CurrentAccount.Goals.Add(item);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorLogger.Add(e.Message);
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Method to clear all lists connected to the current account logged in
+        /// </summary>
+        /// <returns>bool true if successful, false if not</returns>
+        public bool ClearAllAccountLists()
+        {
+            try
+            {
+                if (CurrentAccount.Incomes != null)
+                {
+                    CurrentAccount.Incomes.Clear();
+                }
+                if (CurrentAccount.Expenses != null)
+                {
+                    CurrentAccount.Expenses.Clear();
+                }
+                if (CurrentAccount.Savings != null)
+                {
+                    CurrentAccount.Savings.Clear();
+                }
+                if (CurrentAccount.Goals != null)
+                {
+                    CurrentAccount.Goals.Clear();
+                }
             }
             catch (Exception e)
             {
@@ -82,12 +194,15 @@ namespace BudgetCalculator
         /// <summary>
         /// Logs out user if account is currently logged in when called.
         /// </summary>
-        public void Logout()
+        public bool Logout()
         {
             if (AccountLoggedIn)
             {
                 AccountLoggedIn = false;
+                return ClearAllAccountLists();
             }
+
+            return false;
         }
 
         //private bool DeleteAccount()
@@ -121,7 +236,7 @@ namespace BudgetCalculator
         /// <returns>bool</returns>
         private bool CheckPassword(string password)
         {
-            if(password.Any(char.IsLetter) && !password.Any(char.IsWhiteSpace) || password.Any(char.IsDigit) && !password.Any(char.IsWhiteSpace))
+            if (password.Any(char.IsLetter) && !password.Any(char.IsWhiteSpace) || password.Any(char.IsDigit) && !password.Any(char.IsWhiteSpace))
             {
                 return true;
             }
@@ -183,9 +298,9 @@ namespace BudgetCalculator
         {
             if (AccountLoggedIn && CurrentAccount != null)
             {
-                if(obj != null && obj.AccountId != 0)
+                if (obj != null && obj.AccountId != 0)
                 {
-                    if(CurrentAccount.Id == obj.AccountId)
+                    if (CurrentAccount.Id == obj.AccountId)
                     {
                         var success = eco.AddEconomicObject(obj);
                         if (success)
@@ -205,7 +320,7 @@ namespace BudgetCalculator
         /// <returns>true if successful, false if not</returns>
         public bool AddEcoObjectToAccountList(EconomicObject obj)
         {
-            if(obj != null && obj.AccountId == CurrentAccount.Id)
+            if (obj != null && obj.AccountId == CurrentAccount.Id)
             {
                 if (obj is Income)
                 {
@@ -246,7 +361,7 @@ namespace BudgetCalculator
                         {
                             var obj = CurrentAccount.Expenses.FirstOrDefault(e => e.Id == ecoObj.Id);
                             int index = CurrentAccount.Expenses.FindIndex(i => i.Id == ecoObj.Id);
-                            if(obj != null && index >= 0)
+                            if (obj != null && index >= 0)
                             {
                                 CurrentAccount.Expenses[index] = (Expense)ecoObj;
                                 return true;
@@ -388,7 +503,7 @@ namespace BudgetCalculator
         /// <returns>the end date for reaching goal</returns>
         public DateTime GetGoalEndDate(Goal goal)
         {
-            if(goal.SaveEachMonth != 0)
+            if (goal.SaveEachMonth != 0)
             {
                 return eco.CalculateEndDate(goal);
             }

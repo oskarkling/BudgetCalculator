@@ -29,9 +29,12 @@ namespace WpfApp1.Views
         }
         private void UpdateUI()
         {
-            foreach (var item in BackendManager.accountController.CurrentAccount.Savings)
+            if(BackendManager.accountController.CurrentAccount.Savings != null)
             {
-                savingListbox.Items.Add($"{item.Name} | {item.Amount}");
+                foreach (var item in BackendManager.accountController.CurrentAccount.Savings)
+                {
+                    savingListbox.Items.Add($"{item.Name} | {item.Amount}");
+                }
             }
         }
         private void AddItemToListBox(EconomicObject ecoObject)
