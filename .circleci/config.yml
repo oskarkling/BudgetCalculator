@@ -13,3 +13,6 @@ jobs:
       - run:
           name: Dotnet Build
           command: dotnet build
+      - run:
+          name: Dotnet All Tests
+          command: dotnet test
