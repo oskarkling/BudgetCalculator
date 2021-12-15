@@ -165,7 +165,7 @@ namespace BudgetCalculator
             return income - (expenses + savings + goals);
         }
 
-        public int ReoccuringPayment(EconomicObject obj, int month)
+        public bool ReoccuringPayment(EconomicObject obj, int month)
         {
             int sum = 0;
             if (obj != null)
@@ -191,17 +191,17 @@ namespace BudgetCalculator
 
                 if (sum > currentMonth)
                 {
-                    return 0;
+                    return false;
                     //IspayedThisMonth = false;
                 }
                 if (sum == currentMonth /*Antingen datetime att checka senaste betalningen lr int som representerar månad*/)
                 {
                     //Lägg till nytt datum för senaste betalning
                     //IspayedThisMonth = true;
-                    return sum;
+                    return true;
                 }
             }
-            return 0;
+            return false;
         }
         private int ReturnMonthOfCreationTime(EconomicObject obj)
         {
