@@ -10,7 +10,7 @@ workflows:
           filters:
             branches:
               only:
-                - NewestCircleCi
+                - dev
 
 jobs:
   build-and-test: # name of your job Yeah
