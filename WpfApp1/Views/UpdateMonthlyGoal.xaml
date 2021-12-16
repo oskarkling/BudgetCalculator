@@ -27,7 +27,6 @@
                    FontFamily="helvetica"
                    FontSize="22"
                    Foreground="White"/>
-        <!--YOUR GOALS-->
 
         <StackPanel Grid.Row="1">
             <!--NAME OF GOAL-->
@@ -66,7 +65,7 @@
             Background="White"
             Opacity="0.5"
                 Margin="0 0 0 10"/>
-            <!--IN HOW MANY MONTHS DO YOU NEED IT-->
+            <!--AMOUNT TO SAVE EACH MONTH-->
             <Label HorizontalAlignment="Center" Content="Amount to save each month"/>
             <TextBox x:Name="amountToSavePerMonth" FontFamily="Helvetica"
                        FontWeight="Light"
@@ -85,7 +84,7 @@
                 Margin="0 0 0 10"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 12 0 0">
-                <!--ADD GOAL BUTTON-->
+                <!--UPDATE GOAL BUTTON-->
                 <Button x:Name="addGoalBtn" VerticalAlignment ="Top" Width="100" Height="40" Content="UPDATE GOAL" 
                     Margin="60,0,10,0" Click="UpdateBtn_Click"/>
                 <!--GO BACK BUTTON-->

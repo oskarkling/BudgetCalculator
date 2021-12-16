@@ -27,8 +27,7 @@
                    FontFamily="helvetica"
                    FontSize="22"
                    Foreground="White"/>
-        <!--YOUR GOALS-->
-        
+
         <StackPanel Grid.Row="1">
             <!--NAME OF GOAL-->
             <Label HorizontalAlignment="Center" Content="Name of Goal" Margin="0 20 0 0"/>
@@ -85,7 +84,7 @@
                 Margin="0 0 0 10"/>
            
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 12 0 0">
-                <!--ADD GOAL BUTTON-->
+                <!--UPDATE GOAL BUTTON-->
                 <Button x:Name="addGoalBtn" VerticalAlignment ="Top" Width="100" Height="40" Content="UPDATE GOAL" 
                     Margin="60,0,10,0" Click="UpdateBtn_Click"/>
                 <!--GO BACK BUTTON-->

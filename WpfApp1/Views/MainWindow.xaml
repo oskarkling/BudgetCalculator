@@ -65,7 +65,7 @@
                    FontFamily="helvetica"
                    FontSize="22"/>
                 <ListBox x:Name="listboxIncomes" MaxHeight="400" Height="300"/>
-                <Label HorizontalAlignment="Right" Content="TOTAL INCOME: "/>
+                <TextBlock x:Name="totalIncome" HorizontalAlignment="Right" FontWeight="Bold"/>
             </StackPanel>
         </Button>
         <!--EXPENSES-->
@@ -76,7 +76,7 @@
                    FontFamily="helvetica"
                    FontSize="22"/>
                 <ListBox x:Name="listboxExpenses" MaxHeight="400" Height="300"/>
-                <Label HorizontalAlignment="Right" Content="TOTAL EXPENSE: "/>
+                <TextBlock x:Name="totalExpense" HorizontalAlignment="Right" FontWeight="Bold"/>
             </StackPanel>
         </Button>
         <!--SAVINGS-->
@@ -87,7 +87,7 @@
                    FontFamily="helvetica"
                    FontSize="22"/>
                 <ListBox x:Name="listboxSavings" MaxHeight="400" Height="300"/>
-                <Label HorizontalAlignment="Right" Content="TOTAL SAVING: "/>
+                <TextBlock x:Name="totalSaving" HorizontalAlignment="Right" FontWeight="Bold"/>
             </StackPanel>
         </Button>
         <!--GOALS-->
@@ -98,17 +98,8 @@
                    FontFamily="helvetica"
                    FontSize="22"/>
                 <ListBox x:Name="listboxGoals" MaxHeight="400" Height="300"/>
-                <Label HorizontalAlignment="Right" Content="TOTAL GOAL: "/>
+                <TextBlock x:Name="totalGoal" HorizontalAlignment="Right" FontWeight="Bold"/>
             </StackPanel>
         </Button>
-
-        <!--<StackPanel>
-            <Button Width="100" Height="40" Content="ADD EXPENSE" Margin="60,0,60,0" Click="openExpenseViewBtn_Click"/>
-            <Button Width="100" Height="40" Content="ADD INCOME" Margin="60,0,60,0" Click="openIncomeViewBtn_Click"/>
-            <Button Width="100" Height="40" Content="ADD SAVING" Margin="60,0,60,0" Click="openSavingViewBtn_Click"/>
-            <Button Width="100" Height="40" Content="ADD GOAL" Margin="60,0,60,0" Click="openAddGoalViewBtn_Click"/>
-        </StackPanel>-->
-
-
     </Grid>
 </Window>

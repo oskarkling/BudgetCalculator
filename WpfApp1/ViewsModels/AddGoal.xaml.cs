@@ -24,6 +24,9 @@ namespace WpfApp1.Views
             InitializeComponent();
             UpdateUI();
         }
+        /// <summary>
+        /// loops through and prints all goals that the current account has. Sorts them in order of Monthly goals -> to date goals.
+        /// </summary>
         private void UpdateUI()
         {
             var query = from g in BackendManager.accountController.CurrentAccount.Goals
@@ -41,24 +44,45 @@ namespace WpfApp1.Views
             }
 
         }
+        /// <summary>
+        /// goes to view for save monthly goal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveEachMonth_Click(object sender, RoutedEventArgs e)
         {
             SaveEachMonthGoal monthlyGoal = new SaveEachMonthGoal();
             monthlyGoal.Show();
             this.Close();
         }
+        /// <summary>
+        /// goes to view for save to end date goal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveToDate_Click(object sender, RoutedEventArgs e)
         {
             SaveToEndDateGoal endDateGoal = new SaveToEndDateGoal();
             endDateGoal.Show();
             this.Close();
         }
+        /// <summary>
+        /// Returns to main view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             MainWindow main = new MainWindow();
             main.Show();
             this.Close();
         }
+        /// <summary>
+        /// gets the chosen object via SelectedIndex from the listbox, and sends it to selectedGoal view if SaveToDate is true,
+        /// otherwise sends it to UpdateMonthlyGoal view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             var goalIndex = goalListbox.SelectedIndex;
@@ -83,6 +107,11 @@ namespace WpfApp1.Views
                 MessageBox.Show("Something went wrong");
             }
         }
+        /// <summary>
+        /// gets the chosen object via SelectedIndex from the listbox, and sends it to Delete object view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             var goalIndex = goalListbox.SelectedIndex;

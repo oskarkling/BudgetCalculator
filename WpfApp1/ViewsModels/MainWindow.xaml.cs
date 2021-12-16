@@ -31,6 +31,7 @@ namespace WpfApp1
             FillEExpenseListbox();
             FillSavingListbox();
             FillGoalListbox();
+            GetTotal();
 
         }
         /// <summary>
@@ -77,6 +78,11 @@ namespace WpfApp1
             addGoal.Show();
             this.Close();
         }
+        /// <summary>
+        /// Goes to login view and reset accountController.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
             BackendManager.accountController = new();
@@ -85,14 +91,28 @@ namespace WpfApp1
             this.Close();
 
         }
+        /// <summary>
+        /// prints out the logged in users name
+        /// </summary>
         private void GreetUser()
         {
             greetUser.Text = $"Welcome {BackendManager.accountController.CurrentAccount.Username}";
         }
+        /// <summary>
+        /// Prints out the remaining balance, text in red if negative value, green if not.
+        /// </summary>
         private void PrintRemainingBalance()
         {
-            remainingBalance.Text = BackendManager.accountController.GetBalance().ToString();
+            var balance = BackendManager.accountController.GetBalance();
+            if (balance < 0)
+            {
+                remainingBalance.Foreground = Brushes.Red;
+            }
+            remainingBalance.Text = balance.ToString();
         }
+        /// <summary>
+        /// Fills income list box with all incomes
+        /// </summary>
         private void FillIncomeListbox()
         {
             foreach (var item in BackendManager.accountController.CurrentAccount.Incomes)
@@ -100,6 +120,9 @@ namespace WpfApp1
                 listboxIncomes.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+        /// <summary>
+        /// Fills expense list box with all expenses
+        /// </summary>
         private void FillEExpenseListbox()
         {
             foreach (var item in BackendManager.accountController.CurrentAccount.Expenses)
@@ -107,6 +130,9 @@ namespace WpfApp1
                 listboxExpenses.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+        /// <summary>
+        /// Fills saving list box with all savings
+        /// </summary>
         private void FillSavingListbox()
         {
             foreach (var item in BackendManager.accountController.CurrentAccount.Savings)
@@ -114,12 +140,25 @@ namespace WpfApp1
                 listboxSavings.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+        /// <summary>
+        /// Fills goal list box with all goals
+        /// </summary>
         private void FillGoalListbox()
         {
             foreach (var item in BackendManager.accountController.CurrentAccount.Goals)
             {
                 listboxGoals.Items.Add($"{item.Name} | {item.Amount}");
             }
+        }
+        /// <summary>
+        /// Prints total amount of each economic object to corresponding textblocks.
+        /// </summary>
+        private void GetTotal()
+        {
+            totalGoal.Text = $"Total Goal: {BackendManager.accountController.GetTotalGoals()}";
+            totalSaving.Text = $"Total Saving: {BackendManager.accountController.GetTotalSavings()}";
+            totalIncome.Text = $"Total Income: {BackendManager.accountController.GetTotalIncome()}";
+            totalExpense.Text = $"Total Expense: {BackendManager.accountController.GetTotalExpense()}";
         }
     }
 }

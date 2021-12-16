@@ -123,7 +123,7 @@ namespace WpfApp1.Views
             }
         }
         /// <summary>
-        /// gets the chosen object via SelectedIndex from the listbox, and sends it to UpdateEconomicObject view.
+        /// gets the chosen object via SelectedIndex from the listbox, and sends it to Delete object view.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
