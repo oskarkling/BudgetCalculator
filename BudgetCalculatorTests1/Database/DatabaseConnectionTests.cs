@@ -463,11 +463,11 @@ namespace BudgetCalculator.Tests
         [TestMethod()]
         public void RegisterAccountTest()
         {
-            var accountExists = dc.GetAccountByUsernameAndPassword("CoolDragon", "CantCrackThisNaNaNaNa");
+            var accountExists = dc.GetAccountByUsernameAndPassword("Backend", "inteadmin");
             var refAcc = new Account();
             if (accountExists == null)
             {
-                var success = dc.RegisterAccount("CoolDragon", "CantCrackThisNaNaNaNa");
+                var success = dc.RegisterAccount("Backend", "inteadmin");
                 Assert.IsTrue(success);
             }
 

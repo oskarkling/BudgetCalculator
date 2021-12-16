@@ -36,7 +36,7 @@ namespace BudgetCalculator.Tests
         [TestMethod()]
         public void RegisterTestEmptyUserReturnFalse()
         {
-            var actual = Ac.Register("","");
+            var actual = Ac.Register("", "");
             Assert.IsFalse(actual);
         }
         [TestMethod()]
@@ -51,5 +51,7 @@ namespace BudgetCalculator.Tests
             var actual = Ac.Register("  b  ", "c    ");
             Assert.IsFalse(actual);
         }
+
+        
     }
 }

@@ -130,5 +130,86 @@ namespace BudgetCalculator
             results.Add(ac.CreateAnEconomicObject(new Goal { AccountId = acc.Id, CreationTime = DateTime.Now, Name = "Rosa helikopter", Interval = 1, SaveEachMonth = 500, Amount = 1000000, SaveToDate = false, AmountSavedSoFar = 0 }));
             results.Add(ac.CreateAnEconomicObject(new Goal { AccountId = acc.Id, CreationTime = DateTime.Now, Name = "Bil", Interval = 1, MonthsToGoal = 24, Amount = 700000, SaveToDate = true, AmountSavedSoFar = 50000 }));
         }
+
+        private static void AddEcosForHistoryIntegrationTest(AccountController ac)
+        {
+            ac.CreateAnEconomicObject(new Income { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now, Name = "Lön", Interval = 1, Recurring = true, Amount = 30000 });
+            ac.CreateAnEconomicObject(new Income { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now.AddMonths(2), Name = "Lotto", Interval = 0, Recurring = false, Amount = 500 });
+            ac.CreateAnEconomicObject(new Income { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now.AddMonths(1), Name = "Bonus", Interval = 12, Recurring = true, Amount = 5000 });
+
+            ac.CreateAnEconomicObject(new Saving { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Pensionsspar", Interval = 1, Recurring = true, Amount = 400 });
+
+            ac.CreateAnEconomicObject(new Expense { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Hyra", Interval = 1, Recurring = true, Amount = 7000 });
+
+            ac.CreateAnEconomicObject(new Goal { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now, Name = "Rosa helikopter", Interval = 1, SaveEachMonth = 500, Amount = 1000000, SaveToDate = false, AmountSavedSoFar = 0 });
+            ac.CreateAnEconomicObject(new Goal { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Bil", Interval = 1, MonthsToGoal = 24, Amount = 700000, SaveToDate = true, AmountSavedSoFar = 50000 });
+        }
+
+        [TestMethod()]
+        public void MoveBackwardTest()
+        {
+            //init
+            AccountController ac = new();
+            ac.Register("tESTER", "Password");
+            ac.Login("tESTER", "Password");
+            AddEcosForHistoryIntegrationTest(ac);
+
+
+            // kolla om listan från movebackwards har första itemet pensionsspar
+            var listOfMovedBackwardsObjects = ac.MoveBackward(DateTime.Now.AddMonths(-1));
+            var expected = "Pensionsspar";
+            var actual = listOfMovedBackwardsObjects[0].Name;
+
+            // delete stuff after
+            var incomes = ac.CurrentAccount.Incomes;
+            Assert.IsNotNull(incomes);
+            var expenses = ac.CurrentAccount.Expenses;
+            Assert.IsNotNull(expenses);
+            var savings = ac.CurrentAccount.Savings;
+            Assert.IsNotNull(savings);
+            var goals = ac.CurrentAccount.Goals;
+            Assert.IsNotNull(goals);
+
+            DeleteIncome(ac, incomes);
+            DeleteExpense(ac, expenses);
+            DeleteSaving(ac, savings);
+            DeleteGoal(ac, goals);
+
+            
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void MoveForwardTest()
+        {
+            //init
+            AccountController ac = new();
+            ac.Register("tESTER", "Password");
+            ac.Login("tESTER", "Password");
+            AddEcosForHistoryIntegrationTest(ac);
+
+            // kolla om listan från moveforward har första itemet bonus
+            var listOfMovedBackwardsObjects = ac.MoveForward(DateTime.Now.AddMonths(1));
+            var expected = "Bonus";
+            var actual = listOfMovedBackwardsObjects[0].Name;
+
+            // delete stuff after
+            var incomes = ac.CurrentAccount.Incomes;
+            Assert.IsNotNull(incomes);
+            var expenses = ac.CurrentAccount.Expenses;
+            Assert.IsNotNull(expenses);
+            var savings = ac.CurrentAccount.Savings;
+            Assert.IsNotNull(savings);
+            var goals = ac.CurrentAccount.Goals;
+            Assert.IsNotNull(goals);
+
+            DeleteIncome(ac, incomes);
+            DeleteExpense(ac, expenses);
+            DeleteSaving(ac, savings);
+            DeleteGoal(ac, goals);
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
