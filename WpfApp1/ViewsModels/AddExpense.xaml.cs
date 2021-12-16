@@ -114,8 +114,8 @@ namespace WpfApp1.Views
             var selectedExpense = BackendManager.accountController.CurrentAccount.Expenses[expenseIndex];
             if (selectedExpense != null)
             {
-                DeleteEconomicObject update = new DeleteEconomicObject(selectedExpense);
-                update.Show();
+                DeleteEconomicObject delete = new DeleteEconomicObject(selectedExpense);
+                delete.Show();
                 this.Close();
             }
             else

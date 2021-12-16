@@ -133,8 +133,8 @@ namespace WpfApp1.Views
             var selectedIncome = BackendManager.accountController.CurrentAccount.Incomes[incomeIndex];
             if (selectedIncome != null)
             {
-                DeleteEconomicObject update = new DeleteEconomicObject(selectedIncome);
-                update.Show();
+                DeleteEconomicObject delete = new DeleteEconomicObject(selectedIncome);
+                delete.Show();
                 this.Close();
             }
             else

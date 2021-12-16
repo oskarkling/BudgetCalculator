@@ -122,8 +122,8 @@ namespace WpfApp1.Views
             var selectedSaving = BackendManager.accountController.CurrentAccount.Savings[savingIndex];
             if (selectedSaving != null)
             {
-                DeleteEconomicObject update = new DeleteEconomicObject(selectedSaving);
-                update.Show();
+                DeleteEconomicObject delete = new DeleteEconomicObject(selectedSaving);
+                delete.Show();
                 this.Close();
             }
             else

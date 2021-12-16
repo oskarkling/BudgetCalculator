@@ -22,6 +22,25 @@ namespace WpfApp1.Views
         public AddGoal()
         {
             InitializeComponent();
+            UpdateUI();
+        }
+        private void UpdateUI()
+        {
+            var query = from g in BackendManager.accountController.CurrentAccount.Goals
+                        orderby g.SaveToDate
+                        select g;
+
+            if (BackendManager.accountController.CurrentAccount.Goals != null)
+            {
+                foreach (var item in query)
+                {
+                    if (item.SaveToDate)
+                    {
+                        goalListbox.Items.Add($"{item.Name} | {item.Amount} | {item.SaveToDate}");
+                    }
+                }
+            }
+
         }
         private void SaveEachMonth_Click(object sender, RoutedEventArgs e)
         {
@@ -40,6 +59,44 @@ namespace WpfApp1.Views
             MainWindow main = new MainWindow();
             main.Show();
             this.Close();
+        }
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+            var goalIndex = goalListbox.SelectedIndex;
+            var selectedGoal = BackendManager.accountController.CurrentAccount.Goals[goalIndex];
+            if (selectedGoal != null)
+            {
+               if(selectedGoal.SaveToDate)
+                {
+                    // UPDATE SAVETODATE VIEW
+                    UpdateSaveToDateGoal update = new UpdateSaveToDateGoal(selectedGoal);
+                    update.Show();
+                    this.Close();
+                }
+               else
+                {
+                    // UPDATE SAVEMONTHLY VIEW
+                }
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong");
+            }
+        }
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var goalIndex = goalListbox.SelectedIndex;
+            var selectedGoal = BackendManager.accountController.CurrentAccount.Goals[goalIndex];
+            if (selectedGoal != null)
+            {
+                DeleteEconomicObject delete = new DeleteEconomicObject(selectedGoal);
+                delete.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong");
+            }
         }
     }
 }
