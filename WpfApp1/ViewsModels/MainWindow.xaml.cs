@@ -26,6 +26,7 @@ namespace WpfApp1
         {
             InitializeComponent();
             GreetUser();
+            PrintRemainingBalance();
             
         }
         /// <summary>
@@ -75,6 +76,7 @@ namespace WpfApp1
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
             // ADD LOGOUT FUNCTIONALITYY HERE
+
         }
         private void GreetUser()
         {
@@ -82,7 +84,7 @@ namespace WpfApp1
         }
         private void PrintRemainingBalance()
         {
-            //remainingBalance.Text = BackendManager.accountController.
+            remainingBalance.Text = BackendManager.accountController.GetBalance().ToString();
         }
     }
 }
