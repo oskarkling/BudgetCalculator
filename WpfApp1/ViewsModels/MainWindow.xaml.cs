@@ -72,6 +72,10 @@ namespace WpfApp1
             addGoal.Show();
             this.Close();
         }
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            // ADD LOGOUT FUNCTIONALITYY HERE
+        }
         private void GreetUser()
         {
             greetUser.Text = $"Welcome {BackendManager.accountController.CurrentAccount.Username}";

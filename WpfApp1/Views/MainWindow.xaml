@@ -33,12 +33,17 @@
                    FontFamily="helvetica"
                    FontSize="30"
                    Foreground="White"/>
-        <!--USER-->
-        <TextBlock Grid.Column ="4" x:Name="greetUser" HorizontalAlignment="Center" 
+        
+        <StackPanel Grid.Column="4">
+            <!--USER-->
+        <TextBlock x:Name="greetUser" HorizontalAlignment="Center" 
                    FontWeight="Light"
                    FontFamily="helvetica"
                    FontSize="15"
                    Foreground="White"/>
+            <!--LOGOUT-->
+            <Button Content="LOGOUT" Width="70" Height="30" Click="Logout_Click"/>
+        </StackPanel>
         <!--INCOMES-->
         <Button Grid.Row="1" Grid.Column="1" Margin="0 10 0 0" Click="Incomes_Click">
             <StackPanel>
