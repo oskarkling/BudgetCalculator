@@ -33,16 +33,29 @@
                    FontFamily="helvetica"
                    FontSize="30"
                    Foreground="White"/>
-        
+        <StackPanel Grid.Column="2" Grid.ColumnSpan="2">
+            <!--REMAINING BALANCE-->
+            <TextBlock Text="REMAINING BALANCE:" HorizontalAlignment="Center"
+                   FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="20"
+                   Foreground="White"/>
+            <TextBlock x:Name="remainingBalance" FontWeight="Light" 
+                       HorizontalAlignment="Center"
+                       FontFamily="helvetica"
+                       FontSize="20"
+                       Foreground="LightGreen"/>
+        </StackPanel>
+
         <StackPanel Grid.Column="4">
             <!--USER-->
-        <TextBlock x:Name="greetUser" HorizontalAlignment="Center" 
+            <TextBlock x:Name="greetUser" HorizontalAlignment="Center" 
                    FontWeight="Light"
                    FontFamily="helvetica"
                    FontSize="15"
                    Foreground="White"/>
             <!--LOGOUT-->
-            <Button Content="LOGOUT" Width="70" Height="30" Click="Logout_Click"/>
+            <Button Content="LOGOUT" Width="70" Height="30" Click="Logout_Click" Margin="0 10 0 0"/>
         </StackPanel>
         <!--INCOMES-->
         <Button Grid.Row="1" Grid.Column="1" Margin="0 10 0 0" Click="Incomes_Click">

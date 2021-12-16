@@ -80,5 +80,9 @@ namespace WpfApp1
         {
             greetUser.Text = $"Welcome {BackendManager.accountController.CurrentAccount.Username}";
         }
+        private void PrintRemainingBalance()
+        {
+            //remainingBalance.Text = BackendManager.accountController.
+        }
     }
 }
