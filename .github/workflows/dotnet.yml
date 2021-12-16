@@ -40,6 +40,7 @@ jobs:
       working-directory: ./BudgetCalculatorTests1
       run: dotnet test --verbosity normal
 
+  #comment is for testing purpose
   integrationtest:
     if: github.event_name == 'pull-request' && github.event.pull_request.base.ref == 'staging'
     runs-on: windows-latest
@@ -57,7 +58,7 @@ jobs:
         working-directory: ./BudgetCalculatorTests4
         run: dotnet test --verbosity normal
 
-  # work in progress
+  # work in progress 
   deploy:
     if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
     runs-on: windows-latest
