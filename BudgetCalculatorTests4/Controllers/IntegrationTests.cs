@@ -177,8 +177,38 @@ namespace BudgetCalculator
 
             
 
-            //var actual = list.First().Name;
-            //var referense = actual[0].Name;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void MoveForwardTest()
+        {
+            //init
+            AccountController ac = new();
+            ac.Register("tESTER", "Password");
+            ac.Login("tESTER", "Password");
+            AddEcosForHistoryIntegrationTest(ac);
+
+            // kolla om listan från moveforward har första itemet bonus
+            var listOfMovedBackwardsObjects = ac.MoveForward(DateTime.Now.AddMonths(1));
+            var expected = "Bonus";
+            var actual = listOfMovedBackwardsObjects[0].Name;
+
+            // delete stuff after
+            var incomes = ac.CurrentAccount.Incomes;
+            Assert.IsNotNull(incomes);
+            var expenses = ac.CurrentAccount.Expenses;
+            Assert.IsNotNull(expenses);
+            var savings = ac.CurrentAccount.Savings;
+            Assert.IsNotNull(savings);
+            var goals = ac.CurrentAccount.Goals;
+            Assert.IsNotNull(goals);
+
+            DeleteIncome(ac, incomes);
+            DeleteExpense(ac, expenses);
+            DeleteSaving(ac, savings);
+            DeleteGoal(ac, goals);
+
             Assert.AreEqual(expected, actual);
         }
     }
