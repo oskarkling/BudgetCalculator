@@ -50,7 +50,7 @@
                 <Label HorizontalAlignment="Right" Content="TOTAL INCOME: "/>
             </StackPanel>
         </Button>
-        <!--Expenses-->
+        <!--EXPENSES-->
         <Button Grid.Row="1" Grid.Column="2" Margin="0 10 0 0" Click="Expenses_Click">
             <StackPanel>
                 <TextBlock Grid.Column="1" Text="Your Expenses" HorizontalAlignment="Left" Margin="10 0 0 0"  
@@ -61,7 +61,7 @@
                 <Label HorizontalAlignment="Right" Content="TOTAL EXPENSE: "/>
             </StackPanel>
         </Button>
-        <!--Savings-->
+        <!--SAVINGS-->
         <Button Grid.Row="1" Grid.Column="3" Margin="0 10 0 0" Click="Savings_Click">
             <StackPanel>
                 <TextBlock Grid.Column="1" Text="Your Savings" HorizontalAlignment="Left" Margin="10 0 0 0"  
@@ -72,6 +72,7 @@
                 <Label HorizontalAlignment="Right" Content="TOTAL SAVING: "/>
             </StackPanel>
         </Button>
+        <!--GOALS-->
         <Button Grid.Row="1" Grid.Column="4" Margin="0 10 0 0" Click="Goals_Click">
             <StackPanel>
                 <TextBlock Grid.Column="1" Text="Your Goals" HorizontalAlignment="Left" Margin="10 0 0 0"  
@@ -82,7 +83,6 @@
                 <Label HorizontalAlignment="Right" Content="TOTAL GOAL: "/>
             </StackPanel>
         </Button>
-
 
         <!--<StackPanel>
             <Button Width="100" Height="40" Content="ADD EXPENSE" Margin="60,0,60,0" Click="openExpenseViewBtn_Click"/>

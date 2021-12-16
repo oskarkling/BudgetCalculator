@@ -1,11 +1,11 @@
-﻿<Window x:Class="WpfApp1.Views.UpdateEconomicObject"
+﻿<Window x:Class="WpfApp1.Views.DeleteEconomicObject"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="UpdateEconomicObject" Height="450" Width="800">
+        Title="DeleteEconomicObject" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,7 +19,7 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <TextBlock Text="UPDATE" HorizontalAlignment="Center" 
+        <TextBlock Text="DELETE" HorizontalAlignment="Center" 
                    FontWeight="Light"
                    FontFamily="helvetica"
                    FontSize="22"
@@ -27,7 +27,7 @@
         <StackPanel Grid.Row="1" HorizontalAlignment="Center">
             <!--NAME-->
             <Label HorizontalAlignment="Center" Content="Name" Margin="0 20 0 0"/>
-            <TextBox x:Name="updateName" FontFamily="Helvetica"
+            <TextBox x:Name="deleteName" FontFamily="Helvetica"
                        FontWeight="Light"
                        FontSize="20"
                        HorizontalAlignment="Center"
@@ -43,19 +43,9 @@
             Background="White"
             Opacity="0.5"
                 Margin="0 0 0 10"/>
-            <!--TIMESPAN-->
-            <Label HorizontalAlignment="Center" Content="Timespan"></Label>
-            <ComboBox x:Name="updateTimespan" Width="150">
-                <ComboBoxItem Content="Every Month"/>
-                <ComboBoxItem Content="Only Once"/>
-                <ComboBoxItem Content="Every Other Month"/>
-                <ComboBoxItem Content="Quarterly"/>
-                <ComboBoxItem Content="Half Year"/>
-                <ComboBoxItem Content="Every Year"/>
-            </ComboBox>
             <!--AMOUNT-->
             <Label HorizontalAlignment="Center" Content="Amount"></Label>
-            <TextBox x:Name="updateAmount" FontFamily="Helvetica"
+            <TextBox x:Name="deleteAmount" FontFamily="Helvetica"
                        FontWeight="Light"
                        FontSize="20"
                        HorizontalAlignment="Center"
@@ -71,10 +61,16 @@
             Background="White"
             Opacity="0.5"
                 Margin="0 0 0 10"/>
+            <!--DELETE TEXT-->
+            <TextBlock Text="DELETE THIS OBJECT?" HorizontalAlignment="Center" Margin="0 10 0 0"
+                       FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="22"
+                   Foreground="red"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 12 0 0">
-                <!--UPDATE BUTTON-->
-                <Button x:Name="updateBtn" VerticalAlignment ="Top" Width="100" Height="40" Content="UPDATE" 
-                    Margin="60,0,10,0" Click="UpdateBtn_Click"/>
+                <!--DELETE BUTTON-->
+                <Button x:Name="deleteBtn" VerticalAlignment ="Top" Width="100" Height="40" Content="DELETE" 
+                    Margin="60,0,10,0" Click="DeleteBtn_Click"/>
                 <!--GO BACK BUTTON-->
                 <Button VerticalAlignment ="Top" Width="100" Height="40" Content="BACK" 
                     Margin="10,0,60,0" Click="Back_Click"/>

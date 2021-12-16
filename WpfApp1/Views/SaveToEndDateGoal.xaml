@@ -28,7 +28,8 @@
                    FontFamily="helvetica"
                    FontSize="22"
                    Foreground="White"/>
-        <TextBlock Grid.Column="1" Text="Your goals" HorizontalAlignment="Center" 
+        <!--YOUR GOALS-->
+        <TextBlock Grid.Column="1" Text="Your Goals" HorizontalAlignment="Center" 
                    FontWeight="Light"
                    FontFamily="helvetica"
                    FontSize="22"
@@ -76,7 +77,7 @@
             Background="White"
             Opacity="0.5"
                 Margin="0 0 0 10"/>
-            <!--In how many months do you need it-->
+            <!--IN HOW MANY MONTHS DO YOU NEED IT-->
             <Label HorizontalAlignment="Center" Content="In how many months do you need it?"/>
             <TextBox x:Name="numberOfMonths" FontFamily="Helvetica"
                        FontWeight="Light"
@@ -97,7 +98,7 @@
             <!--CALCULATE BUTTON-->
             <Button x:Name="calculateBtn" VerticalAlignment ="Top" Width="100" Height="40" Content="CALCULATE" 
                     Margin="60,10,60,0" Click="CalculateBtn_Click"/>
-            <!--ListBox-->
+            <!--RESULT LISTBOX-->
             <ListBox x:Name="resultListbox" Width="250" Height="60" Margin="0 15 0 0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 12 0 0">
                 <!--ADD GOAL BUTTON-->

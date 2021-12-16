@@ -27,6 +27,9 @@ namespace WpfApp1.Views
             UpdateUI();
             addGoalBtn.IsEnabled = false;
         }
+        /// <summary>
+        /// Loops through and print all goals that an account has.
+        /// </summary>
         private void UpdateUI()
         {
             foreach (var item in BackendManager.accountController.CurrentAccount.Goals)
@@ -34,10 +37,20 @@ namespace WpfApp1.Views
                 listboxGoals.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+        /// <summary>
+        /// Adds economic object to ListBox
+        /// </summary>
+        /// <param name="ecoObject"></param>
         private void AddItemToListBox(EconomicObject ecoObject)
         {
             listboxGoals.Items.Add($"{ecoObject.Name} | {ecoObject.Amount}");
         }
+        /// <summary>
+        /// Takes the input from fields and creates and fills goal object with info. Prints info about the goal in the result listbox.
+        /// Also sets the addGoalbtn to enable.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CalculateBtn_Click(object sender, RoutedEventArgs e)
         {
             var loggedInAccount = BackendManager.accountController.CurrentAccount;
@@ -69,6 +82,12 @@ namespace WpfApp1.Views
                 addGoalBtn.IsEnabled = true;
             }
         }
+        /// <summary>
+        /// calls create an economic object method in the accountcontroller with the goal object. If it returns true it adds the goal to the listbox,
+        /// sets the addgoalbtn back to false and clears the result listbox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
             if (BackendManager.accountController.CreateAnEconomicObject(goal))
@@ -84,6 +103,11 @@ namespace WpfApp1.Views
 
             }
         }
+        /// <summary>
+        /// Closes this window and opens up mainWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             AddGoal addGoal = new AddGoal();
