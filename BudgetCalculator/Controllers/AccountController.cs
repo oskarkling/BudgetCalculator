@@ -547,18 +547,28 @@ namespace BudgetCalculator
             List<Goal> listOfGoals = dbConnect.GetGoalsOfUserId(CurrentAccount.Id);
             listOfEconomicObjects.AddRange(listOfGoals);
 
-            if (listOfEconomicObjects.Count != 0)
+            if (listOfEconomicObjects == null)
             {
-                foreach (var item in listOfEconomicObjects)
+                return new List<EconomicObject>();
+            }
+            var list = listOfEconomicObjects;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].CreationTime.Month != current.Month)
                 {
-                    if (item.CreationTime.Month != current.Month && item.CreationTime.Year != current.Year)
-                    {
-                        listOfEconomicObjects.Remove(item);
-                    }
+                    list.RemoveAt(i);
                 }
             }
 
-            return listOfEconomicObjects;
+            //foreach (var item in list.ToList())
+            //{
+            //    if (item.CreationTime.Month != current.Month)
+            //    {
+            //        list.Remove(item);
+            //    }
+            //}
+            return list;
         }
         public List<EconomicObject> MoveForward(DateTime current)
         {

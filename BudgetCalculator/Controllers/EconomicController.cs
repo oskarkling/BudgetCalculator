@@ -190,10 +190,10 @@ namespace BudgetCalculator
                     sum.AddMonths(saving.Interval);
                 }
 
-                while (sum.Month < current.Month && sum.Year <= current.Year)
-                {
-                    sum.AddMonths(obj.Interval);
-                }
+                //while (sum.Month < current.Month && sum.Year <= current.Year && obj.Interval != 0)
+                //{
+                //    sum = sum.AddMonths(obj.Interval);
+                //}
 
                 if (sum.Month > current.Month)
                 {

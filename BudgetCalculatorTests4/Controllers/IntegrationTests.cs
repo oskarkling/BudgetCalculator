@@ -130,5 +130,42 @@ namespace BudgetCalculator
             results.Add(ac.CreateAnEconomicObject(new Goal { AccountId = acc.Id, CreationTime = DateTime.Now, Name = "Rosa helikopter", Interval = 1, SaveEachMonth = 500, Amount = 1000000, SaveToDate = false, AmountSavedSoFar = 0 }));
             results.Add(ac.CreateAnEconomicObject(new Goal { AccountId = acc.Id, CreationTime = DateTime.Now, Name = "Bil", Interval = 1, MonthsToGoal = 24, Amount = 700000, SaveToDate = true, AmountSavedSoFar = 50000 }));
         }
+
+        private static void AddEcosForHistoryIntegrationTest(AccountController ac, List<bool> results, Account acc)
+        {
+            results.Add(ac.CreateAnEconomicObject(new Income { AccountId = acc.Id, CreationTime = DateTime.Now, Name = "Lön", Interval = 1, Recurring = true, Amount = 30000 }));
+            results.Add(ac.CreateAnEconomicObject(new Income { AccountId = acc.Id, CreationTime = DateTime.Now.AddMonths(2), Name = "Lotto", Interval = 0, Recurring = false, Amount = 500 }));
+            results.Add(ac.CreateAnEconomicObject(new Income { AccountId = acc.Id, CreationTime = DateTime.Now.AddMonths(1), Name = "Bonus", Interval = 12, Recurring = true, Amount = 5000 }));
+
+            results.Add(ac.CreateAnEconomicObject(new Saving { AccountId = acc.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Pensionsspar", Interval = 1, Recurring = true, Amount = 400 }));
+
+            results.Add(ac.CreateAnEconomicObject(new Expense { AccountId = acc.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Hyra", Interval = 1, Recurring = true, Amount = 7000 }));
+
+            results.Add(ac.CreateAnEconomicObject(new Goal { AccountId = acc.Id, CreationTime = DateTime.Now, Name = "Rosa helikopter", Interval = 1, SaveEachMonth = 500, Amount = 1000000, SaveToDate = false, AmountSavedSoFar = 0 }));
+            results.Add(ac.CreateAnEconomicObject(new Goal { AccountId = acc.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Bil", Interval = 1, MonthsToGoal = 24, Amount = 700000, SaveToDate = true, AmountSavedSoFar = 50000 }));
+        }
+
+        [TestMethod()]
+        public void MoveBackwardTest()
+        {
+            AccountController ac = new();
+            List<bool> results = new();
+            var date = DateTime.Now;
+            bool success = true;
+            var suc = ac.Login("Backend", "inteadmin");
+            var list = new List<EconomicObject>();
+
+            if (suc)
+            {
+                AddEcosForHistoryIntegrationTest(ac, results, ac.CurrentAccount);
+            }
+            
+            var expected = list.Where(i => i.Name == "Pensionsspar").ToList();
+            var actual = ac.MoveBackward(date.AddMonths(-1));
+
+            //var actual = list.First().Name;
+            //var referense = actual[0].Name;
+            Assert.AreEqual(expected, referense);
+        }
     }
 }
