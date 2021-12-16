@@ -106,6 +106,7 @@ namespace BudgetCalculator
                 return null;
             }
         }
+
         public List<Saving> GetSavingsOfUserId(int userId)
         {
             BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
@@ -143,6 +144,96 @@ namespace BudgetCalculator
             return null;
         }
         #endregion Get Goal
+
+        public List<Account> GetAllAccountsAsAdmin(int userId)
+        {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+            try
+            {
+                var user = CheckIfUserExist(userId);
+                if (user == null) return null;
+                var results = dbnew.Accounts.ToList();
+
+                return results;
+            }
+            catch (Exception e)
+            {
+                ErrorLogger.Add(e.Message);
+                return null;
+            }
+        }
+
+        public List<Income> GetAllIncomesAsAdmin(int userId)
+        {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+            try
+            {
+                var user = CheckIfUserExist(userId);
+                if (user == null) return null;
+                var results = dbnew.Incomes.ToList();
+
+                return results;
+            }
+            catch (Exception e)
+            {
+                ErrorLogger.Add(e.Message);
+                return null;
+            }
+        }
+
+        public List<Expense> GetAllExpensesAsAdmin(int userId)
+        {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+            try
+            {
+                var user = CheckIfUserExist(userId);
+                if (user == null) return null;
+                var results = dbnew.Expenses.ToList();
+
+                return results;
+            }
+            catch (Exception e)
+            {
+                ErrorLogger.Add(e.Message);
+                return null;
+            }
+        }
+
+        public List<Saving> GetAllSavingsAsAdmin(int userId)
+        {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+            try
+            {
+                var user = CheckIfUserExist(userId);
+                if (user == null) return null;
+                var results = dbnew.Savings.ToList();
+
+                return results;
+            }
+            catch (Exception e)
+            {
+                ErrorLogger.Add(e.Message);
+                return null;
+            }
+        }
+
+        public List<Goal> GetAllGoalsAsAdmin(int userId)
+        {
+            BudgetCalcDbContext dbnew = new BudgetCalcDbContext();
+            try
+            {
+                var user = CheckIfUserExist(userId);
+                if (user == null) return null;
+                var results = dbnew.Goals.ToList();
+
+                return results;
+            }
+            catch (Exception e)
+            {
+                ErrorLogger.Add(e.Message);
+                return null;
+            }
+        }
 
         #endregion Get
 
@@ -439,7 +530,7 @@ namespace BudgetCalculator
                 else if (obj is Saving) dbnew.Savings.Add(obj as Saving);
                 else if (obj is Goal) dbnew.Goals.Add(obj as Goal);
 
-                
+
                 dbnew.SaveChanges();
             }
             catch (Exception e)
@@ -474,7 +565,7 @@ namespace BudgetCalculator
             }
 
             return true;
-        }             
+        }
 
         #endregion Create
 
