@@ -131,41 +131,55 @@ namespace BudgetCalculator
             results.Add(ac.CreateAnEconomicObject(new Goal { AccountId = acc.Id, CreationTime = DateTime.Now, Name = "Bil", Interval = 1, MonthsToGoal = 24, Amount = 700000, SaveToDate = true, AmountSavedSoFar = 50000 }));
         }
 
-        private static void AddEcosForHistoryIntegrationTest(AccountController ac, List<bool> results, Account acc)
+        private static void AddEcosForHistoryIntegrationTest(AccountController ac)
         {
-            results.Add(ac.CreateAnEconomicObject(new Income { AccountId = acc.Id, CreationTime = DateTime.Now, Name = "Lön", Interval = 1, Recurring = true, Amount = 30000 }));
-            results.Add(ac.CreateAnEconomicObject(new Income { AccountId = acc.Id, CreationTime = DateTime.Now.AddMonths(2), Name = "Lotto", Interval = 0, Recurring = false, Amount = 500 }));
-            results.Add(ac.CreateAnEconomicObject(new Income { AccountId = acc.Id, CreationTime = DateTime.Now.AddMonths(1), Name = "Bonus", Interval = 12, Recurring = true, Amount = 5000 }));
+            ac.CreateAnEconomicObject(new Income { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now, Name = "Lön", Interval = 1, Recurring = true, Amount = 30000 });
+            ac.CreateAnEconomicObject(new Income { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now.AddMonths(2), Name = "Lotto", Interval = 0, Recurring = false, Amount = 500 });
+            ac.CreateAnEconomicObject(new Income { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now.AddMonths(1), Name = "Bonus", Interval = 12, Recurring = true, Amount = 5000 });
 
-            results.Add(ac.CreateAnEconomicObject(new Saving { AccountId = acc.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Pensionsspar", Interval = 1, Recurring = true, Amount = 400 }));
+            ac.CreateAnEconomicObject(new Saving { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Pensionsspar", Interval = 1, Recurring = true, Amount = 400 });
 
-            results.Add(ac.CreateAnEconomicObject(new Expense { AccountId = acc.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Hyra", Interval = 1, Recurring = true, Amount = 7000 }));
+            ac.CreateAnEconomicObject(new Expense { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Hyra", Interval = 1, Recurring = true, Amount = 7000 });
 
-            results.Add(ac.CreateAnEconomicObject(new Goal { AccountId = acc.Id, CreationTime = DateTime.Now, Name = "Rosa helikopter", Interval = 1, SaveEachMonth = 500, Amount = 1000000, SaveToDate = false, AmountSavedSoFar = 0 }));
-            results.Add(ac.CreateAnEconomicObject(new Goal { AccountId = acc.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Bil", Interval = 1, MonthsToGoal = 24, Amount = 700000, SaveToDate = true, AmountSavedSoFar = 50000 }));
+            ac.CreateAnEconomicObject(new Goal { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now, Name = "Rosa helikopter", Interval = 1, SaveEachMonth = 500, Amount = 1000000, SaveToDate = false, AmountSavedSoFar = 0 });
+            ac.CreateAnEconomicObject(new Goal { AccountId = ac.CurrentAccount.Id, CreationTime = DateTime.Now.AddMonths(-1), Name = "Bil", Interval = 1, MonthsToGoal = 24, Amount = 700000, SaveToDate = true, AmountSavedSoFar = 50000 });
         }
 
         [TestMethod()]
         public void MoveBackwardTest()
         {
+            //init
             AccountController ac = new();
-            List<bool> results = new();
-            var date = DateTime.Now;
-            bool success = true;
-            var suc = ac.Login("Backend", "inteadmin");
-            var list = new List<EconomicObject>();
+            ac.Register("tESTER", "Password");
+            ac.Login("tESTER", "Password");
+            AddEcosForHistoryIntegrationTest(ac);
 
-            if (suc)
-            {
-                AddEcosForHistoryIntegrationTest(ac, results, ac.CurrentAccount);
-            }
+
+            // kolla om listan från movebackwards har första itemet pensionsspar
+            var listOfMovedBackwardsObjects = ac.MoveBackward(DateTime.Now.AddMonths(-1));
+            var expected = "Pensionsspar";
+            var actual = listOfMovedBackwardsObjects[0].Name;
+
+            // delete stuff after
+            var incomes = ac.CurrentAccount.Incomes;
+            Assert.IsNotNull(incomes);
+            var expenses = ac.CurrentAccount.Expenses;
+            Assert.IsNotNull(expenses);
+            var savings = ac.CurrentAccount.Savings;
+            Assert.IsNotNull(savings);
+            var goals = ac.CurrentAccount.Goals;
+            Assert.IsNotNull(goals);
+
+            DeleteIncome(ac, incomes);
+            DeleteExpense(ac, expenses);
+            DeleteSaving(ac, savings);
+            DeleteGoal(ac, goals);
+
             
-            var expected = list.Where(i => i.Name == "Pensionsspar").ToList();
-            var actual = ac.MoveBackward(date.AddMonths(-1));
 
             //var actual = list.First().Name;
             //var referense = actual[0].Name;
-            Assert.AreEqual(expected, referense);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

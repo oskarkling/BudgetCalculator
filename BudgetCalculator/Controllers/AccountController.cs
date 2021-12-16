@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace BudgetCalculator
@@ -551,23 +552,17 @@ namespace BudgetCalculator
             {
                 return new List<EconomicObject>();
             }
-            var list = listOfEconomicObjects;
 
-            for (int i = 0; i < list.Count; i++)
+            var list = new List<EconomicObject>();
+
+            for (int i = 0; i < listOfEconomicObjects.Count; i++)
             {
-                if (list[i].CreationTime.Month != current.Month)
+                if (listOfEconomicObjects[i].CreationTime.Month == current.Month)
                 {
-                    list.RemoveAt(i);
+                    list.Add(listOfEconomicObjects[i]);
                 }
             }
 
-            //foreach (var item in list.ToList())
-            //{
-            //    if (item.CreationTime.Month != current.Month)
-            //    {
-            //        list.Remove(item);
-            //    }
-            //}
             return list;
         }
         public List<EconomicObject> MoveForward(DateTime current)
