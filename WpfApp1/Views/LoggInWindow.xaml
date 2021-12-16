@@ -20,18 +20,25 @@
                     <GradientStop Color="#7be9f6" Offset="0.0"/>
                     <GradientStop Color="#f083da" Offset="1"/>
                 </LinearGradientBrush>
-            </Border.Background>            
+            </Border.Background>
         </Border>
-
+        <!--HEADER-->
         <StackPanel VerticalAlignment="Center">
-            <Image Source="\Utility\Images\gris.png" Width="100"/>
-            <TextBlock Text="Bank APP"
+            <iconPacks:PackIconMaterial Kind="PiggyBank"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        Height="50"
+                                        Width="50"/>
+            <!--<Image Source="\Utility\Images\gris.png" Width="100"/>-->
+            <TextBlock Text="The Plutuz"
                        FontWeight="Light"
                        FontFamily="helvetica"
                        FontSize="22"
                        Foreground="White"
                        HorizontalAlignment="Center"
                        />
+            <!--USERNAME-->
         </StackPanel>
         <StackPanel Grid.Row="1">
             <StackPanel Orientation="Horizontal">
@@ -56,7 +63,7 @@
             Height="2" 
             Background="White"
             Opacity="0.5"/>
-
+            <!--PASSWORD-->
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                 <PasswordBox x:Name="passwordInput" FontFamily="Helvetica"
                        FontWeight="Light"
@@ -79,6 +86,7 @@
             Height="2" 
             Background="White"
             Opacity="0.5"/>
+            <!--BUTTONS-->
             <StackPanel Orientation="Horizontal" Margin="0, 50, 0, 0">
                 <Button Width="100" Height="40" Content="LOGIN" Margin="60,0,60,0" Click="loginBtn_Click"/>
                 <Button Width="100" Height="40" Content="REGISTER" Click="registerBtn_Click"/>
@@ -86,7 +94,7 @@
 
 
         </StackPanel>
-        
+
 
 
 
