@@ -30,14 +30,13 @@ namespace WpfApp1.Views
                         orderby g.SaveToDate
                         select g;
 
-            if (BackendManager.accountController.CurrentAccount.Goals != null)
+            if (query != null)
             {
                 foreach (var item in query)
                 {
-                    if (item.SaveToDate)
-                    {
-                        goalListbox.Items.Add($"{item.Name} | {item.Amount} | {item.SaveToDate}");
-                    }
+
+                    goalListbox.Items.Add($"{item.Name} | {item.Amount} | {item.SaveToDate}");
+
                 }
             }
 
@@ -66,16 +65,17 @@ namespace WpfApp1.Views
             var selectedGoal = BackendManager.accountController.CurrentAccount.Goals[goalIndex];
             if (selectedGoal != null)
             {
-               if(selectedGoal.SaveToDate)
+                if (selectedGoal.SaveToDate)
                 {
-                    // UPDATE SAVETODATE VIEW
                     UpdateSaveToDateGoal update = new UpdateSaveToDateGoal(selectedGoal);
                     update.Show();
                     this.Close();
                 }
-               else
+                else
                 {
-                    // UPDATE SAVEMONTHLY VIEW
+                    UpdateMonthlyGoal update = new UpdateMonthlyGoal(selectedGoal);
+                    update.Show();
+                    this.Close();
                 }
             }
             else

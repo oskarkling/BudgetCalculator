@@ -24,8 +24,14 @@
         </Border>
         <!--HEADER-->
         <StackPanel VerticalAlignment="Center">
-            <Image Source="\Utility\Images\gris.png" Width="100"/>
-            <TextBlock Text="Bank APP"
+            <iconPacks:PackIconMaterial Kind="PiggyBank"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        Height="50"
+                                        Width="50"/>
+            <!--<Image Source="\Utility\Images\gris.png" Width="100"/>-->
+            <TextBlock Text="The Plutuz"
                        FontWeight="Light"
                        FontFamily="helvetica"
                        FontSize="22"

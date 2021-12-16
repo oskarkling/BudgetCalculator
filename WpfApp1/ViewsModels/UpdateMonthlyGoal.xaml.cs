@@ -16,12 +16,12 @@ using System.Windows.Shapes;
 namespace WpfApp1.Views
 {
     /// <summary>
-    /// Interaction logic for UpdateSaveToDateGoal.xaml
+    /// Interaction logic for UpdateMonthlyGoal.xaml
     /// </summary>
-    public partial class UpdateSaveToDateGoal : Window
+    public partial class UpdateMonthlyGoal : Window
     {
         Goal SelectedObject;
-        public UpdateSaveToDateGoal(Goal selectedObject)
+        public UpdateMonthlyGoal(Goal selectedObject)
         {
             InitializeComponent();
             SelectedObject = selectedObject;
@@ -31,10 +31,10 @@ namespace WpfApp1.Views
         {
             var updatedName = nameOfGoal.Text;
             var amountToSaveTxt = totalAmountToSave.Text;
-            var monthsTxt = numberOfMonths.Text;
+            var amountToSavePerMonthtxt = amountToSavePerMonth.Text;
 
-            var amountParse = decimal.TryParse(amountToSaveTxt, out decimal amountToSave);
-            var monthsParse = int.TryParse(monthsTxt, out int months);
+            var amountParse = decimal.TryParse(amountToSaveTxt, out decimal totAmountToSave);
+            var monthsParse = int.TryParse(amountToSavePerMonthtxt, out int amountPerMonth);
 
             if (!amountParse || !monthsParse)
             {
@@ -43,8 +43,8 @@ namespace WpfApp1.Views
             else
             {
                 SelectedObject.Name = updatedName;
-                SelectedObject.Amount = amountToSave;
-                SelectedObject.MonthsToGoal = months;
+                SelectedObject.Amount = totAmountToSave;
+                SelectedObject.MonthsToGoal = amountPerMonth;
                 if (BackendManager.accountController.UpdateObject(SelectedObject))
                 {
                     MessageBox.Show("Update Complete!");
@@ -64,7 +64,7 @@ namespace WpfApp1.Views
         {
             nameOfGoal.Text = goal.Name;
             totalAmountToSave.Text = goal.Amount.ToString();
-            numberOfMonths.Text = goal.MonthsToGoal.ToString();
+            amountToSavePerMonth.Text = goal.MonthsToGoal.ToString();
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
@@ -73,5 +73,4 @@ namespace WpfApp1.Views
             this.Close();
         }
     }
-
 }

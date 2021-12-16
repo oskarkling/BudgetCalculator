@@ -1,11 +1,11 @@
-﻿<Window x:Class="WpfApp1.Views.UpdateSaveToDateGoal"
+﻿<Window x:Class="WpfApp1.Views.UpdateMonthlyGoal"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="UpdateSaveToDateGoal" Height="450" Width="800">
+        Title="UpdateMonthlyGoal" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -28,7 +28,7 @@
                    FontSize="22"
                    Foreground="White"/>
         <!--YOUR GOALS-->
-        
+
         <StackPanel Grid.Row="1">
             <!--NAME OF GOAL-->
             <Label HorizontalAlignment="Center" Content="Name of Goal" Margin="0 20 0 0"/>
@@ -67,8 +67,8 @@
             Opacity="0.5"
                 Margin="0 0 0 10"/>
             <!--IN HOW MANY MONTHS DO YOU NEED IT-->
-            <Label HorizontalAlignment="Center" Content="In how many months do you need it?"/>
-            <TextBox x:Name="numberOfMonths" FontFamily="Helvetica"
+            <Label HorizontalAlignment="Center" Content="Amount to save each month"/>
+            <TextBox x:Name="amountToSavePerMonth" FontFamily="Helvetica"
                        FontWeight="Light"
                        FontSize="20"
                        HorizontalAlignment="Center"
@@ -83,7 +83,7 @@
             Background="White"
             Opacity="0.5"
                 Margin="0 0 0 10"/>
-           
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 12 0 0">
                 <!--ADD GOAL BUTTON-->
                 <Button x:Name="addGoalBtn" VerticalAlignment ="Top" Width="100" Height="40" Content="UPDATE GOAL" 

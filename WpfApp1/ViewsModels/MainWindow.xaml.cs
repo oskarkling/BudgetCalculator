@@ -27,7 +27,11 @@ namespace WpfApp1
             InitializeComponent();
             GreetUser();
             PrintRemainingBalance();
-            
+            FillIncomeListbox();
+            FillEExpenseListbox();
+            FillSavingListbox();
+            FillGoalListbox();
+
         }
         /// <summary>
         /// opens up the addExpense window and closes this current window.
@@ -75,7 +79,10 @@ namespace WpfApp1
         }
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            // ADD LOGOUT FUNCTIONALITYY HERE
+            BackendManager.accountController = new();
+            LoggInWindow login = new LoggInWindow();
+            login.Show();
+            this.Close();
 
         }
         private void GreetUser()
@@ -85,6 +92,34 @@ namespace WpfApp1
         private void PrintRemainingBalance()
         {
             remainingBalance.Text = BackendManager.accountController.GetBalance().ToString();
+        }
+        private void FillIncomeListbox()
+        {
+            foreach (var item in BackendManager.accountController.CurrentAccount.Incomes)
+            {
+                listboxIncomes.Items.Add($"{item.Name} | {item.Amount}");
+            }
+        }
+        private void FillEExpenseListbox()
+        {
+            foreach (var item in BackendManager.accountController.CurrentAccount.Expenses)
+            {
+                listboxExpenses.Items.Add($"{item.Name} | {item.Amount}");
+            }
+        }
+        private void FillSavingListbox()
+        {
+            foreach (var item in BackendManager.accountController.CurrentAccount.Savings)
+            {
+                listboxSavings.Items.Add($"{item.Name} | {item.Amount}");
+            }
+        }
+        private void FillGoalListbox()
+        {
+            foreach (var item in BackendManager.accountController.CurrentAccount.Goals)
+            {
+                listboxGoals.Items.Add($"{item.Name} | {item.Amount}");
+            }
         }
     }
 }
