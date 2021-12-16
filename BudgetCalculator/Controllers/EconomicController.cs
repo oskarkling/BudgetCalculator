@@ -165,93 +165,41 @@ namespace BudgetCalculator
             return income - (expenses + savings + goals);
         }
 
-        public bool ReoccuringPayment(EconomicObject obj, int month)
+        public bool ReoccuringPayment(EconomicObject obj, DateTime current)
         {
-            int sum = 0;
+            if(current.Year < obj.CreationTime.Year)
+            {
+                return false;
+            }
+            DateTime sum = default;
             if (obj != null)
             {
                 if (obj is Expense expense && expense.Recurring)
                 {
-                    sum = expense.Interval + ReturnMonthOfCreationTime(obj);
+                    sum = obj.CreationTime;
+                    sum.AddMonths(expense.Interval);
                 }
                 if (obj is Income income && income.Recurring)
                 {
-                    sum = income.Interval + ReturnMonthOfCreationTime(obj);
+                    sum = obj.CreationTime;
+                    sum.AddMonths(income.Interval);
                 }
                 if (obj is Saving saving && saving.Recurring)
                 {
-                    sum = saving.Interval + ReturnMonthOfCreationTime(obj);
-                }
-                var currentMonth = DateTime.Now.Month;
-
-                while (sum < currentMonth)
-                {
-                    sum += obj.Interval;
+                    sum = obj.CreationTime;
+                    sum.AddMonths(saving.Interval);
                 }
 
-                if (sum > currentMonth)
+                //while (sum.Month < current.Month && sum.Year <= current.Year && obj.Interval != 0)
+                //{
+                //    sum = sum.AddMonths(obj.Interval);
+                //}
+
+                if (sum.Month > current.Month)
                 {
                     return false;
-                    //IspayedThisMonth = false;
                 }
-                if (sum == currentMonth /*Antingen datetime att checka senaste betalningen lr int som representerar månad*/)
-                {
-                    //Lägg till nytt datum för senaste betalning
-                    //IspayedThisMonth = true;
-                    return true;
-                }
-            }
-            return false;
-        }
-        private int ReturnMonthOfCreationTime(EconomicObject obj)
-        {
-            return (Int32)obj.CreationTime.Month;
-        }
-
-        public bool JumpForward(EconomicObject obj, DateTime currentMonth)
-        {
-            if (obj is Saving saving && saving.Recurring)
-            {
-                if (saving.CreationTime <= currentMonth)
-                {
-                    return true;
-                }
-            }
-            if (obj is Expense expense && expense.Recurring)
-            {
-                if (expense.CreationTime <= currentMonth)
-                {
-                    return true;
-                }
-            }
-            if (obj is Goal goal)
-            {
-                if (goal.MonthsToGoal <= currentMonth.Month)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        public bool JumpBackward(EconomicObject obj, DateTime currentMonth)
-        {
-            if (obj is Saving saving && saving.Recurring)
-            {
-                if (saving.CreationTime >= currentMonth)
-                {
-                    return true;
-                }
-            }
-            if (obj is Expense expense && expense.Recurring)
-            {
-                if (expense.CreationTime >= currentMonth)
-                {
-                    return true;
-                }
-            }
-            if (obj is Goal goal)
-            {
-                if (goal.MonthsToGoal >= currentMonth.Month)
+                if (sum.Month == current.Month && sum.Year == current.Year)
                 {
                     return true;
                 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace BudgetCalculator
@@ -57,7 +58,7 @@ namespace BudgetCalculator
                         {
                             if (item.Recurring)
                             {
-                                if (eco.ReoccuringPayment(item, currentTime.Month))
+                                if (eco.ReoccuringPayment(item, currentTime))
                                 {
                                     CurrentAccount.Savings.Add(item);
                                 }
@@ -77,7 +78,7 @@ namespace BudgetCalculator
                         {
                             if (item.Recurring)
                             {
-                                if (eco.ReoccuringPayment(item, currentTime.Month))
+                                if (eco.ReoccuringPayment(item, currentTime))
                                 {
                                     CurrentAccount.Incomes.Add(item);
                                 }
@@ -97,7 +98,7 @@ namespace BudgetCalculator
                         {
                             if (item.Recurring)
                             {
-                                if (eco.ReoccuringPayment(item, currentTime.Month))
+                                if (eco.ReoccuringPayment(item, currentTime))
                                 {
                                     CurrentAccount.Expenses.Add(item);
                                 }
@@ -533,6 +534,110 @@ namespace BudgetCalculator
         {
             var goals = CurrentAccount.Goals.Where(g => g.AccountId == CurrentAccount.Id).ToList();
             return eco.CalculateTotalGoals(goals);
+        }
+        public List<EconomicObject> MoveBackward(DateTime current)
+        {
+            List<EconomicObject> listOfEconomicObjects = new List<EconomicObject>();
+
+            List<Income> listOfIncomes = dbConnect.GetIncomesOfUserId(CurrentAccount.Id);
+            listOfEconomicObjects.AddRange(listOfIncomes);
+            List<Saving> listOfSavings = dbConnect.GetSavingsOfUserId(CurrentAccount.Id);
+            listOfEconomicObjects.AddRange(listOfSavings);
+            List<Expense> listOfExpenses = dbConnect.GetExpensesOfUserId(CurrentAccount.Id);
+            listOfEconomicObjects.AddRange(listOfExpenses);
+            List<Goal> listOfGoals = dbConnect.GetGoalsOfUserId(CurrentAccount.Id);
+            listOfEconomicObjects.AddRange(listOfGoals);
+
+            if (listOfEconomicObjects == null)
+            {
+                return new List<EconomicObject>();
+            }
+
+            var list = new List<EconomicObject>();
+
+            for (int i = 0; i < listOfEconomicObjects.Count; i++)
+            {
+                if (listOfEconomicObjects[i].CreationTime.Month == current.Month)
+                {
+                    list.Add(listOfEconomicObjects[i]);
+                }
+            }
+
+            return list;
+        }
+        public List<EconomicObject> MoveForward(DateTime current)
+        {
+            List<EconomicObject> listOfEconomicObjects = new List<EconomicObject>();
+
+            List<Income> listOfIncomes = dbConnect.GetIncomesOfUserId(CurrentAccount.Id);
+            List<Saving> listOfSavings = dbConnect.GetSavingsOfUserId(CurrentAccount.Id);
+            List<Expense> listOfExpenses = dbConnect.GetExpensesOfUserId(CurrentAccount.Id);
+            List<Goal> listOfGoals = dbConnect.GetGoalsOfUserId(CurrentAccount.Id);
+
+            if (listOfIncomes.Count != 0)
+            {
+                foreach (var item in listOfIncomes)
+                {
+                    if (item.CreationTime.Month == current.Month)
+                    {
+                        listOfEconomicObjects.Add(item);
+                    }
+                    if (item.Recurring && eco.ReoccuringPayment(item, current))
+                    {
+                        listOfEconomicObjects.Add(item);
+                    }
+                }
+            }
+            if (listOfSavings.Count != 0)
+            {
+                foreach (var item in listOfSavings)
+                {
+                    if (item.CreationTime.Month == current.Month)
+                    {
+                        listOfEconomicObjects.Add(item);
+                    }
+                    if (item.Recurring && eco.ReoccuringPayment(item, current))
+                    {
+                        listOfEconomicObjects.Add(item);
+                    }
+                }
+            }
+            if (listOfExpenses.Count != 0)
+            {
+                foreach (var item in listOfExpenses)
+                {
+                    if (item.CreationTime.Month == current.Month)
+                    {
+                        listOfEconomicObjects.Add(item);
+                    }
+                    if (item.Recurring && eco.ReoccuringPayment(item, current))
+                    {
+                        listOfEconomicObjects.Add(item);
+                    }
+                }
+            }
+            if (listOfGoals.Count != 0)
+            {
+
+                foreach (var item in listOfGoals)
+                {
+                    if (item.SaveEachMonth != 0)
+                    {
+                        DateTime endDate = GetGoalEndDate(item);
+                        if (endDate.Month <= current.Month)
+                        {
+                            listOfEconomicObjects.Add(item);
+                        }
+                    }
+                    else if (item.SaveToDate && item.MonthsToGoal != 0 && item.CreationTime.Month == current.Month)
+                    {
+                        listOfEconomicObjects.Add(item);
+                    }
+                }
+
+            }
+
+            return listOfEconomicObjects;
         }
     }
 }
