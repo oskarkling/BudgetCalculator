@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'dev'
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'dev' && github.event.pull_request.base.ref == 'staging'
     runs-on: windows-latest
     environment:
       name: Dev
@@ -37,25 +37,24 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Test
-      working-directory: ./BudgetCalculatorTests1
-      run: dotnet test --verbosity normal
+      run: dotnet test BudgetCalculatorTests1/BudgetCalculatorTests1.csproj
 
-  integrationtest:
-    if: github.event_name == 'pull-request' && github.event.pull_request.base.ref == 'staging'
+  integration-test:
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'staging' 
     runs-on: windows-latest
     environment:
-      name: Staging
+      name: Dev
       url: https://github.com/oskarkling/BudgetCalculator/tree/main
     name: Integration tests
+    needs: build
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 5.0.x
-      - name: Test integration
-        working-directory: ./BudgetCalculatorTests4
-        run: dotnet test --verbosity normal
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Test
+      run: dotnet test BudgetCalculatorTests4/BudgetCalculatorTests4.csproj
 
   # work in progress
   deploy:
