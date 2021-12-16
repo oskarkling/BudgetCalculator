@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Windows.ApplicationModel.VoiceCommands;
 using WpfApp1.Views;
 
 namespace WpfApp1
@@ -24,6 +25,7 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            GreetUser();
             
         }
         /// <summary>
@@ -69,6 +71,10 @@ namespace WpfApp1
             AddGoal addGoal = new AddGoal();
             addGoal.Show();
             this.Close();
+        }
+        private void GreetUser()
+        {
+            greetUser.Text = $"Welcome {BackendManager.accountController.CurrentAccount.Username}";
         }
     }
 }
