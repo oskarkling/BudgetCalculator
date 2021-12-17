@@ -8,6 +8,13 @@ namespace BudgetCalculator.Tests
     [TestClass()]
     public class DatabaseConnectionTests
     {
+
+        public DatabaseConnectionTests()
+        {
+            ClientConnection client = new ClientConnection();
+            ConnectionStringHolder.ConnectionString = client.GetSqlConString("Nicklas", "Password");
+        }
+
         private readonly DatabaseConnection dc = new();
 
         [TestMethod()]

@@ -48,6 +48,9 @@ namespace WpfApp1
             var username = usernameInput.Text;
             var password = passwordInput.Password;
 
+            ClientConnection client = new ClientConnection();
+            ConnectionStringHolder.ConnectionString = client.GetSqlConString(username, password);
+
             if(BackendManager.accountController.Login(username, password))
             {
                 MainWindow main = new MainWindow();
@@ -68,7 +71,11 @@ namespace WpfApp1
         {
             var username = usernameInput.Text;
             var password = passwordInput.Password;
-            if(BackendManager.accountController.Register(username, password))
+
+            ClientConnection client = new ClientConnection();
+            ConnectionStringHolder.ConnectionString = client.GetSqlConString("Nicklas", "Password");
+
+            if (BackendManager.accountController.Register(username, password))
             {
                 MessageBox.Show("Account is registered");
             }
