@@ -154,7 +154,7 @@ namespace BudgetCalculator
             {
                 foreach (var item in goals)
                 {
-                    sum += item.Amount;
+                    sum += item.SaveEachMonth;
                 }
                 return sum;
             }

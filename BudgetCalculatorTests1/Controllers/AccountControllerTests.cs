@@ -11,6 +11,12 @@ namespace BudgetCalculator.Tests
     [TestClass()]
     public class AccountControllerTests
     {
+        public AccountControllerTests()
+        {
+            ClientConnection client = new ClientConnection();
+            ConnectionStringHolder.ConnectionString = client.GetSqlConString("Nicklas", "Password");
+        }
+
         AccountController Ac = new AccountController();
 
         [TestMethod()]

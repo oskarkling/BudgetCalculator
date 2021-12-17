@@ -58,6 +58,10 @@ namespace BudgetCalculator
                         {
                             if (item.Recurring)
                             {
+                                if(item.CreationTime.Month == currentTime.Month)
+                                {
+                                    CurrentAccount.Savings.Add(item);
+                                }
                                 if (eco.ReoccuringPayment(item, currentTime))
                                 {
                                     CurrentAccount.Savings.Add(item);
@@ -78,6 +82,10 @@ namespace BudgetCalculator
                         {
                             if (item.Recurring)
                             {
+                                if (item.CreationTime.Month == currentTime.Month)
+                                {
+                                    CurrentAccount.Incomes.Add(item);
+                                }
                                 if (eco.ReoccuringPayment(item, currentTime))
                                 {
                                     CurrentAccount.Incomes.Add(item);
@@ -98,6 +106,10 @@ namespace BudgetCalculator
                         {
                             if (item.Recurring)
                             {
+                                if (item.CreationTime.Month == currentTime.Month)
+                                {
+                                    CurrentAccount.Expenses.Add(item);
+                                }
                                 if (eco.ReoccuringPayment(item, currentTime))
                                 {
                                     CurrentAccount.Expenses.Add(item);

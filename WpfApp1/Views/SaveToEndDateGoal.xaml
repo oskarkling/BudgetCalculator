@@ -1,0 +1,114 @@
+﻿<Window x:Class="WpfApp1.Views.SaveToEndDateGoal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Views"
+        mc:Ignorable="d"
+        Title="SaveToEndDateGoal" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border CornerRadius="15" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <Border.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="#7be9f6" Offset="0.0"/>
+                    <GradientStop Color="#f083da" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <TextBlock Text="Save To End Date" HorizontalAlignment="Center" 
+                   FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="22"
+                   Foreground="White"/>
+        <!--YOUR GOALS-->
+        <TextBlock Grid.Column="1" Text="Your Goals" HorizontalAlignment="Center" 
+                   FontWeight="Light"
+                   FontFamily="helvetica"
+                   FontSize="22"
+                   Foreground="White"/>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+
+            <ListBox x:Name="listboxGoals" MaxHeight="400"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <!--NAME OF GOAL-->
+            <Label HorizontalAlignment="Center" Content="Name of Goal" Margin="0 20 0 0"/>
+            <TextBox x:Name="nameOfGoal" FontFamily="Helvetica"
+                       FontWeight="Light"
+                       Text="Ex Travel"
+                       FontSize="20"
+                       HorizontalAlignment="Center"
+                       Foreground="White"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       Width="100"                    
+                       Opacity="0.5"
+                       Margin="0,0,0,0"/>
+            <Border 
+            Width="100" 
+            Height="2" 
+            Background="White"
+            Opacity="0.5"
+                Margin="0 0 0 10"/>
+            <!--TOTAL AMOUNT TO SAVE-->
+            <Label HorizontalAlignment="Center" Content="Total Amount To Save"/>
+            <TextBox x:Name="totalAmountToSave" FontFamily="Helvetica"
+                       FontWeight="Light"
+                       Text="Ex 5000"
+                       FontSize="20"
+                       HorizontalAlignment="Center"
+                       Foreground="White"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       Width="100"                    
+                       Opacity="0.5"
+                       Margin="0,0,0,0"/>
+            <Border 
+            Width="100" 
+            Height="2" 
+            Background="White"
+            Opacity="0.5"
+                Margin="0 0 0 10"/>
+            <!--IN HOW MANY MONTHS DO YOU NEED IT-->
+            <Label HorizontalAlignment="Center" Content="In how many months do you need it?"/>
+            <TextBox x:Name="numberOfMonths" FontFamily="Helvetica"
+                       FontWeight="Light"
+                       Text="Ex 3"
+                       FontSize="20"
+                       HorizontalAlignment="Center"
+                       Foreground="White"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       Width="100"                    
+                       Opacity="0.5"/>
+            <Border 
+            Width="100" 
+            Height="2" 
+            Background="White"
+            Opacity="0.5"
+                Margin="0 0 0 10"/>
+            <!--CALCULATE BUTTON-->
+            <Button x:Name="calculateBtn" VerticalAlignment ="Top" Width="100" Height="40" Content="CALCULATE" 
+                    Margin="60,10,60,0" Click="CalculateBtn_Click"/>
+            <!--RESULT LISTBOX-->
+            <ListBox x:Name="resultListbox" Width="250" Height="60" Margin="0 15 0 0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 12 0 0">
+                <!--ADD GOAL BUTTON-->
+                <Button x:Name="addGoalBtn" VerticalAlignment ="Top" Width="100" Height="40" Content="ADD GOAL" 
+                    Margin="60,0,10,0" Click="AddBtn_Click"/>
+                <!--GO BACK BUTTON-->
+                <Button VerticalAlignment ="Top" Width="100" Height="40" Content="BACK" 
+                    Margin="10,0,60,0" Click="Back_Click"/>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>

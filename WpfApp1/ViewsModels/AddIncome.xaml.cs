@@ -27,6 +27,9 @@ namespace WpfApp1.Views
             InitializeComponent();
             UpdateUI();
         }
+        /// <summary>
+        /// loops through and prints all incomes that the current account has.
+        /// </summary>
         private void UpdateUI()
         {
             foreach (var item in BackendManager.accountController.CurrentAccount.Incomes)
@@ -34,7 +37,19 @@ namespace WpfApp1.Views
                 incomeListbox.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
-
+        /// <summary>
+        /// Adds economic object to ListBox
+        /// </summary>
+        /// <param name="ecoObject"></param>
+        private void AddItemToListBox(EconomicObject ecoObject)
+        {
+            incomeListbox.Items.Add($"{ecoObject.Name} | {ecoObject.Amount}");
+        }
+        /// <summary>
+        /// Takes the input from fields and creates a income object if input is valid. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddIncomeBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -42,7 +57,7 @@ namespace WpfApp1.Views
             var timespanInput = incomeTimespan.SelectedIndex;
             var parseSuccessfull = decimal.TryParse(incomeAmount.Text, out decimal amount);
             bool recurring = true;
-            GetCurrentUser(out Account loggedInAccount);
+            var loggedInAccount = BackendManager.accountController.CurrentAccount;
             ConvertTimeSpan(ref timespanInput, ref recurring);
             if (!parseSuccessfull && !Validator.AddIncomeValidator)
             {
@@ -66,7 +81,7 @@ namespace WpfApp1.Views
                 if (BackendManager.accountController.CreateAnEconomicObject(income))
                 {
                     MessageBox.Show("INCOME ADDED");
-                    UpdateUI();
+                    AddItemToListBox(income);
                 }
                 else
                 {
@@ -76,18 +91,62 @@ namespace WpfApp1.Views
             }
 
         }
+        /// <summary>
+        /// Closes this window and opens up mainWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             MainWindow main = new MainWindow();
             main.Show();
             this.Close();
         }
-
-        private void GetCurrentUser(out Account loggedInAccount)
+        /// <summary>
+        /// gets the chosen object via SelectedIndex from the listbox, and sends it to UpdateEconomicObject view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UpdateIncome_Click(object sender, RoutedEventArgs e)
         {
-            loggedInAccount = BackendManager.accountController.CurrentAccount;
+            var incomeIndex = incomeListbox.SelectedIndex;
+            var selectedIncome = BackendManager.accountController.CurrentAccount.Incomes[incomeIndex];
+            if(selectedIncome != null)
+            {
+                UpdateEconomicObject update = new UpdateEconomicObject(selectedIncome);
+                update.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong");
+            }
         }
-
+        /// <summary>
+        /// gets the chosen object via SelectedIndex from the listbox, and sends it to Delete object view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteIncome_Click(object sender, RoutedEventArgs e)
+        {
+            var incomeIndex = incomeListbox.SelectedIndex;
+            var selectedIncome = BackendManager.accountController.CurrentAccount.Incomes[incomeIndex];
+            if (selectedIncome != null)
+            {
+                DeleteEconomicObject delete = new DeleteEconomicObject(selectedIncome);
+                delete.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong");
+            }
+        }
+        /// <summary>
+        /// Convert chosen index from timespan and converts it to valid numbers. Also sets reccuring to false if not reccuring payment.
+        /// </summary>
+        /// <param name="timespanInput"></param>
+        /// <param name="recurring"></param>
         private static void ConvertTimeSpan(ref int timespanInput, ref bool recurring)
         {
             // släng in i helper class

@@ -13,7 +13,7 @@ namespace BudgetCalculator
 
         public static string ConnectionString()
         {
-            return "workstation id=budgetdb.mssql.somee.com;packet size=4096;user id=budgetadmin;pwd=budget123;data source=budgetdb.mssql.somee.com;persist security info=False;initial catalog=budgetdb";
+            return ConnectionStringHolder.ConnectionString;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
