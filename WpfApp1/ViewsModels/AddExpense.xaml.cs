@@ -29,7 +29,9 @@ namespace WpfApp1.Views
             InitializeComponent();
             UpdateUI();
         }
-
+        /// <summary>
+        /// Loops through and print all expenses that an account has.
+        /// </summary>
         private void UpdateUI()
         {
             foreach (var item in BackendManager.accountController.CurrentAccount.Expenses)
@@ -37,7 +39,11 @@ namespace WpfApp1.Views
                 expenseListbox.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
-
+        /// <summary>
+        /// Takes the input from fields and creates a expense object if input is valid. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddExpenseBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -67,30 +73,80 @@ namespace WpfApp1.Views
                 if(BackendManager.accountController.CreateAnEconomicObject(expense))
                 {
                     MessageBox.Show("EXPENSE ADDED");
-                    UpdateUI();
+                    AddItemToListBox(expense);
                 }
                 else
                 {
                     MessageBox.Show("Could not add ");
                 }
 
-
-
             }
 
         }
+        /// <summary>
+        /// gets the chosen object via SelectedIndex from the listbox, and sends it to UpdateEconomicObject view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UpdateExpense_Click(object sender, RoutedEventArgs e)
+        {
+            var expenseIndex = expenseListbox.SelectedIndex;
+            var selectedExpense = BackendManager.accountController.CurrentAccount.Expenses[expenseIndex];
+            if (selectedExpense != null)
+            {
+                UpdateEconomicObject update = new UpdateEconomicObject(selectedExpense);
+                update.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong");
+            }
+        }
+        /// <summary>
+        /// gets the chosen object via SelectedIndex from the listbox, and sends it to DeleteEconomicObject view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteExpense_Click(object sender, RoutedEventArgs e)
+        {
+            var expenseIndex = expenseListbox.SelectedIndex;
+            var selectedExpense = BackendManager.accountController.CurrentAccount.Expenses[expenseIndex];
+            if (selectedExpense != null)
+            {
+                DeleteEconomicObject delete = new DeleteEconomicObject(selectedExpense);
+                delete.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong");
+            }
+        }
+        /// <summary>
+        /// Adds economic object to ListBox
+        /// </summary>
+        /// <param name="ecoObject"></param>
+        private void AddItemToListBox(EconomicObject ecoObject)
+        {
+            expenseListbox.Items.Add($"{ecoObject.Name} | {ecoObject.Amount}");
+        }
+        /// <summary>
+        /// Closes this window and opens up mainWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             MainWindow main = new MainWindow();
             main.Show();
             this.Close();
         }
-
-        private void GetCurrentUser(out Account loggedInAccount)
-        {
-            loggedInAccount = BackendManager.accountController.CurrentAccount;
-        }
-
+        /// <summary>
+        /// Convert chosen index from timespan and converts it to valid numbers. Also sets reccuring to false if not reccuring payment.
+        /// </summary>
+        /// <param name="timespanInput"></param>
+        /// <param name="recurring"></param>
         private static void ConvertTimeSpan(ref int timespanInput, ref bool recurring)
         {
             switch (timespanInput)

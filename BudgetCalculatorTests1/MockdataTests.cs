@@ -11,26 +11,32 @@ namespace BudgetCalculator.Tests
     [TestClass()]
     public class MockdataTests
     {
-        [TestMethod()]
-        public void MockDatabaseTest()
-        {
-            var res = Mockdata.MockDatabase();
-            Assert.IsTrue(res);
-            //DbExtensions.EmptyAllTables();
-        }
+        //public MockdataTests()
+        //{
+        //    ClientConnection client = new ClientConnection();
+        //    ConnectionStringHolder.ConnectionString = client.GetSqlConString("Nicklas", "Password");
+        //}
 
-        [TestMethod()]
-        public void ClearTables()
-        {
-            var x = DbExtensions.EmptyAllTables();
-            Assert.IsTrue(x);
-        }
+        //[TestMethod()]
+        //public void MockDatabaseTest()
+        //{
+        //    var res = Mockdata.MockDatabase();
+        //    Assert.IsTrue(res);
+        //    //DbExtensions.EmptyAllTables();
+        //}
 
-        [TestMethod()]
-        public void DeleteAllTables()
-        {
-            var x = DbExtensions.DeleteTables();
-            Assert.IsTrue(x);
-        }
+        //[TestMethod()]
+        //public void ClearTables()
+        //{
+        //    var x = DbExtensions.EmptyAllTables();
+        //    Assert.IsTrue(x);
+        //}
+
+        //[TestMethod()]
+        //public void DeleteAllTables()
+        //{
+        //    var x = DbExtensions.DeleteTables();
+        //    Assert.IsTrue(x);
+        //}
     }
 }

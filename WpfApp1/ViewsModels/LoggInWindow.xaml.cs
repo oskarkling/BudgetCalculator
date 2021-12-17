@@ -25,7 +25,11 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// makes it able to drag the window while pressing the left mouse button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -33,12 +37,19 @@ namespace WpfApp1
                 DragMove();
             }
         }
-        
+        /// <summary>
+        /// gets input from inputfields and calls accountcontrollers login method, if it returns true the user get sent to the main view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
             
             var username = usernameInput.Text;
             var password = passwordInput.Password;
+
+            ClientConnection client = new ClientConnection();
+            ConnectionStringHolder.ConnectionString = client.GetSqlConString(username, password);
 
             if(BackendManager.accountController.Login(username, password))
             {
@@ -51,11 +62,20 @@ namespace WpfApp1
                 MessageBox.Show("Username or Password is invalid");
             }
         }
+        /// <summary>
+        /// gets input from inputfields and calls accountcontrollers register method.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void registerBtn_Click(object sender, RoutedEventArgs e)
         {
             var username = usernameInput.Text;
             var password = passwordInput.Password;
-            if(BackendManager.accountController.Register(username, password))
+
+            ClientConnection client = new ClientConnection();
+            ConnectionStringHolder.ConnectionString = client.GetSqlConString("Nicklas", "Password");
+
+            if (BackendManager.accountController.Register(username, password))
             {
                 MessageBox.Show("Account is registered");
             }

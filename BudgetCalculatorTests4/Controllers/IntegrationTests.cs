@@ -8,6 +8,12 @@ namespace BudgetCalculator
     [TestClass()]
     public class IntegrationTests
     {
+        public IntegrationTests()
+        {
+            ClientConnection client = new ClientConnection();
+            ConnectionStringHolder.ConnectionString = client.GetSqlConString("Nicklas", "Password");
+        }
+
         /// <summary>
         /// Registers a user
         /// Logs in
