@@ -1,0 +1,43 @@
+version: 2.1 # Use version 2.1 to enable Orb usage.
+
+orbs:
+  win: circleci/windows@2.2.0 # The Windows orb give you everything you need to start using the Windows executor.
+
+workflows:
+  test:
+    jobs:
+      - test-unit-tests:
+          filters:
+            branches:
+              only:
+                - dev
+      - test-integration-tests:
+          filters:
+            branches:
+              only:
+                - staging
+
+jobs:
+  test-unit-tests: # name of your job Yeah
+    executor: win/default # executor type Yeah 
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: Dotnet build BudgetCalculatorTests1
+          command: dotnet build BudgetCalculatorTests1/BudgetCalculatorTests1.csproj
+      - run:
+          name: Dotnet test BudgetCalculatorTests1 Unit Tests 
+          command: dotnet test BudgetCalculatorTests1/BudgetCalculatorTests1.csproj
+
+  test-integration-tests: # name of your job Yeah
+    executor: win/default # executor type Yeah 
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run:
+          name: Dotnet build BudgetCalculatorTests4 integration test
+          command: dotnet build BudgetCalculatorTests4/BudgetCalculatorTests4.csproj
+      - run:
+          name: Dotnet test BudgetCalculatorTests4 integration test
+          command: dotnet test BudgetCalculatorTests4/BudgetCalculatorTests4.csproj
