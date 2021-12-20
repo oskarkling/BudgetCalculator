@@ -1,18 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Windows.ApplicationModel.VoiceCommands;
 using WpfApp1.Views;
 
 namespace WpfApp1
@@ -32,8 +20,8 @@ namespace WpfApp1
             FillSavingListbox();
             FillGoalListbox();
             GetTotal();
-
         }
+
         /// <summary>
         /// opens up the addExpense window and closes this current window.
         /// </summary>
@@ -41,10 +29,11 @@ namespace WpfApp1
         /// <param name="e"></param>
         private void Expenses_Click(object sender, RoutedEventArgs e)
         {
-            AddExpense expenseView = new AddExpense();
+            AddExpense expenseView = new();
             expenseView.Show();
             this.Close();
         }
+
         /// <summary>
         /// opens up the addIncome window and closes this current window.
         /// </summary>
@@ -52,10 +41,11 @@ namespace WpfApp1
         /// <param name="e"></param>
         private void Incomes_Click(object sender, RoutedEventArgs e)
         {
-            AddIncome incomeView = new AddIncome();
+            AddIncome incomeView = new();
             incomeView.Show();
             this.Close();
         }
+
         /// <summary>
         /// opens up the saving window and closes this current window.
         /// </summary>
@@ -63,10 +53,11 @@ namespace WpfApp1
         /// <param name="e"></param>
         private void Savings_Click(object sender, RoutedEventArgs e)
         {
-            AddSaving savingView = new AddSaving();
+            AddSaving savingView = new();
             savingView.Show();
             this.Close();
         }
+
         /// <summary>
         ///  opens up the add goal window and closes this current window.
         /// </summary>
@@ -74,10 +65,11 @@ namespace WpfApp1
         /// <param name="e"></param>
         private void Goals_Click(object sender, RoutedEventArgs e)
         {
-            AddGoal addGoal = new AddGoal();
+            AddGoal addGoal = new();
             addGoal.Show();
             this.Close();
         }
+
         /// <summary>
         /// Goes to login view and reset accountController.
         /// </summary>
@@ -85,19 +77,29 @@ namespace WpfApp1
         /// <param name="e"></param>
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            BackendManager.accountController = new();
-            LoggInWindow login = new LoggInWindow();
-            login.Show();
-            this.Close();
+            var ac = BackendManager.accountController;
 
+            try
+            {
+                if (ac.Logout())
+                {
+                    BackendManager.accountController = new();
+                    LoggInWindow login = new();
+                    login.Show();
+                    this.Close();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }            
         }
+
         /// <summary>
         /// prints out the logged in users name
         /// </summary>
-        private void GreetUser()
-        {
-            greetUser.Text = $"Welcome {BackendManager.accountController.CurrentAccount.Username}";
-        }
+        private void GreetUser() => greetUser.Text = $"Welcome {BackendManager.accountController.CurrentAccount.Username}";
+
         /// <summary>
         /// Prints out the remaining balance, text in red if negative value, green if not.
         /// </summary>
@@ -108,8 +110,9 @@ namespace WpfApp1
             {
                 remainingBalance.Foreground = Brushes.Red;
             }
-            remainingBalance.Text = balance.ToString();
+            remainingBalance.Text = Math.Round(balance, 2).ToString();
         }
+
         /// <summary>
         /// Fills income list box with all incomes
         /// </summary>
@@ -120,6 +123,7 @@ namespace WpfApp1
                 listboxIncomes.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+
         /// <summary>
         /// Fills expense list box with all expenses
         /// </summary>
@@ -130,6 +134,7 @@ namespace WpfApp1
                 listboxExpenses.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+
         /// <summary>
         /// Fills saving list box with all savings
         /// </summary>
@@ -140,6 +145,7 @@ namespace WpfApp1
                 listboxSavings.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+
         /// <summary>
         /// Fills goal list box with all goals
         /// </summary>
@@ -150,6 +156,7 @@ namespace WpfApp1
                 listboxGoals.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+
         /// <summary>
         /// Prints total amount of each economic object to corresponding textblocks.
         /// </summary>

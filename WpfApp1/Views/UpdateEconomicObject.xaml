@@ -45,7 +45,8 @@
                 Margin="0 0 0 10"/>
             <!--TIMESPAN-->
             <Label HorizontalAlignment="Center" Content="Timespan"></Label>
-            <ComboBox x:Name="updateTimespan" Width="150">
+            <ComboBox x:Name="updateTimespan" Width="150" IsEditable="True"
+ IsReadOnly="True" Text="Only Once">
                 <ComboBoxItem Content="Every Month"/>
                 <ComboBoxItem Content="Only Once"/>
                 <ComboBoxItem Content="Every Other Month"/>

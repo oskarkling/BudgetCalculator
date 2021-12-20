@@ -1,17 +1,6 @@
 ﻿using BudgetCalculator;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WpfApp1.Views
 {
@@ -20,14 +9,14 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class SaveEachMonthGoal : Window
     {
-        Goal goal = new Goal();
+        Goal goal = new();
         public SaveEachMonthGoal()
         {
             InitializeComponent();
             UpdateUI();
             addGoalBtn.IsEnabled = false;
-
         }
+
         /// <summary>
         /// Loops through and print all goals that an account has.
         /// </summary>
@@ -38,14 +27,13 @@ namespace WpfApp1.Views
                 listboxGoals.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+
         /// <summary>
         /// Adds economic object to ListBox
         /// </summary>
         /// <param name="ecoObject"></param>
-        private void AddItemToListBox(EconomicObject ecoObject)
-        {
-            listboxGoals.Items.Add($"{ecoObject.Name} | {ecoObject.Amount}");
-        }
+        private void AddItemToListBox(EconomicObject ecoObject) => listboxGoals.Items.Add($"{ecoObject.Name} | {ecoObject.Amount}");
+
         /// <summary>
         /// Takes the input from fields and creates and fills goal object with info. Prints info about the goal in the result listbox.
         /// Also sets the add button to enable.
@@ -58,11 +46,10 @@ namespace WpfApp1.Views
             var goalName = nameOfGoal.Text;
             var totAmountToSaveTxt = totalAmountToSave.Text;
             var amountPerMonthTxt = amountToSaveEachMonth.Text;
-
             var totAmountParseSuccessfull = decimal.TryParse(totAmountToSaveTxt, out decimal totAmountToSave);
             var amountPerMonthParseSuccessfull = decimal.TryParse(amountPerMonthTxt, out decimal amountPerMonth);
 
-            if (!totAmountParseSuccessfull || !amountPerMonthParseSuccessfull || string.IsNullOrEmpty(goalName))
+            if (!totAmountParseSuccessfull || !amountPerMonthParseSuccessfull || string.IsNullOrEmpty(goalName) || amountPerMonth < 0 || totAmountToSave < 0)
             {
                 MessageBox.Show("Not valid input! Try again");
             }
@@ -87,6 +74,7 @@ namespace WpfApp1.Views
                 }
             }
         }
+
         /// <summary>
         /// calls create an economic object method in the accountcontroller with the goal object. If it returns true it adds the goal to the listbox,
         /// sets the addgoalbtn back to false and clears the result listbox.
@@ -107,6 +95,7 @@ namespace WpfApp1.Views
                 MessageBox.Show("Could not add ");
             }
         }
+
         /// <summary>
         /// Closes this window and opens up mainWindow.
         /// </summary>
@@ -114,10 +103,9 @@ namespace WpfApp1.Views
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            AddGoal addGoal = new AddGoal();
+            AddGoal addGoal = new();
             addGoal.Show();
             this.Close();
         }
-
     }
 }
