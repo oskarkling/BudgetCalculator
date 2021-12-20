@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WpfApp1.Views
 {
@@ -24,6 +13,7 @@ namespace WpfApp1.Views
             InitializeComponent();
             UpdateUI();
         }
+
         /// <summary>
         /// loops through and prints all goals that the current account has. Sorts them in order of Monthly goals -> to date goals.
         /// </summary>
@@ -37,13 +27,11 @@ namespace WpfApp1.Views
             {
                 foreach (var item in query)
                 {
-
                     goalListbox.Items.Add($"{item.Name} | {item.Amount} | {item.SaveToDate}");
-
                 }
             }
-
         }
+
         /// <summary>
         /// goes to view for save monthly goal
         /// </summary>
@@ -51,10 +39,11 @@ namespace WpfApp1.Views
         /// <param name="e"></param>
         private void SaveEachMonth_Click(object sender, RoutedEventArgs e)
         {
-            SaveEachMonthGoal monthlyGoal = new SaveEachMonthGoal();
+            SaveEachMonthGoal monthlyGoal = new();
             monthlyGoal.Show();
             this.Close();
         }
+
         /// <summary>
         /// goes to view for save to end date goal
         /// </summary>
@@ -62,10 +51,11 @@ namespace WpfApp1.Views
         /// <param name="e"></param>
         private void SaveToDate_Click(object sender, RoutedEventArgs e)
         {
-            SaveToEndDateGoal endDateGoal = new SaveToEndDateGoal();
+            SaveToEndDateGoal endDateGoal = new();
             endDateGoal.Show();
             this.Close();
         }
+
         /// <summary>
         /// Returns to main view
         /// </summary>
@@ -73,10 +63,11 @@ namespace WpfApp1.Views
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow main = new MainWindow();
+            MainWindow main = new();
             main.Show();
             this.Close();
         }
+
         /// <summary>
         /// gets the chosen object via SelectedIndex from the listbox, and sends it to selectedGoal view if SaveToDate is true,
         /// otherwise sends it to UpdateMonthlyGoal view.
@@ -86,27 +77,36 @@ namespace WpfApp1.Views
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             var goalIndex = goalListbox.SelectedIndex;
-            var selectedGoal = BackendManager.accountController.CurrentAccount.Goals[goalIndex];
-            if (selectedGoal != null)
+
+            if (goalIndex == -1)
             {
-                if (selectedGoal.SaveToDate)
-                {
-                    UpdateSaveToDateGoal update = new UpdateSaveToDateGoal(selectedGoal);
-                    update.Show();
-                    this.Close();
-                }
-                else
-                {
-                    UpdateMonthlyGoal update = new UpdateMonthlyGoal(selectedGoal);
-                    update.Show();
-                    this.Close();
-                }
+                MessageBox.Show("Choose an item");
             }
             else
             {
-                MessageBox.Show("Something went wrong");
+                var selectedGoal = BackendManager.accountController.CurrentAccount.Goals[goalIndex];
+                if (selectedGoal != null)
+                {
+                    if (selectedGoal.SaveToDate)
+                    {
+                        UpdateSaveToDateGoal update = new(selectedGoal);
+                        update.Show();
+                        this.Close();
+                    }
+                    else
+                    {
+                        UpdateMonthlyGoal update = new(selectedGoal);
+                        update.Show();
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong");
+                }
             }
         }
+
         /// <summary>
         /// gets the chosen object via SelectedIndex from the listbox, and sends it to Delete object view.
         /// </summary>
@@ -115,16 +115,24 @@ namespace WpfApp1.Views
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             var goalIndex = goalListbox.SelectedIndex;
-            var selectedGoal = BackendManager.accountController.CurrentAccount.Goals[goalIndex];
-            if (selectedGoal != null)
+
+            if (goalIndex == -1)
             {
-                DeleteEconomicObject delete = new DeleteEconomicObject(selectedGoal);
-                delete.Show();
-                this.Close();
+                MessageBox.Show("Select an item");
             }
             else
             {
-                MessageBox.Show("Something went wrong");
+                var selectedGoal = BackendManager.accountController.CurrentAccount.Goals[goalIndex];
+                if (selectedGoal != null)
+                {
+                    DeleteEconomicObject delete = new(selectedGoal);
+                    delete.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong");
+                }
             }
         }
     }

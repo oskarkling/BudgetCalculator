@@ -1,17 +1,6 @@
 ﻿using BudgetCalculator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WpfApp1
 {
@@ -21,10 +10,8 @@ namespace WpfApp1
     public partial class LoggInWindow : Window
     {
         //AccountController ac = new AccountController();
-        public LoggInWindow()
-        {
-            InitializeComponent();
-        }
+        public LoggInWindow() => InitializeComponent();
+
         /// <summary>
         /// makes it able to drag the window while pressing the left mouse button
         /// </summary>
@@ -37,6 +24,7 @@ namespace WpfApp1
                 DragMove();
             }
         }
+
         /// <summary>
         /// gets input from inputfields and calls accountcontrollers login method, if it returns true the user get sent to the main view.
         /// </summary>
@@ -44,16 +32,15 @@ namespace WpfApp1
         /// <param name="e"></param>
         private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
-            
             var username = usernameInput.Text;
             var password = passwordInput.Password;
 
-            ClientConnection client = new ClientConnection();
+            ClientConnection client = new();
             ConnectionStringHolder.ConnectionString = client.GetSqlConString(username, password);
 
-            if(BackendManager.accountController.Login(username, password))
+            if (BackendManager.accountController.Login(username, password))
             {
-                MainWindow main = new MainWindow();
+                MainWindow main = new();
                 main.Show();
                 this.Close();
             }
@@ -62,6 +49,7 @@ namespace WpfApp1
                 MessageBox.Show("Username or Password is invalid");
             }
         }
+
         /// <summary>
         /// gets input from inputfields and calls accountcontrollers register method.
         /// </summary>
@@ -72,10 +60,10 @@ namespace WpfApp1
             var username = usernameInput.Text;
             var password = passwordInput.Password;
 
-            ClientConnection client = new ClientConnection();
+            ClientConnection client = new();
             ConnectionStringHolder.ConnectionString = client.GetSqlConString("Nicklas", "Password");
 
-            if (BackendManager.accountController.Register(username, password))
+            if (BackendManager.accountController.Register(username.ToLower(), password.ToLower()))
             {
                 MessageBox.Show("Account is registered");
             }
@@ -83,8 +71,6 @@ namespace WpfApp1
             {
                 MessageBox.Show("Could not register account");
             }
-
         }
-
     }
 }
