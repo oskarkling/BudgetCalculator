@@ -10,12 +10,8 @@ namespace BudgetCalculator
         public Account CurrentAccount { get; private set; }
         public bool AccountLoggedIn { get; set; }
         public EconomicController ecoController { get; set; }
-
-
-
         private DatabaseConnection dbConnect = new DatabaseConnection();
         private EconomicController eco = new EconomicController();
-
 
         #region Get
 

@@ -1,17 +1,6 @@
 ﻿using BudgetCalculator;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WpfApp1.Utility.FrontendValidation;
 
 namespace WpfApp1.Views
@@ -19,11 +8,9 @@ namespace WpfApp1.Views
     /// <summary>
     /// Interaction logic for AddExpense.xaml
     /// </summary>
-    /// 
-
     public partial class AddExpense : Window
     {
-    
+
         public AddExpense()
         {
             InitializeComponent();
@@ -39,6 +26,7 @@ namespace WpfApp1.Views
                 expenseListbox.Items.Add($"{item.Name} | {item.Amount}");
             }
         }
+
         /// <summary>
         /// Takes the input from fields and creates a expense object if input is valid. 
         /// </summary>
@@ -46,21 +34,20 @@ namespace WpfApp1.Views
         /// <param name="e"></param>
         private void AddExpenseBtn_Click(object sender, RoutedEventArgs e)
         {
-
             var expenseNameInput = expenseName.Text;
             var timespanInput = expenseTimespan.SelectedIndex;
             var parseSuccessfull = decimal.TryParse(expenseAmount.Text, out decimal amount);
+
             bool recurring = true;
             var loggedInAccount = BackendManager.accountController.CurrentAccount;
             ConvertTimeSpan(ref timespanInput, ref recurring);
-            if (!parseSuccessfull && !Validator.GetAddExpenseValidation())
+            if (!parseSuccessfull && !Validator.GetAddExpenseValidation() || amount < 0)
             {
-                MessageBox.Show("PLease fill all forms!!");
+                MessageBox.Show("Wrong input");
             }
             else
             {
-
-                Expense expense = new Expense()
+                Expense expense = new()
                 {
                     Name = expenseNameInput,
                     Interval = timespanInput,
@@ -69,8 +56,8 @@ namespace WpfApp1.Views
                     CreationTime = DateTime.Now,
                     AccountId = loggedInAccount.Id
                 };
-                
-                if(BackendManager.accountController.CreateAnEconomicObject(expense))
+
+                if (BackendManager.accountController.CreateAnEconomicObject(expense))
                 {
                     MessageBox.Show("EXPENSE ADDED");
                     AddItemToListBox(expense);
@@ -79,10 +66,9 @@ namespace WpfApp1.Views
                 {
                     MessageBox.Show("Could not add ");
                 }
-
             }
-
         }
+
         /// <summary>
         /// gets the chosen object via SelectedIndex from the listbox, and sends it to UpdateEconomicObject view.
         /// </summary>
@@ -91,18 +77,27 @@ namespace WpfApp1.Views
         private void UpdateExpense_Click(object sender, RoutedEventArgs e)
         {
             var expenseIndex = expenseListbox.SelectedIndex;
-            var selectedExpense = BackendManager.accountController.CurrentAccount.Expenses[expenseIndex];
-            if (selectedExpense != null)
+            if (expenseIndex == -1)
             {
-                UpdateEconomicObject update = new UpdateEconomicObject(selectedExpense);
-                update.Show();
-                this.Close();
+                MessageBox.Show("Choose an item");
             }
             else
             {
-                MessageBox.Show("Something went wrong");
+                var selectedExpense = BackendManager.accountController.CurrentAccount.Expenses[expenseIndex];
+
+                if (selectedExpense != null)
+                {
+                    UpdateEconomicObject update = new UpdateEconomicObject(selectedExpense);
+                    update.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong");
+                }
             }
         }
+
         /// <summary>
         /// gets the chosen object via SelectedIndex from the listbox, and sends it to DeleteEconomicObject view.
         /// </summary>
@@ -111,18 +106,27 @@ namespace WpfApp1.Views
         private void DeleteExpense_Click(object sender, RoutedEventArgs e)
         {
             var expenseIndex = expenseListbox.SelectedIndex;
-            var selectedExpense = BackendManager.accountController.CurrentAccount.Expenses[expenseIndex];
-            if (selectedExpense != null)
+
+            if (expenseIndex == -1)
             {
-                DeleteEconomicObject delete = new DeleteEconomicObject(selectedExpense);
-                delete.Show();
-                this.Close();
+                MessageBox.Show("Select an item");
             }
             else
             {
-                MessageBox.Show("Something went wrong");
+                var selectedExpense = BackendManager.accountController.CurrentAccount.Expenses[expenseIndex];
+                if (selectedExpense != null)
+                {
+                    DeleteEconomicObject delete = new(selectedExpense);
+                    delete.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong");
+                }
             }
         }
+
         /// <summary>
         /// Adds economic object to ListBox
         /// </summary>
@@ -131,6 +135,7 @@ namespace WpfApp1.Views
         {
             expenseListbox.Items.Add($"{ecoObject.Name} | {ecoObject.Amount}");
         }
+
         /// <summary>
         /// Closes this window and opens up mainWindow.
         /// </summary>
@@ -138,10 +143,11 @@ namespace WpfApp1.Views
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow main = new MainWindow();
+            MainWindow main = new();
             main.Show();
             this.Close();
         }
+
         /// <summary>
         /// Convert chosen index from timespan and converts it to valid numbers. Also sets reccuring to false if not reccuring payment.
         /// </summary>
@@ -177,5 +183,4 @@ namespace WpfApp1.Views
             }
         }
     }
-
 }

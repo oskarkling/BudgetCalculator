@@ -1,18 +1,6 @@
 ﻿using BudgetCalculator;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WpfApp1.Utility.FrontendValidation;
 
 namespace WpfApp1.Views
@@ -25,8 +13,10 @@ namespace WpfApp1.Views
         public AddIncome()
         {
             InitializeComponent();
+            incomeTimespan.SelectedValue = 1;
             UpdateUI();
         }
+
         /// <summary>
         /// loops through and prints all incomes that the current account has.
         /// </summary>
@@ -45,6 +35,7 @@ namespace WpfApp1.Views
         {
             incomeListbox.Items.Add($"{ecoObject.Name} | {ecoObject.Amount}");
         }
+
         /// <summary>
         /// Takes the input from fields and creates a income object if input is valid. 
         /// </summary>
@@ -59,14 +50,13 @@ namespace WpfApp1.Views
             bool recurring = true;
             var loggedInAccount = BackendManager.accountController.CurrentAccount;
             ConvertTimeSpan(ref timespanInput, ref recurring);
-            if (!parseSuccessfull && !Validator.AddIncomeValidator)
+            if (!parseSuccessfull && !Validator.AddIncomeValidator || amount < 0)
             {
-                MessageBox.Show("PLease fill all forms!!");
+                MessageBox.Show("Wrong input");
             }
             else
             {
-
-                Income income = new Income()
+                Income income = new()
                 {
                     Name = incomeNameInput,
                     Interval = timespanInput,
@@ -76,8 +66,6 @@ namespace WpfApp1.Views
                     AccountId = loggedInAccount.Id
                 };
 
-
-
                 if (BackendManager.accountController.CreateAnEconomicObject(income))
                 {
                     MessageBox.Show("INCOME ADDED");
@@ -85,12 +73,11 @@ namespace WpfApp1.Views
                 }
                 else
                 {
-                    MessageBox.Show("Could not add ");
+                    MessageBox.Show("Wrong input");
                 }
-
             }
-
         }
+
         /// <summary>
         /// Closes this window and opens up mainWindow.
         /// </summary>
@@ -98,10 +85,11 @@ namespace WpfApp1.Views
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow main = new MainWindow();
+            MainWindow main = new();
             main.Show();
             this.Close();
         }
+
         /// <summary>
         /// gets the chosen object via SelectedIndex from the listbox, and sends it to UpdateEconomicObject view.
         /// </summary>
@@ -110,18 +98,27 @@ namespace WpfApp1.Views
         private void UpdateIncome_Click(object sender, RoutedEventArgs e)
         {
             var incomeIndex = incomeListbox.SelectedIndex;
-            var selectedIncome = BackendManager.accountController.CurrentAccount.Incomes[incomeIndex];
-            if(selectedIncome != null)
+
+            if (incomeIndex == -1)
             {
-                UpdateEconomicObject update = new UpdateEconomicObject(selectedIncome);
-                update.Show();
-                this.Close();
+                MessageBox.Show("Choose an item");
             }
             else
             {
-                MessageBox.Show("Something went wrong");
+                var selectedIncome = BackendManager.accountController.CurrentAccount.Incomes[incomeIndex];
+                if (selectedIncome != null)
+                {
+                    UpdateEconomicObject update = new(selectedIncome);
+                    update.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong");
+                }
             }
         }
+
         /// <summary>
         /// gets the chosen object via SelectedIndex from the listbox, and sends it to Delete object view.
         /// </summary>
@@ -130,18 +127,26 @@ namespace WpfApp1.Views
         private void DeleteIncome_Click(object sender, RoutedEventArgs e)
         {
             var incomeIndex = incomeListbox.SelectedIndex;
-            var selectedIncome = BackendManager.accountController.CurrentAccount.Incomes[incomeIndex];
-            if (selectedIncome != null)
+            if (incomeIndex == -1)
             {
-                DeleteEconomicObject delete = new DeleteEconomicObject(selectedIncome);
-                delete.Show();
-                this.Close();
+                MessageBox.Show("Select an item");
             }
             else
             {
-                MessageBox.Show("Something went wrong");
+                var selectedIncome = BackendManager.accountController.CurrentAccount.Incomes[incomeIndex];
+                if (selectedIncome != null)
+                {
+                    DeleteEconomicObject delete = new(selectedIncome);
+                    delete.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong");
+                }
             }
         }
+
         /// <summary>
         /// Convert chosen index from timespan and converts it to valid numbers. Also sets reccuring to false if not reccuring payment.
         /// </summary>
@@ -178,5 +183,4 @@ namespace WpfApp1.Views
             }
         }
     }
-
 }
