@@ -43,8 +43,8 @@
             <TextBlock x:Name="remainingBalance" FontWeight="Light" 
                        HorizontalAlignment="Center"
                        FontFamily="helvetica"
-                       FontSize="20"
-                       Foreground="LightGreen"/>
+                       FontSize="25"
+                       Foreground="Gold"/>
         </StackPanel>
 
         <StackPanel Grid.Column="4">
