@@ -1,18 +1,5 @@
 ﻿using BudgetCalculator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using WpfApp1.Utility.FrontendValidation;
 
 namespace WpfApp1.Views
 {
@@ -28,6 +15,7 @@ namespace WpfApp1.Views
             FillInfo(selectedObject);
             SelectedObject = selectedObject;
         }
+
         /// <summary>
         /// gets input from fields and adds to selected object, goes back to main if update is succesfull.
         /// </summary>
@@ -40,9 +28,9 @@ namespace WpfApp1.Views
             var parseSuccessfull = decimal.TryParse(updateAmount.Text, out decimal amount);
             bool recurring = true;
             ConvertTimeSpan(ref timespanInput, ref recurring);
-            if(!parseSuccessfull)
+            if(!parseSuccessfull || amount < 0)
             {
-                MessageBox.Show("PLease fill all forms!!");
+                MessageBox.Show("Wrong input");
             }
             else
             {
@@ -52,7 +40,7 @@ namespace WpfApp1.Views
                 if(BackendManager.accountController.UpdateObject(SelectedObject))
                 {
                     MessageBox.Show("Update Complete!");
-                    MainWindow main = new MainWindow();
+                    MainWindow main = new();
                     main.Show();
                     this.Close();
                 }
@@ -60,10 +48,9 @@ namespace WpfApp1.Views
                 {
                     MessageBox.Show("Error!");
                 }
-                
             }
-
         }
+
         /// <summary>
         /// Closes this window and opens up mainWindow.
         /// </summary>
@@ -71,10 +58,11 @@ namespace WpfApp1.Views
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow main = new MainWindow();
+            MainWindow main = new();
             main.Show();
             this.Close();
         }
+
         /// <summary>
         /// Convert chosen index from timespan and converts it to valid numbers. Also sets reccuring to false if not reccuring payment.
         /// </summary>
@@ -105,6 +93,7 @@ namespace WpfApp1.Views
                     break;
             }
         }
+
         /// <summary>
         /// Fills the input fields with the selected objects info.
         /// </summary>
