@@ -156,8 +156,8 @@ namespace BudgetCalculator
         {
             //init
             AccountController ac = new();
-            ac.Register("tESTER", "Password");
-            ac.Login("tESTER", "Password");
+            ac.Register("tESTER1", "Password");
+            ac.Login("tESTER1", "Password");
             AddEcosForHistoryIntegrationTest(ac);
 
 
@@ -191,8 +191,8 @@ namespace BudgetCalculator
         {
             //init
             AccountController ac = new();
-            ac.Register("tESTER", "Password");
-            ac.Login("tESTER", "Password");
+            ac.Register("tESTER2", "Password");
+            ac.Login("tESTER2", "Password");
             AddEcosForHistoryIntegrationTest(ac);
 
             // kolla om listan från moveforward har första itemet bonus
